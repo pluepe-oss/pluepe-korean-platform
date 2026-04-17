@@ -1,0 +1,368 @@
+               pluepe
+
+   Product Requirements Document
+
+      PRD
+
+            TOPIK 1 / TOPIK 2 / EPS-TOPIK
+
+    B2B       
+
+   pluepe    PRD v1.0
+   2026 04 17
+    ·  ·   ·
+   PWA ( ) + 
+   B2B   () + B2C  
+   v1.0 (Draft)
+1.    
+
+1.1    
+
+2026 TOPIK  (PBT)    IBT(  )     
+ .  (·NS Develop·)  3,500   TOPIK 
+    75%  ,       
+   .
+
+     
+     50   TOPIK      /   75%    
+      /  ·      
+
+1.2  
+
+pluepe    , ,   ·    
+   B2B  PWA . TOPIK 1/2  EPS-TOPIK   , 
+   ,  ,  , AI       
+ .
+
+                  
+
+                  TOPIK·EPS-TOPIK     
+                   AI   
+
+1.3   (KPI)  3    6 
+             10   30
+             300  1,000
+     (B2B)   15%  25%
+      (MAU)  8    12
+    ()       -    80% 
+     
+  B2B 
+2.    
+
+2.1           B2B --        B2C --           (pluepe)
+                            ·               ()
+              ··                            , /
+                            TOPIK/EPS ,       
+                                           -
+  Pain Point    ,              , 
+                             
+                             / 
+                 , 
+                
+
+               (  /
+              )
+
+2.2  
+
+Persona A -- B2B   (Ahmad, )
+
+ /                          38 /    ,  40 
+
+                            EPS-TOPIK     ,  
+                             
+
+                               ,    
+                            ,    
+
+                               ,    
+                            , WhatsApp   
+
+Persona B -- B2C   (Wei, )  26 /    , TOPIK 2 
+
+   /                        6  TOPIK 2 ,    
+                            
+
+                            IBT       ,  
+                              
+   
+                              ,  ,  , AI 
+                              
+3.   (Feature Requirements)
+
+3.1  
+
+                         
+                           .     
+P0        MVP            B2B     . 1   
+                         ·ARPU  . 2  
+P1         
+
+P2        
+
+3.2   (L1) --  
+
+3.2.1  · 
+
+P                                                                            
+
+P0      (3   Duolingo --     Next.js + Supabase
+
+    )                       
+
+P0   (Google, Apple) +     --                                               Supabase Auth
+                          3 
+
+P0        + Duolingo -- Sunk Cost  Claude API
+
+                         ,    
+
+P1  7   --               ·Pimsleur --                                       Stripe + SendGrid
+
+                          
+
+P2 7      ( TOPIK GUIDE --  DB SendGrid
+
+     )                      
+
+3.2.2   
+
+P                                                                            
+
+P0 TOPIK 1  --   ( : 1~2  / :  Cloudflare Stream
+
+     )                   
+
+P0 TOPIK 2  --   ( :  / :   Cloudflare Stream
+           )
+
+P0 EPS-TOPIK  --   ( :  / :   Cloudflare Stream
+           )
+
+P0  -- · (· :  1 / :                                                        Claude Code + Supabase
+
+    MCQ)                 , IBT  
+
+P0  --  (· : 1 / :   Claude Code + Supabase
+
+     )                   
+
+P1     (IBT  ) IBT                                                          Claude Code
+                                                                      --  
+P2  -- ·XP·  Duolingo --   Claude Code + Supabase
+
+             
+
+3.2.3    (P0)
+
+    ·     -- Cloudflare Stream  
+    ·        
+    ·     ( )
+    ·   ( +  : ··)
+    ·    (0.75x / 1x / 1.25x / 1.5x)
+    ·    --   
+
+3.3  --  
+
+P                                     
+
+P0    (  %,                           Supabase + Recharts
+           )
+
+P0    ( ·                             Claude API + Supabase
+          · )
+
+P0      /  · Stripe     Stripe + Claude Code
+          
+
+P1 AI   --                            Claude API
+           
+
+P2          Duolingo --               Claude Code + Recharts
+
+    
+4. B2B   
+
+4.1   
+
+   3  (Babbel Business )
+   Master (pluepe )  Admin ( )  Student ()       /
+   Supabase RLS(Row Level Security) 
+
+4.2   
+
+P                                  
+                                   Claude Code + Supabase
+P0   ·· ()           
+                                   Claude Code + Supabase
+P0   --     
+                                   Claude Code + Recharts +
+                                   Supabase
+P0  ·                              Claude API + Supabase
+                 1-Click   -- TTV
+P1     vs                          Stripe + Claude Code
+            
+                 B2B               SendGrid + PDF 
+P1    --   ··    
+            
+                   UI 
+P2 QBR    PDF  
+           ·        
+                 
+
+5. AI  --   
+
+5.1   
+
+P                                  
+
+P0  TOPIK·EPS-TOPIK     ··         Claude API (Sonnet)
+
+    
+
+P0    (··     Claude API
+
+    ·)            
+
+P1  3/                Supabase + Claude API
+                 
+
+P1                   AI            Claude API
+                 
+
+P2   --    AI         Claude API + Web Speech
+                                                          API
+6.    
+
+6.1             B2C                    B2B  
+        0 (7)    $9.99 /  $89            $7 ( 10)
+           1~2                          
+        1                              
+        1                              
+        3/                             
+                                         
+  AI    -       -                        + 
+   
+   
+
+  
+
+ Stripe  -- ··      ( ) /     
+  ARPU  /  7       (   )
+
+6.2  
+
+/     Stripe Checkout       Webhook   Supabase
+    SendGrid         
+
+6.3                                 
+        Stripe (GoPay·OVO·)         Phase 1 -- Stripe  
+        Stripe (WeChat Pay·Alipay)  Phase 1 -- Stripe  
+        Stripe () +  Western        MNJ-TOPIK  -- Phase 2 
+        Union
+        Stripe                         
+
+   
+
+7.    
+
+7.1                                  
+
+  
+      Next.js 14 + PWA               , URL  , SEO 
+                                   
+·DB   Supabase (Auth + PostgreSQL    , B2B   
+      + RLS)
+      Cloudflare Stream             , CDN  , 
+·     Stripe                        ,  , Webhook
+      SendGrid                      100/,   
+AI ·  Claude API (Sonnet)           ,  ,  
+·     Recharts                     React , · 
+      Vercel                        , CDN,  
+      Railway ( Vercel             API , 
+      Functions)
+      Claude Code                     ·
+
+8.      
+
+8.1  UX  
+
+    ·         
+    ·        ( 2  )
+    ·      '  ?'    
+    · 7     D-3·D-1·D-day   
+
+8.2 KoreanTopik  -- Success Package 
+
+       (Phase 2)
+   TOPIK 2   =    + PDF  +   30 + AI   5   
+      30% , (AOV) 
+9.   (3  MVP)
+
+       Phase        
+1~2     
+                  Supabase  
+3~4               (Users·Courses·Progress·Subscriptions) +   + PWA 
+5~6                
+7~8    
+9~10   B2B        Cloudflare Stream  +  · +  + 
+11~12  AI +        
+
+                  Stripe   + /   + 7   +
+                  SendGrid 
+
+                   ·  + AI   +  
+
+                     +   +   +   
+                  
+
+                  AI  (Claude API) +    + PWA  + 
+                  
+
+  
+
+3    5     50    ·    
+ 
+
+10.     
+
+                   
+                  '  AI '   --   
+   -- AI       
+                  Stripe     , Phase 2 Western
+                  Union 
+    (             Cloudflare Stream    +   (
+ )                )
+                  Hangeul Typing Assistant   (  )
+  --  
+                  Cloudflare Stream --   ,  URL 
+                   
+   (IBT  
+)
+
+  --   
+
+
+11.    PRD  
+
+                   PRD  
+Duolingo               Sunk              3.2.1  P0 
+Babbel Business  Cost   
+MNJ-TOPIK
+KoreanTopik      Master/Admin/Student 3  4.2   P0 
+·Pimsleur        +  
+TOPIK GUIDE
+                    ,                    6.3   Phase 2
+                 (Western Union·Crypto)
+
+                 Success Package  -- +   8.2   Phase 2
+                 +  
+
+                 7                       6.1   P1
+                   
+
+                 7    DB                 3.2.1  P2
+                 +  
+
+                 pluepe    PRD v1.0 | 2026.04.17 | Confidential
+
