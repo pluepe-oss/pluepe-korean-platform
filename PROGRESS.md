@@ -1,0 +1,261 @@
+# pluepe 한국어 학습 플랫폼 — 개발 진행 현황
+
+## 완료 목록
+
+### 2026.04.19
+**/learn/me 로그아웃 버튼**
+- [x] `app/learn/me/signout-button.tsx` — 클라이언트 컴포넌트, 확인 모달 + 빨간색 CTA
+- [x] `supabase.auth.signOut()` → `router.replace("/auth")` + `router.refresh()`
+- [x] 마이페이지 하단 섹션 추가 (구독자/비구독자 모두 노출)
+
+**Admin 대시보드 E2E 시드**
+- [x] `supabase/migrations/009_seed_admin_academy.sql` 작성
+      (pluepe@gmail.com → admin 승격 + 테스트 학원 + 좌석 10석, 재실행 안전)
+
+**Student 초대 플로우 전체 구현**
+- [x] `supabase/migrations/010_invitations.sql` — invitations 테이블 + RLS + 좌석 증가/초대 수락 RPC
+- [x] `lib/email/templates/student-invite.ts` — Resend 초대 메일 HTML 템플릿
+- [x] `/api/admin/invitations` POST — 좌석 체크(used + pending < total) + 토큰 생성 + Resend 메일
+- [x] `/api/invitations/lookup` GET — 토큰으로 초대 상세 조회 (accept 페이지용)
+- [x] `/api/invitations/accept` POST — `accept_invitation` RPC 호출 (atomic: academy 매핑 + seats.used +1 + invitation 소진)
+- [x] `/admin/students` — 초대 버튼 + 잔여 좌석 표시 + 대기 중 초대 목록 섹션
+- [x] `/auth/invite?token=xxx` — 서버 컴포넌트 토큰 검증 + 상태별 분기(pending/accepted/expired/revoked)
+- [x] InviteForm 클라이언트 컴포넌트 — 비로그인(signUp → accept) / 로그인(accept만) 이중 플로우
+- [x] 이메일 충돌 가드 — 다른 계정으로 로그인된 경우 안내 카드
+- [x] 좌석 초과 시 "좌석 없음" disabled 버튼으로 초대 차단
+- [x] 빌드 통과 (27개 route)
+
+---
+
+### 2026.04.18
+**Admin 원장 대시보드 착수**
+- [x] `app/admin/layout.tsx` — 서버 auth 체크 + role guard (admin/master만 접근, student는 `/learn` 리다이렉트)
+- [x] `app/admin/_admin-nav.tsx` — 데스크톱 사이드바(고정) + 모바일 상단 탭바 반응형
+- [x] `app/admin/page.tsx` 대시보드 — 통계 카드 4개(학생 수·좌석 사용·평균 진도·7일 활동), 좌석 진행 바(90% 이상 빨간 경고), 학원 정보 dl
+- [x] `app/admin/students/page.tsx` — 데스크톱 테이블 + 모바일 카드 리스트, users×progress 집계(평균 진도·완료 수·최근 학습 상대시간)
+- [x] academy_id 미매핑 관리자 대응 UI (안내 카드 + Master에게 요청 안내)
+
+**유료 강의 E2E + Next.js 16 마이그레이션**
+- [x] `migration 006_seed_paid_course` 실행 (Video UID `37827d246ba393ddcc1b78c3e7115759`)
+- [x] 비구독자 paywall → 결제 → 재생 E2E 검증 완료
+- [x] 루트 `middleware.ts` → `proxy.ts` 리네이밍 (함수명도 `proxy`)
+- [x] Next.js 16 deprecation 경고 제거 (빌드 통과)
+
+**시험보기 기능 전체 구현**
+- [x] questions 테이블 생성 + RLS + 샘플 14문항 시드
+- [x] exam_results 컬럼 확장 (exam_type, category_breakdown 등)
+- [x] `/api/exam/questions` GET (구독 체크 + correct_answer 서버 보호)
+- [x] `/api/exam/submit` POST (서버 채점 + 카테고리/섹션별 분석)
+- [x] `/learn/exam` 허브 페이지 (3카드 + 최근 기록)
+- [x] `/learn/exam/[examType]` IBT 플레이어 (타이머·섹션탭·번호그리드·제출확인)
+- [x] `/learn/exam/result/[resultId]` 결과 페이지 (점수·취약점 분석·오답노트·해설)
+- [x] 마이페이지 시험 기록 자동 반영
+- [x] E2E 전체 검증 완료
+
+**E2E 검증**
+- [x] `/learn/me` 4섹션 렌더 확인 (구독 카드·진도·시험·포털 CTA)
+- [x] "처음부터 다시 보기" 버튼 → `last_position_seconds=0` + `percent` 유지 확인
+- [x] Stripe Dashboard → Billing → Customer Portal 활성화 완료
+- [x] 포털 버튼 → "정말 해지하시겠어요?" 모달 → Stripe 페이지 리다이렉트 확인
+- [x] `/api/cron/trial-reminders` Bearer 인증 + 쿼리 동작 확인 (HTTP 200)
+- [x] D-3 / D-1 / D-0 버킷 발송 테스트 통과 (Resend Dashboard 수신 로그 확인)
+- [x] Supabase `migrations/005_subscription_trial_reminders.sql` 실행 완료
+
+**RLS 보완**
+- [x] `subscriptions` 정책을 `_self_or_member_select`로 교체
+      (학원 소속 student도 자기 학원 구독 조회 가능, role 무관)
+- [x] `supabase/migrations/002_subscriptions_academy_member_select.sql` 추가
+- [x] `/learn/[courseId]/page.tsx`에서 user 구독 + academy 구독 동시 체크
+
+**Stripe 결제 플로우**
+- [x] `stripe` 서버 SDK 설치
+- [x] `lib/stripe/server.ts` — Stripe 클라이언트 싱글턴 + Price ID 매핑
+- [x] `/pricing` 페이지 (B2C 월/년, B2B 월간 3카드)
+      `resolve_price` RPC로 국가/학원 오버라이드 반영
+- [x] `/api/stripe/checkout` — plan_type 받아 Checkout 세션 생성,
+      `trial_period_days: 7`, client_reference_id + metadata 저장
+- [x] `/api/stripe/webhook` — `checkout.session.completed` +
+      `customer.subscription.*` 이벤트에서 `subscriptions` upsert
+      (service role 클라이언트로 RLS 우회)
+- [x] `.env.local.example`에 Stripe Price ID 3종 + NEXT_PUBLIC_APP_URL 추가
+- [x] `.env.local`에 Stripe 실키 주입
+      (publishable, secret, webhook secret — 사용자 제공, 2026-04-18)
+- [x] `/pricing` 카드에 "7일 무료체험" 뱃지 명시 + B2B 좌석제 표기 보완
+- [x] `supabase/migrations/003_pricing_public_read.sql`
+      pricing_default · pricing_country를 공개 read로 전환
+      (비로그인 랜딩 방문자도 가격 카드 노출 — resolve_price RPC RLS 차단 이슈 해결)
+
+**Stripe 에러 핸들링 + 실결제 검증**
+- [x] Checkout route 전체 try/catch, `Stripe.errors.StripeError` 분기 처리
+      (No such price 등 Stripe 에러가 JSON 응답으로 노출되도록)
+- [x] 클라이언트 `res.text()` + 수동 JSON.parse —
+      "Unexpected end of JSON input" 대신 정확한 HTTP 상태/에러 원문 표시
+- [x] Stripe Dashboard에서 Product 3종 + Price 생성
+      (b2c_monthly $9.99/월, b2c_yearly $89/년, b2b_monthly $7/월·좌석)
+- [x] `.env.local`에 Price ID 3종 주입 + Node 스크립트로 `prices.retrieve` 검증 통과
+- [x] 실결제 테스트 완료: 카드 클릭 → Stripe Checkout 리다이렉트 OK
+
+**Cloudflare Stream DRM (Signed URL)**
+- [x] `supabase/migrations/004_courses_subtitle_lang.sql` — `courses.subtitle_lang` 컬럼 + 인덱스
+- [x] `/learn/topik1` · `topik2` · `eps-topik` placeholder 제거,
+      `app/learn/_course-list.tsx` 공통 서버 컴포넌트로 `courses` 테이블 쿼리 연결
+      (레벨/자막/무료·유료 뱃지 표시, 비로그인 시 `/auth` 리다이렉트)
+- [x] 테스트 영상 재생 E2E 검증 (공개 Video UID 방식)
+- [x] `jsonwebtoken` 설치 + `lib/cloudflare/stream.ts`
+      `signStreamToken(videoId, ttl)` RS256 JWT 서명 유틸
+- [x] Cloudflare Stream Signing Key 생성 (스크립트로 1회 발급)
+      `.env.local`에 `CLOUDFLARE_STREAM_SIGNING_KEY_ID` + `_PEM`(base64) 저장
+- [x] 테스트 영상 `requireSignedURLs=true` API 활성화
+- [x] `/learn/[courseId]/page.tsx`에서 signed JWT 생성 후 VideoPlayer에 전달
+- [x] VideoPlayer prop `videoId` → `videoSrc`로 변경, 드래그 방지 추가
+- [x] `.env.local.example`에 Signing Key 2종 placeholder 추가
+- 참고: Cloudflare Stream `downloads` 엔드포인트 미생성 상태 + `requireSignedURLs` 덕분에
+        다운로드 URL 자체가 존재하지 않아 다운로드 불가 (기본값)
+- [x] 브라우저 E2E DRM 검증 완료 (로그인 상태 재생 OK + manifest 직접 접근 차단 확인)
+
+**플레이어 · 마이페이지**
+- [x] VideoPlayer에 "↻ 처음부터 다시 보기" 버튼
+      `progress.last_position_seconds`만 0으로 update, percent/completed_at 보존
+      (update 방식이라 신규 행 생성 없음)
+- [x] `/api/stripe/portal` — Customer Portal 세션 생성 라우트
+      (self + academy_id의 stripe_customer_id 조회, 없으면 404)
+- [x] `/learn/me` 마이페이지 4섹션
+      ① 구독 상태 카드 (플랜명 · 상태 뱃지 · 체험 D-day · 체험 종료일 · 다음 결제일)
+      ② 학습 진도 리스트 (progress × courses join, Progress bar 완료 시 초록)
+      ③ 최근 시험 기록 (exam_results, 데이터 없을 때 빈 상태 UI)
+      ④ 구독 관리 버튼 → Stripe Customer Portal 리다이렉트
+- [x] `PortalButton` 클라이언트 컴포넌트 — res.text() + JSON.parse 방어적 파싱
+- [x] 비구독자 전용 CTA — 하단에 "7일 무료로 시작하기" emerald 버튼
+      + "체험 종료 전 언제든 해지 가능 · 해지 시 요금 없음" 안내문
+- [x] PortalButton에 "정말 해지하시겠어요?" 확인 모달 추가
+      (취소 / 이동하기 2버튼, aria-modal 접근성)
+
+**Resend 체험 만료 이메일 (D-3 / D-1 / D-day)**
+- [x] SendGrid → Resend로 메일 스택 변경 (CLAUDE.md 반영)
+- [x] `resend` SDK 설치, `lib/email/resend.ts` — 클라이언트 싱글턴 + sendEmail 유틸
+- [x] `lib/email/templates/trial-ending.ts`
+      bucket별 subject/headline + 한국어 HTML 템플릿
+      (체험 종료일·다음 결제일 박스 + 구독 관리 CTA)
+- [x] `supabase/migrations/005_subscription_trial_reminders.sql`
+      subscriptions에 `trial_reminder_3d/1d/0d_sent_at` 3개 타임스탬프 컬럼
+      + trialing 파셜 인덱스
+- [x] `/api/cron/trial-reminders` GET 핸들러
+      Bearer CRON_SECRET 인증, service role로 조회,
+      D-0 > D-1 > D-3 우선순위로 중복 없이 한 번 발송,
+      발송 성공 시 컬럼 타임스탬프 update
+- [x] B2C / B2B 수신자 분기 (users.email / academies.contact_email)
+- [x] `vercel.json` — `0 15 * * *` (매일 00:00 KST) 스케줄
+- [x] `.env.local` + `.example`에 `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `CRON_SECRET` 추가
+
+---
+
+### 2026.04.17
+**프로젝트 기반**
+- [x] Next.js 16.2.4 + React 19 + Tailwind v4 프로젝트 생성
+- [x] Supabase 연결 (client/server/middleware)
+- [x] .env.local 환경변수 설정 (Supabase URL/anon/service-role)
+- [x] CLAUDE.md 프로젝트 문서 작성
+- [x] 타겟 지역에 한국 추가 (동남아 3국 + 한국)
+
+**DB·스키마**
+- [x] Supabase DB 테이블 10개 생성
+      (users, academies, courses, progress, exam_results,
+       subscriptions, seats, pricing_default/country/academy)
+- [x] RLS 정책 적용 (Master / Admin / Student 3단계)
+- [x] courses.is_free 컬럼 migration (supabase/migrations/001)
+
+**인증**
+- [x] Supabase Auth 연동 (이메일 + Google + 카카오 OAuth)
+- [x] 로그인 페이지 `/auth` (모바일 우선, 5개 언어 전환, role별 redirect)
+- [x] 회원가입 페이지 `/auth/signup` (모바일 우선, 5개 언어)
+- [x] OAuth 콜백 라우트 `/auth/callback` (role 기반 자동 이동)
+- [x] 로그인/회원가입 공용 다국어 모듈 `app/auth/_auth-i18n.ts`
+
+**학습자 UI**
+- [x] 학습자 메인 `/learn` 레이아웃 + 하단 탭바
+      (강의 / 시험보기 / 단어외우기 / 마이페이지)
+- [x] 강의 허브 카드 3종 (TOPIK 1/2, EPS-TOPIK)
+- [x] 서브 라우트 6개 (topik1, topik2, eps-topik, exam, vocab, me)
+- [x] Cloudflare Stream 영상 플레이어 `/learn/[courseId]`
+      (@cloudflare/stream-react SDK, 우클릭 방지,
+       0.75/1/1.25/1.5x 속도 전환,
+       5초마다 progress.last_position_seconds 자동 저장,
+       마지막 위치 자동 재개, 완료 시 completed_at 기록)
+- [x] 유료/무료 강의 분기 + 비구독자 paywall 모달
+
+**Role별 placeholder**
+- [x] /admin, /master 기본 페이지
+
+---
+
+## 내일 (2026.04.19)
+
+### 우선순위 1: Admin 대시보드 E2E + 시드
+- [ ] academy 1건 + admin 계정 매핑 + seats 행 생성 시드 SQL
+- [ ] `/admin` 대시보드 렌더 확인 (통계 카드·좌석 바·학원 정보)
+- [ ] `/admin/students` 학생 목록 · 진도 집계 확인 (데스크톱 테이블 + 모바일 카드)
+- [ ] student 초대 플로우 설계 (이메일 초대 or 가입 시 학원 코드 입력)
+
+### 우선순위 2: Resend 프로덕션 배포 마무리
+- [ ] Resend 프로덕션 env 등록 (Vercel Dashboard)
+- [ ] Resend 도메인 인증 (pluepe 도메인 확보 후 `RESEND_FROM_EMAIL` 교체)
+
+### 우선순위 3: Master 운영자 콘솔 (전체 학원 / 매출 / 강의 업로드)
+- [ ] `/master` — 전체 학원 · 구독 · 매출 요약
+- [ ] `/master/courses/new` 강의 업로드 폼
+      (Cloudflare Direct Upload → requireSignedURLs: true → courses row 생성)
+
+---
+
+## 이후 (우선순위순)
+
+- [ ] Master 콘솔 (`/master`) — 전체 학원·구독·매출 요약
+- [ ] AI 챗봇 (Claude API, `app/api/chat/route.ts`, Sonnet 모델)
+- [ ] 오답 해설 AI (exam_results.answers → Claude API)
+- [ ] Cloudflare Stream 업로드 플로우 (Master용 강의 등록 UI)
+- [ ] 단어 암기 (SRS 간격 반복 로직)
+- [x] ~~시험 모의고사 (IBT 스타일 UI + 타이머 + 자동 채점)~~ — 2026.04.18 완료 + E2E 검증 통과
+- [x] ~~Resend 메일 템플릿 (체험 D-3 / D-1 / D-day 알림)~~ — 2026.04.18 완료 + E2E 검증 통과
+- [ ] PWA manifest + service worker (오프라인 단어장)
+- [ ] 국가별 가격 override seed (pricing_country) — 인도네시아·중국·캄보디아
+- [ ] i18n 전역 확장 (로그인 외 학습자 UI까지 5개 언어)
+- [ ] Vercel 배포 + 커스텀 도메인
+
+---
+
+## 수동 설정 잔여 (비개발자 직접 처리)
+
+- [ ] Supabase Dashboard → Authentication → Providers에서 Google·Kakao 활성화
+      (각각 Client ID/Secret 발급 후 입력)
+- [ ] Supabase Authentication → URL Configuration에 localhost + 프로덕션 URL 등록
+- [ ] Supabase SQL Editor에 `supabase/migrations/001_courses_is_free.sql` 실행
+- [ ] Supabase SQL Editor에 `supabase/migrations/002_subscriptions_academy_member_select.sql` 실행
+- [ ] Supabase SQL Editor에 `supabase/migrations/003_pricing_public_read.sql` 실행
+- [ ] Supabase SQL Editor에 `supabase/migrations/004_courses_subtitle_lang.sql` + 테스트 강의 시드 실행
+- [x] Supabase SQL Editor에 `supabase/migrations/005_subscription_trial_reminders.sql` 실행
+- [ ] Supabase SQL Editor에 `supabase/migrations/006_seed_paid_course.sql` 실행
+- [ ] Supabase SQL Editor에 `supabase/migrations/009_seed_admin_academy.sql` 실행
+- [ ] Supabase SQL Editor에 `supabase/migrations/010_invitations.sql` 실행
+- [ ] Supabase Dashboard → Authentication → Users → Add user (`student1@test.com`)
+- [ ] Supabase SQL Editor에 `supabase/migrations/011_seed_test_student.sql` 실행 (위 가입 후)
+- [x] Supabase SQL Editor에 `supabase/migrations/007_questions_table.sql` 실행
+- [x] Supabase SQL Editor에 `supabase/migrations/008_exam_results_extend.sql` 실행
+- [ ] Resend Dashboard에서 프로덕션 도메인 인증 (pluepe 도메인 생기면)
+- [ ] Vercel Dashboard → Project → Environment Variables에 RESEND_API_KEY + CRON_SECRET 등록 (배포 시)
+- [ ] Cloudflare Stream에 테스트 영상 업로드 후 Video UID 확보
+- [ ] Cloudflare Dashboard에서 Stream API Token 발급 → `.env.local`에 주입
+- [x] Stripe Dashboard에서 Product/Price 3종 생성 후 Price ID 복사 → `.env.local`
+- [ ] Stripe Dashboard → Developers → Webhooks에 `/api/stripe/webhook` 엔드포인트 등록 (배포 시)
+- [x] Stripe Dashboard → Settings → Billing → Customer Portal 기능 활성화
+- [ ] `.env.local`에 향후 Anthropic 키 추가
+
+---
+
+## 스택
+- Frontend: Next.js 16.2.4 + Tailwind v4 + TypeScript
+- DB/Auth: Supabase (PostgreSQL + RLS + @supabase/ssr)
+- 영상: Cloudflare Stream (@cloudflare/stream-react)
+- 결제: Stripe
+- AI: Claude API (Sonnet)
+- 메일: Resend (Vercel Cron 트리거)
+- 호스팅: Vercel

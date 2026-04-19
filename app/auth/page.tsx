@@ -1,0 +1,162 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { AUTH_DICT, LANG_LABEL, type Lang } from "./_auth-i18n";
+
+export default function AuthPage() {
+  const router = useRouter();
+  const supabase = createClient();
+
+  const [lang, setLang] = useState<Lang>("ko");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const t = AUTH_DICT[lang];
+
+  async function redirectByRole() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const { data: profile } = await supabase
+      .from("users")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    const path =
+      profile?.role === "master"
+        ? "/master"
+        : profile?.role === "admin"
+          ? "/admin"
+          : "/learn";
+    router.replace(path);
+  }
+
+  async function handleEmailSignIn(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (signInError) {
+      setError(t.error);
+      setLoading(false);
+      return;
+    }
+    await redirectByRole();
+  }
+
+  async function handleOAuth(provider: "google" | "kakao") {
+    setLoading(true);
+    setError(null);
+    const { error: oauthError } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    if (oauthError) {
+      setError(t.error);
+      setLoading(false);
+    }
+  }
+
+  return (
+    <main className="min-h-dvh flex flex-col items-center bg-white px-5 py-10">
+      <div className="w-full max-w-sm">
+        <div className="flex justify-end mb-6">
+          <select
+            value={lang}
+            onChange={(e) => setLang(e.target.value as Lang)}
+            className="text-sm border border-gray-200 rounded-md px-2 py-1 bg-white"
+            aria-label="Language"
+          >
+            {(Object.keys(LANG_LABEL) as Lang[]).map((l) => (
+              <option key={l} value={l}>
+                {LANG_LABEL[l]}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <h1 className="text-3xl font-bold text-gray-900">{t.brand}</h1>
+        <p className="mt-1 text-sm text-gray-500">{t.subtitle}</p>
+
+        <h2 className="mt-8 text-xl font-semibold text-gray-900">{t.signInTitle}</h2>
+
+        <form onSubmit={handleEmailSignIn} className="mt-6 space-y-3">
+          <input
+            type="email"
+            required
+            placeholder={t.email}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full h-12 px-4 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+            autoComplete="email"
+          />
+          <input
+            type="password"
+            required
+            placeholder={t.password}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full h-12 px-4 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+            autoComplete="current-password"
+          />
+
+          {error && <p className="text-sm text-red-600">{error}</p>}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full h-12 rounded-lg bg-blue-600 text-white font-semibold disabled:opacity-60 active:bg-blue-700"
+          >
+            {t.submitSignIn}
+          </button>
+        </form>
+
+        <div className="my-6 flex items-center gap-3 text-xs text-gray-400">
+          <div className="flex-1 border-t border-gray-200" />
+          {t.or}
+          <div className="flex-1 border-t border-gray-200" />
+        </div>
+
+        <div className="space-y-3">
+          <button
+            type="button"
+            onClick={() => handleOAuth("google")}
+            disabled={loading}
+            className="w-full h-12 rounded-lg bg-white text-gray-900 font-semibold border border-gray-300 flex items-center justify-center gap-2 disabled:opacity-60 active:bg-gray-50"
+          >
+            <span aria-hidden="true" className="font-bold">G</span>
+            {t.google}
+          </button>
+          <button
+            type="button"
+            onClick={() => handleOAuth("kakao")}
+            disabled={loading}
+            className="w-full h-12 rounded-lg bg-[#FEE500] text-[#191919] font-semibold flex items-center justify-center gap-2 disabled:opacity-60 active:brightness-95"
+          >
+            <span aria-hidden="true" className="font-bold">K</span>
+            {t.kakao}
+          </button>
+        </div>
+
+        <p className="mt-8 text-center text-sm text-gray-500">
+          {t.noAccount}{" "}
+          <a href="/auth/signup" className="text-blue-600 font-medium">
+            {t.signUp}
+          </a>
+        </p>
+      </div>
+    </main>
+  );
+}
