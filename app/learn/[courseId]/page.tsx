@@ -1,6 +1,6 @@
 import { redirect, notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { signBunnyHlsUrl } from "@/lib/bunny/stream";
+import { signBunnyEmbedUrl } from "@/lib/bunny/stream";
 import VideoPlayer from "./video-player";
 
 type PageProps = {
@@ -71,8 +71,9 @@ export default async function CoursePage({ params }: PageProps) {
         {course.is_free || isSubscriber ? (
           <VideoPlayer
             courseId={course.id}
-            videoSrc={signBunnyHlsUrl(course.stream_video_id)}
+            videoSrc={signBunnyEmbedUrl(course.stream_video_id)}
             initialPosition={progress?.last_position_seconds ?? 0}
+            durationSeconds={course.duration_seconds ?? 0}
           />
         ) : (
           <div className="mx-5 rounded-xl bg-gray-100 px-5 py-10 text-center text-sm text-gray-600">
