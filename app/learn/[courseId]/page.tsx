@@ -1,6 +1,6 @@
 import { redirect, notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { signStreamToken } from "@/lib/cloudflare/stream";
+import { signBunnyHlsUrl } from "@/lib/bunny/stream";
 import VideoPlayer from "./video-player";
 
 type PageProps = {
@@ -68,17 +68,17 @@ export default async function CoursePage({ params }: PageProps) {
       </header>
 
       <div className="mt-4">
-        <VideoPlayer
-          courseId={course.id}
-          videoSrc={
-            course.is_free || isSubscriber
-              ? signStreamToken(course.stream_video_id)
-              : ""
-          }
-          durationSeconds={course.duration_seconds ?? 0}
-          startSeconds={progress?.last_position_seconds ?? 0}
-          canPlay={course.is_free || isSubscriber}
-        />
+        {course.is_free || isSubscriber ? (
+          <VideoPlayer
+            courseId={course.id}
+            videoSrc={signBunnyHlsUrl(course.stream_video_id)}
+            initialPosition={progress?.last_position_seconds ?? 0}
+          />
+        ) : (
+          <div className="mx-5 rounded-xl bg-gray-100 px-5 py-10 text-center text-sm text-gray-600">
+            구독 후 시청할 수 있는 강의입니다.
+          </div>
+        )}
       </div>
     </main>
   );
