@@ -10,7 +10,12 @@ async function loadUnit(unitId: string): Promise<UnitData | null> {
   const loader = map[unitId];
   if (!loader) return null;
   const mod = await loader();
-  return mod.default as UnitData;
+  const unit = mod.default as UnitData;
+  // Bunny Library ID는 server 전용 env에서 런타임 주입 (JSON/빌드 출력물 literal 제거)
+  return {
+    ...unit,
+    bunny_library_id: process.env.BUNNY_LIBRARY_ID ?? "",
+  };
 }
 
 export default async function UnitPage({

@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(taskkill //PID 2844 //F)",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(git remote *)"
     ]
   }
 }
