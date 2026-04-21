@@ -154,20 +154,32 @@ npm run lint     # ESLint
 - STEP 탭 숫자 원문자 + ✓ 표시
 - 모바일 사이드바 숨김 + 상단 섹션 바로 대체
 - 모바일 섹션 바 이전/다음 화살표 이동
+- Bunny iframe: `autoplay=false&preload=false&t=0`
 
-## ⚠️ 개발 임시 상태 (배포 전 반드시 복구)
+## ⚠️ 개발 임시 상태
 
-- `DEV_MODE = true` 현재 적용 중
-  → `app/unit/[unitId]/UnitClient.tsx` 최상단에서 `false`로 변경 필수
+- `DEV_MODE = false` (운영 상태)
+- 배포 전 반드시 확인
 
-## Bunny 영상 연결 정보 (u01 편의점)
+## Bunny 영상 연결 정보
 
 - Library ID: `640837`
-- STEP 1 (보기):   `50c71f7c-45f2-4853-b301-fcf8371ef179`
-- STEP 2 (빈칸):   `7c418790-c7b6-4611-9d5a-873a94d89a9b`
-- STEP 3 (말하기): `61d0f325-0e6e-4a72-8851-6377557328d7`
 - embed URL 형식:
   `https://iframe.mediadelivery.net/embed/640837/{GUID}?autoplay=false&preload=false&t=0`
+
+## Bunny Title 규칙 (확정)
+
+- TOPIK1: `u1{유닛번호}_step{n}_{언어}`
+- TOPIK2: `u2{유닛번호}_step{n}_{언어}`
+- EPS:    `u3{유닛번호}_step{n}_{언어}`
+
+예시: `u101_step1_vi` / `u201_step1_en` / `u301_step1_id`
+
+## u01 편의점 vi GUID (최종)
+
+- `u101_step1_vi`: `b1601bdc-b71b-4ca5-8f5f-df90ab18db6e`
+- `u101_step2_vi`: `8b6840f1-c801-4ba0-9695-c86a5fb3ece4`
+- `u101_step3_vi`: `9079f373-bba7-4558-8a6f-217b43134e1d`
 
 ## 완성된 파일 목록 (2026.04.21 기준)
 

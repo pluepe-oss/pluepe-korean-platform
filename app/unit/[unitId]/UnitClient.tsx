@@ -22,7 +22,7 @@ import AISection from "./components/AISection";
  * ⚠ 개발용 플래그 — 배포 전 반드시 `false`로 변경.
  * true일 때: 5섹션 모두 완료 + AI 탭으로 시작 + 모든 탭 자유 이동 + 완료 배너 즉시 표시.
  */
-const DEV_MODE = true;
+const DEV_MODE = false;
 
 type CompletedMap = Record<SectionKey, boolean>;
 

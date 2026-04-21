@@ -22,18 +22,20 @@
 - 유닛 완료 → /my, 다음 유닛 → /unit/{n+1}
 - 모바일: 사이드바 숨기고 상단 섹션 바로 대체
 - Bunny embed: `autoplay=false&preload=false&t=0`
+- Bunny Title 규칙 확정: `u1{유닛번호}_step{n}_{언어}`
 
 ### Claude.ai 채팅에서 결정한 사항
 
 - 다음 버튼 스크롤: `mainColRef` 기반
 - explanation 표시: 정답/오답 둘 다 회색 박스
 - 유닛 완료 버튼: `/my` 이동
-- `DEV_MODE`: 테스트 편의용 임시 true
+- `DEV_MODE`: 테스트 편의용 → 오늘 `false` 복구
 - 완료 배너: [다음 유닛] 왼쪽 + [유닛 완료] 오른쪽
 - 제목 UI: 현재 섹션 미니 카드 고정 너비 160px
 - STEP 탭: 숫자 원문자 + ✓ 동시 표시
 - 모바일 섹션 바: 이전/다음 화살표로 섹션 이동
 - Bunny 썸네일/타임코드: Korean Studio 세션에서 처리
+- API 키 보안: 노출된 키 폐기 + 새 키 발급 완료
 
 ### 미해결 이슈
 
@@ -41,10 +43,7 @@
   (Bunny iframe `postMessage` 호환 이슈)
 - Bunny 영상 썸네일 자동화 → Korean Studio
 - `split_video.py` 전환자막 타임코드 → Korean Studio
-
-### 임시 상태 (다음 세션 시작 전 확인)
-
-- `DEV_MODE = true` → 배포 전 반드시 `false`로 변경
+- Vercel 배포 → 다음 세션
 
 ## 다음 세션 시작 명령어
 

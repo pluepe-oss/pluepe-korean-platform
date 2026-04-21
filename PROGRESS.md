@@ -12,18 +12,22 @@
 - [x] 완료 배너
 - [x] 테스트 해설 텍스트 표시
 - [x] 유닛 완료(/my) / 다음 유닛 버튼 라우팅
-- [x] DEV_MODE 개발 편의 플래그
+- [x] DEV_MODE 개발 편의 플래그 → 배포 전 false 복구
 - [x] 다음 버튼 클릭 시 상단 스크롤 수정
-- [x] 제목 옆 현재 섹션 미니 카드 (고정 너비)
+- [x] 제목 옆 현재 섹션 미니 카드 (고정 너비 160px)
 - [x] STEP 탭 숫자 원문자 + ✓ 표시
 - [x] 모바일 사이드바 → 상단 섹션 바 전환
 - [x] 모바일 이전/다음 화살표 추가
-- [x] Bunny 영상 STEP별 연결 (u01 vi 3개)
-- [x] Bunny iframe autoplay=false + t=0 설정
+- [x] Bunny 영상 STEP별 연결 (u01 vi 3개 최종)
+- [x] Bunny iframe autoplay=false&preload=false&t=0
+- [x] Bunny Title 규칙 확정
+      (u1{유닛번호}_step{n}_{언어})
+- [x] API 키 보안 점검 및 재발급
+- [x] Vercel 배포 준비 완료
 
 ## 다음 작업 예정
 
-- [ ] DEV_MODE = false 복구 후 운영 정책 확인
+- [ ] Vercel 배포 완료
 - [ ] 유닛 2 (카페에서 주문하기) 콘텐츠 생성
 - [ ] 마이페이지 진도율 연동
       (Bunny iframe postMessage 버그)
