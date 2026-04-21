@@ -4,6 +4,48 @@
 `PROGRESS.md`가 체크리스트라면, 이 파일은 맥락(언제·왜·무엇을)을 기록해
 다음 세션에서 바로 이어서 작업할 수 있게 한다.
 
+---
+
+## Session 2026.04.21
+
+작업 도구: Claude Code (터미널) + Claude.ai (채팅 기획)
+작업 내용: 유닛 1 MVP 완성 + 영상 연결 + 모바일 대응
+완료 파일: 13개
+
+### 주요 결정사항
+
+- 기준 해상도: 1440×900
+- 퀴즈 방식: 선택 후 확인 버튼
+- 사이드바 레이아웃 채택 (200px + 1fr)
+- 듣기: 브라우저 TTS (MVP), 추후 OpenAI TTS 교체
+- XP/연속학습: 정책 확정 전 숨김
+- 유닛 완료 → /my, 다음 유닛 → /unit/{n+1}
+- 모바일: 사이드바 숨기고 상단 섹션 바로 대체
+- Bunny embed: `autoplay=false&preload=false&t=0`
+
+### Claude.ai 채팅에서 결정한 사항
+
+- 다음 버튼 스크롤: `mainColRef` 기반
+- explanation 표시: 정답/오답 둘 다 회색 박스
+- 유닛 완료 버튼: `/my` 이동
+- `DEV_MODE`: 테스트 편의용 임시 true
+- 완료 배너: [다음 유닛] 왼쪽 + [유닛 완료] 오른쪽
+- 제목 UI: 현재 섹션 미니 카드 고정 너비 160px
+- STEP 탭: 숫자 원문자 + ✓ 동시 표시
+- 모바일 섹션 바: 이전/다음 화살표로 섹션 이동
+- Bunny 썸네일/타임코드: Korean Studio 세션에서 처리
+
+### 미해결 이슈
+
+- 마이페이지 진도율 0% 고정
+  (Bunny iframe `postMessage` 호환 이슈)
+- Bunny 영상 썸네일 자동화 → Korean Studio
+- `split_video.py` 전환자막 타임코드 → Korean Studio
+
+### 임시 상태 (다음 세션 시작 전 확인)
+
+- `DEV_MODE = true` → 배포 전 반드시 `false`로 변경
+
 ## 다음 세션 시작 명령어
 
 ```

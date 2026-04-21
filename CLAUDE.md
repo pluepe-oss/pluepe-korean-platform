@@ -127,3 +127,60 @@ npm run lint     # ESLint
 | 11~12 | IBT 시험 모의고사, PWA 오프라인, 베타 |
 
 베타 목표: 3개월 후 인도네시아 1~2개 학원 · 학생 50명 파일럿.
+
+## 완료 확정 기능 (절대 수정 금지)
+
+`app/unit/[unitId]` 유닛 훈련 시스템에서 아래 동작들은 **확정 상태**다. 새 작업을 할 때 동작 방식을 바꾸지 말 것.
+
+- 다음 버튼 클릭 시 상단 스크롤
+- 퀴즈: 선택 → [확인] → 정답/오답 표시
+- 정답 확인 후에만 다음 버튼 활성화
+- 세션 완료 전 단어/표현/테스트/AI 탭 잠금
+- SESSION 배지 제거
+- 상단 우측 유닛·TOPIK 텍스트 제거
+- XP / 연속학습 숨김
+- 완료 배너: 5섹션 모두 완료 시만 표시
+- 하단 상태 텍스트 제거
+- STEP 4,5 영상 제거
+- 섹션 상단 타이틀 제거
+- 베트남어 → 한국어 퀴즈 방식 제거
+- 테스트 보기: 한글 표기 (천원/오백원)
+- 이전 버튼 제거
+- 사이드바 레이아웃 (200px + 1fr)
+- 테스트 해설 텍스트 표시
+- 유닛 완료 버튼 → /my 이동
+- 다음 유닛 버튼 → /unit/{n+1} 이동
+- 제목 옆 현재 섹션 미니 카드 (고정 너비 160px)
+- STEP 탭 숫자 원문자 + ✓ 표시
+- 모바일 사이드바 숨김 + 상단 섹션 바로 대체
+- 모바일 섹션 바 이전/다음 화살표 이동
+
+## ⚠️ 개발 임시 상태 (배포 전 반드시 복구)
+
+- `DEV_MODE = true` 현재 적용 중
+  → `app/unit/[unitId]/UnitClient.tsx` 최상단에서 `false`로 변경 필수
+
+## Bunny 영상 연결 정보 (u01 편의점)
+
+- Library ID: `640837`
+- STEP 1 (보기):   `50c71f7c-45f2-4853-b301-fcf8371ef179`
+- STEP 2 (빈칸):   `7c418790-c7b6-4611-9d5a-873a94d89a9b`
+- STEP 3 (말하기): `61d0f325-0e6e-4a72-8851-6377557328d7`
+- embed URL 형식:
+  `https://iframe.mediadelivery.net/embed/640837/{GUID}?autoplay=false&preload=false&t=0`
+
+## 완성된 파일 목록 (2026.04.21 기준)
+
+- `app/unit/[unitId]/page.tsx`
+- `app/unit/[unitId]/UnitClient.tsx`
+- `app/unit/[unitId]/unit.module.css`
+- `app/unit/[unitId]/types.ts`
+- `app/unit/[unitId]/components/SessionPlayer.tsx`
+- `app/unit/[unitId]/components/WordsSection.tsx`
+- `app/unit/[unitId]/components/PatternsSection.tsx`
+- `app/unit/[unitId]/components/TestSection.tsx`
+- `app/unit/[unitId]/components/AISection.tsx`
+- `app/api/ai/route.ts`
+- `app/api/progress/route.ts`
+- `data/topik1/u01_convenience.json`
+- `supabase/migrations/002_user_progress.sql`

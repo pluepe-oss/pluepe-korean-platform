@@ -1,6 +1,59 @@
 # pluepe 한국어 학습 플랫폼 — 개발 진행 현황
 
+## 2026.04.21 완료
+
+- [x] 유닛 1 (편의점에서 물건 사기) MVP 전체 완성
+- [x] 5섹션 구현 (세션/단어/표현/테스트/AI확장)
+- [x] 사이드바 레이아웃 전환 (200px + 1fr)
+- [x] Supabase user_progress 테이블 + RLS
+- [x] Claude API 서버 라우트 (/api/ai)
+- [x] 퀴즈 확인 버튼 방식
+- [x] 섹션 잠금 로직
+- [x] 완료 배너
+- [x] 테스트 해설 텍스트 표시
+- [x] 유닛 완료(/my) / 다음 유닛 버튼 라우팅
+- [x] DEV_MODE 개발 편의 플래그
+- [x] 다음 버튼 클릭 시 상단 스크롤 수정
+- [x] 제목 옆 현재 섹션 미니 카드 (고정 너비)
+- [x] STEP 탭 숫자 원문자 + ✓ 표시
+- [x] 모바일 사이드바 → 상단 섹션 바 전환
+- [x] 모바일 이전/다음 화살표 추가
+- [x] Bunny 영상 STEP별 연결 (u01 vi 3개)
+- [x] Bunny iframe autoplay=false + t=0 설정
+
+## 다음 작업 예정
+
+- [ ] DEV_MODE = false 복구 후 운영 정책 확인
+- [ ] 유닛 2 (카페에서 주문하기) 콘텐츠 생성
+- [ ] 마이페이지 진도율 연동
+      (Bunny iframe postMessage 버그)
+- [ ] 홈페이지 유닛 목록 페이지
+- [ ] 무료/유료 접근 제한 로직
+- [ ] Korean Studio: 썸네일 자동화
+- [ ] Korean Studio: split_video.py 타임코드 수정
+
+---
+
 ## 완료 목록
+
+### 2026.04.21
+**유닛 1 (편의점에서 물건 사기) 훈련 시스템 MVP**
+- [x] `data/topik1/u01_convenience.json` — CLAUDE_v3.md §8 전체 구조
+      (session 5 STEP · words 8개 + quiz 3 · patterns 3 + blank quiz · mini_test 3문제 · ai_extension 3)
+- [x] `app/unit/[unitId]/page.tsx` — 서버 컴포넌트, params 기반 JSON 동적 import, notFound 처리
+- [x] `app/unit/[unitId]/types.ts` — UnitData 타입 + SECTION_ORDER/LABEL
+- [x] `app/unit/[unitId]/UnitClient.tsx` — 5섹션 상위 탭 전환 + 진도바 + 완료 카드
+- [x] `app/unit/[unitId]/unit.module.css` — navy/mint/orange 디자인 시스템 포팅 (training_player.html 기반)
+- [x] `components/SessionPlayer.tsx` — Bunny iframe + STEP 1~5 (보기/빈칸/따라말하기/단어카드/복습)
+- [x] `components/WordsSection.tsx` — 플래시카드 8개(플립) + words_quiz 3문제
+- [x] `components/PatternsSection.tsx` — 패턴 3개 + 각 빈칸 퀴즈
+- [x] `components/TestSection.tsx` — listening/reading/situation 3문제 + 오답 해설 + 결과 점수
+- [x] `components/AISection.tsx` — ai_extension 3 프롬프트 → /api/ai 호출 + 에러 상태 처리
+- [x] `app/api/ai/route.ts` — Claude API 서버 프록시 (fetch 직접 호출, SDK 미사용, unitTitle system 삽입)
+- [x] `app/api/progress/route.ts` — user_progress upsert (비로그인 silent skip)
+- [x] `supabase/migrations/002_user_progress.sql` — user_progress 테이블 + RLS + updated_at 트리거
+- [x] 섹션 완료 조건: session(5 STEP 전체) · words(퀴즈 3 답변) · patterns(3 답변) · test(3 답변) · ai(1+ 호출)
+- [x] 완료 기준: `localhost:3000/unit/1` 접속 시 전체 유닛 동작
 
 ### 2026.04.19
 **/learn/me 로그아웃 버튼**
@@ -236,6 +289,7 @@
 - [ ] Supabase SQL Editor에 `supabase/migrations/006_seed_paid_course.sql` 실행
 - [ ] Supabase SQL Editor에 `supabase/migrations/009_seed_admin_academy.sql` 실행
 - [ ] Supabase SQL Editor에 `supabase/migrations/010_invitations.sql` 실행
+- [ ] Supabase SQL Editor에 `supabase/migrations/002_user_progress.sql` 실행 (유닛 훈련 진도 저장용)
 - [ ] Supabase Dashboard → Authentication → Users → Add user (`student1@test.com`)
 - [ ] Supabase SQL Editor에 `supabase/migrations/011_seed_test_student.sql` 실행 (위 가입 후)
 - [x] Supabase SQL Editor에 `supabase/migrations/007_questions_table.sql` 실행
@@ -247,7 +301,7 @@
 - [x] Stripe Dashboard에서 Product/Price 3종 생성 후 Price ID 복사 → `.env.local`
 - [ ] Stripe Dashboard → Developers → Webhooks에 `/api/stripe/webhook` 엔드포인트 등록 (배포 시)
 - [x] Stripe Dashboard → Settings → Billing → Customer Portal 기능 활성화
-- [ ] `.env.local`에 향후 Anthropic 키 추가
+- [ ] `.env.local`에 `ANTHROPIC_API_KEY` 추가 (유닛 AI 확장 섹션 동작용) — **training_player.html에 유출된 기존 키는 Anthropic 콘솔에서 즉시 revoke 필요**
 
 ---
 
