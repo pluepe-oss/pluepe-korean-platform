@@ -42,3 +42,10 @@ next-env.d.ts
 
 # claude code
 .claude/scheduled_tasks.lock
+
+# 기획 메모 (로컬 전용 — Claude.ai 기획 세션 산출물)
+platform_scripts_20260421.zip
+\[콘텐츠 엔진\].txt
+① TOPIK1 패키지.txt
+1. TOPIK1 패키지 구매 → 언어 선택.txt
+1. 첫 학습일 기준.txt
