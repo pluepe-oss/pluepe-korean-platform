@@ -194,6 +194,48 @@ npm run lint     # ESLint
 - 환경변수: `.env.local` 전체 값 Netlify Dashboard → Site settings → Environment variables 에 1:1 등록
 - 검증 경로: `/unit/1` — 영상 재생 · 0%/0/5 학습자 포지션 · 사이드바 잠금 모두 정상 (2026.04.21)
 
+## 배포 관련 주의사항 (실서비스 배포 전 필수 확인)
+
+### 현재 임시 설정 (MVP 단계)
+- SECRETS_SCAN_ENABLED = false (Netlify 보안 스캐너 꺼져 있음)
+- GitHub 저장소 Public 상태 (pluepe-oss/pluepe-korean-platform)
+- Netlify 무료 플랜 (lucky-begonia-eea7de.netlify.app)
+
+### 실서비스 배포 전 반드시 처리할 것
+1. SECRETS_SCAN_ENABLED = false 제거
+   → 보안 스캐너 다시 켜기
+   → 하드코딩된 값 모두 환경변수로 교체 확인
+
+2. GitHub 저장소 Private으로 복구
+   → pluepe-oss/pluepe-korean-platform → Private
+
+3. 커스텀 도메인 연결
+   → lucky-begonia-eea7de.netlify.app → pluepe.com 등
+
+4. DEV_MODE = false 반드시 확인
+
+5. Supabase RLS 정책 재검토
+
+### 어제 배포 시 발생한 이슈 기록
+- Vercel Hobby 플랜 + 조직 계정 → Blocked
+  → 개인 GitHub 계정 필요 (pluepe)
+- Netlify 보안 스캐너가 아래 값 감지하여 배포 차단:
+  → BUNNY_STREAM_LIBRARY_ID 하드코딩
+  → NEXT_PUBLIC_APP_URL
+  → 임시 해결: SECRETS_SCAN_ENABLED = false
+- GitHub Private 저장소 → Fork 불가
+  → Public으로 변경 후 Fork
+- Bunny Allowed domains 설정 필요
+  → 배포 URL 추가해야 영상 재생 가능
+
+### 배포 플랫폼 현황
+| 플랫폼 | 계정 | 상태 | URL |
+|--------|------|------|-----|
+| Netlify | pluepe (개인) | 운영 중 | lucky-begonia-eea7de.netlify.app |
+| Vercel | pluepe-7693 (팀) | 구버전 배포 | pluepe-korean-platform.vercel.app |
+| GitHub | pluepe-oss (조직) | 원본 저장소 | pluepe-oss/pluepe-korean-platform |
+| GitHub | pluepe (개인) | Fork | pluepe/pluepe-korean-platform |
+
 ## 완성된 파일 목록 (2026.04.21 기준)
 
 - `app/unit/[unitId]/page.tsx`
