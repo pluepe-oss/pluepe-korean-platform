@@ -6,6 +6,23 @@
 
 ---
 
+## Session 2026.04.22
+
+작업 내용: 영상 완료 감지 + 학습 정책 적용
+
+### 주요 결정사항
+- Player.js SDK 방식으로 Bunny 이벤트 감지
+- ended + timeupdate 95% fallback
+- seek 스킵 방지 (B안 적용)
+- 영상 AND 퀴즈 둘 다 완료해야 다음 버튼 활성화
+- 로딩 스피너 보류 (다음 세션)
+
+### 미해결
+- 마이페이지 진도율 연동
+- 검은 배경 (Bunny 썸네일 관련)
+
+---
+
 ## Session 2026.04.21
 
 작업 도구: Claude Code (터미널) + Claude.ai (채팅 기획)

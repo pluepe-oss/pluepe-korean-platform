@@ -86,10 +86,26 @@ export default function UnitClient({ unit }: { unit: UnitData }) {
 
   // session 섹션 내부 STEP 상태 (UnitClient로 lift — 하단 [다음] 버튼이 STEP 이동도 담당)
   const [sessionStep, setSessionStep] = useState<StepKey>(1);
-  const [sessionStepsDone, setSessionStepsDone] = useState<SessionStepsDone>(
+  // STEP 완료 조건 정책: STEP 1~3 은 영상 AND 퀴즈 둘 다, STEP 4~5 는 퀴즈만
+  const [videoWatched, setVideoWatched] = useState<SessionStepsDone>(
     DEV_MODE
       ? { 1: true, 2: true, 3: true, 4: true, 5: true }
       : INITIAL_STEPS_DONE,
+  );
+  const [quizDone, setQuizDone] = useState<SessionStepsDone>(
+    DEV_MODE
+      ? { 1: true, 2: true, 3: true, 4: true, 5: true }
+      : INITIAL_STEPS_DONE,
+  );
+  const sessionStepsDone = useMemo<SessionStepsDone>(
+    () => ({
+      1: videoWatched[1] && quizDone[1],
+      2: videoWatched[2] && quizDone[2],
+      3: videoWatched[3] && quizDone[3],
+      4: quizDone[4],
+      5: quizDone[5],
+    }),
+    [videoWatched, quizDone],
   );
 
   const markDone = useCallback(
@@ -105,8 +121,14 @@ export default function UnitClient({ unit }: { unit: UnitData }) {
     [unit.unit_id],
   );
 
-  const markSessionStepDone = useCallback((n: StepKey) => {
-    setSessionStepsDone((prev) => (prev[n] ? prev : { ...prev, [n]: true }));
+  const markVideoWatched = useCallback((n: StepKey) => {
+    setVideoWatched((prev) => (prev[n] ? prev : { ...prev, [n]: true }));
+  }, []);
+  const markVideoReset = useCallback((n: StepKey) => {
+    setVideoWatched((prev) => (prev[n] ? { ...prev, [n]: false } : prev));
+  }, []);
+  const markQuizDone = useCallback((n: StepKey) => {
+    setQuizDone((prev) => (prev[n] ? prev : { ...prev, [n]: true }));
   }, []);
 
   // grid 2열 레이아웃에서 smooth scroll이 re-render에 의해 cancel되는 이슈를
@@ -383,7 +405,11 @@ export default function UnitClient({ unit }: { unit: UnitData }) {
                 currentStep={sessionStep}
                 onStepChange={handleSetSessionStep}
                 doneSteps={sessionStepsDone}
-                onStepDone={markSessionStepDone}
+                quizDoneSteps={quizDone}
+                onVideoWatched={markVideoWatched}
+                onVideoReset={markVideoReset}
+                onQuizDone={markQuizDone}
+                devMode={DEV_MODE}
               />
             )}
             {current === "words" && (

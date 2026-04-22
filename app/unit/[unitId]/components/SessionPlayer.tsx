@@ -1,9 +1,33 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Script from "next/script";
 import styles from "../unit.module.css";
 import type { SessionStepsDone, StepKey, UnitData } from "../types";
 import { useQuizStates, optionClass, QuizFooter } from "./quiz-state";
+
+/* ------------------------------------------------------------------ */
+/* Player.js SDK 타입 (CDN 로드이므로 런타임에 window.playerjs 로 접근)   */
+/* ------------------------------------------------------------------ */
+
+type PlayerJsPlayer = {
+  on: (
+    event: string,
+    callback: (data?: { seconds?: number; duration?: number }) => void,
+  ) => void;
+  off: (event: string) => void;
+};
+
+type PlayerJsGlobal = {
+  Player: new (el: HTMLIFrameElement) => PlayerJsPlayer;
+};
+
+const PLAYERJS_SRC =
+  "https://assets.mediadelivery.net/playerjs/player-0.1.0.min.js";
+
+/* ------------------------------------------------------------------ */
+/* STEP 메타                                                            */
+/* ------------------------------------------------------------------ */
 
 const STEP_META: Record<StepKey, { icon: string; label: string }> = {
   1: { icon: "👁", label: "보기" },
@@ -15,40 +39,113 @@ const STEP_META: Record<StepKey, { icon: string; label: string }> = {
 
 const STEP_NUMS = ["①", "②", "③", "④", "⑤"] as const;
 
+/* ------------------------------------------------------------------ */
+/* SessionPlayer                                                        */
+/* ------------------------------------------------------------------ */
+
 export default function SessionPlayer({
   unit,
-  currentStep,
+  currentStep: step,
   onStepChange,
   doneSteps,
-  onStepDone,
+  quizDoneSteps,
+  onVideoWatched,
+  onVideoReset,
+  onQuizDone,
+  devMode,
 }: {
   unit: UnitData;
   currentStep: StepKey;
   onStepChange: (n: StepKey) => void;
   doneSteps: SessionStepsDone;
-  onStepDone: (n: StepKey) => void;
+  quizDoneSteps: SessionStepsDone;
+  onVideoWatched: (n: StepKey) => void;
+  onVideoReset: (n: StepKey) => void;
+  onQuizDone: (n: StepKey) => void;
+  devMode: boolean;
 }) {
-  const step = currentStep;
-  // STEP별 video_id가 있으면 사용, 없으면 unit 기본 bunny_video_id로 fallback
+  const showVideo = step === 1 || step === 2 || step === 3;
   const currentVideoId =
     unit.session.step_videos?.[String(step)] ?? unit.bunny_video_id;
   const bunnyEmbed = `https://iframe.mediadelivery.net/embed/${unit.bunny_library_id}/${currentVideoId}?autoplay=false&preload=false&t=0&loop=false`;
-  const markStepDone = (n: StepKey) => onStepDone(n);
-  const showVideo = step === 1 || step === 2 || step === 3;
 
-  // Bunny iframe 영상 종료 이벤트 — 다음 STEP 자동 이동 방지 (멈춤 상태 유지)
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [playerSdkReady, setPlayerSdkReady] = useState(false);
+
+  // Player.js SDK 로드 완료 + 영상 STEP 일 때만 이벤트 구독
+  // · ready → ended / timeupdate / seeked 리스너 등록
+  // · ended 또는 timeupdate 95% → 영상 시청 완료 알림
+  // · seeked → 미완료 STEP 의 영상 시청 상태 초기화 (DEV_MODE 에서는 무시)
   useEffect(() => {
-    const handleMessage = (e: MessageEvent) => {
-      if (e.data === "finish") {
-        console.log("영상 종료 — 대기 중");
+    if (!playerSdkReady || !showVideo) return;
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+    const pj = (window as unknown as { playerjs?: PlayerJsGlobal }).playerjs;
+    if (!pj) return;
+
+    const player = new pj.Player(iframe);
+
+    player.on("ready", () => {
+      console.log("[Bunny] Player.js ready — STEP:", step);
+
+      player.on("ended", () => {
+        console.log("[Bunny] ended — STEP:", step);
+        if ((step === 1 || step === 2 || step === 3) && !doneSteps[step]) {
+          onVideoWatched(step);
+        }
+      });
+
+      player.on("timeupdate", (data) => {
+        const seconds =
+          typeof data?.seconds === "number" ? data.seconds : NaN;
+        const duration =
+          typeof data?.duration === "number" ? data.duration : NaN;
+        if (!Number.isFinite(duration) || duration <= 0) return;
+        if (step !== 1 && step !== 2 && step !== 3) return;
+        if (doneSteps[step]) return;
+        if (seconds >= duration * 0.95) {
+          console.log("[Bunny] 영상 완료 (timeupdate 기반) STEP:", step);
+          onVideoWatched(step);
+        }
+      });
+
+      player.on("seeked", () => {
+        if (devMode) return;
+        if (step !== 1 && step !== 2 && step !== 3) return;
+        if (doneSteps[step]) return;
+        console.log("[Bunny] seek 감지 — 영상 완료 초기화 STEP:", step);
+        onVideoReset(step);
+      });
+    });
+
+    return () => {
+      try {
+        player.off("ready");
+        player.off("ended");
+        player.off("timeupdate");
+        player.off("seeked");
+      } catch {
+        /* ignore */
       }
     };
-    window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
-  }, []);
+  }, [
+    playerSdkReady,
+    showVideo,
+    step,
+    doneSteps,
+    onVideoWatched,
+    onVideoReset,
+    devMode,
+  ]);
 
   return (
     <>
+      <Script
+        src={PLAYERJS_SRC}
+        strategy="afterInteractive"
+        onReady={() => setPlayerSdkReady(true)}
+      />
+
       <div className={styles.stepTabs}>
         {([1, 2, 3, 4, 5] as StepKey[]).map((n, i) => {
           const meta = STEP_META[n];
@@ -83,6 +180,7 @@ export default function SessionPlayer({
           style={{ maxWidth: 800, maxHeight: 450, margin: "0 auto 14px" }}
         >
           <iframe
+            ref={iframeRef}
             src={bunnyEmbed}
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
             allowFullScreen
@@ -93,44 +191,47 @@ export default function SessionPlayer({
       {step === 1 && (
         <Step1Quiz
           quiz={unit.session.step1_quiz}
-          done={doneSteps[1]}
-          onDone={() => markStepDone(1)}
+          done={quizDoneSteps[1]}
+          onDone={() => onQuizDone(1)}
         />
       )}
       {step === 2 && (
         <Step2Blanks
           blanks={unit.session.step2_blanks}
-          done={doneSteps[2]}
-          onDone={() => markStepDone(2)}
+          done={quizDoneSteps[2]}
+          onDone={() => onQuizDone(2)}
         />
       )}
       {step === 3 && (
         <Step3Speaking
           sentences={unit.session.step3_sentences}
-          done={doneSteps[3]}
-          onDone={() => markStepDone(3)}
+          done={quizDoneSteps[3]}
+          onDone={() => onQuizDone(3)}
         />
       )}
       {step === 4 && (
         <Step4Words
           words={unit.session.step4_words}
           wordsQuiz={unit.words_quiz}
-          done={doneSteps[4]}
-          onDone={() => markStepDone(4)}
+          done={quizDoneSteps[4]}
+          onDone={() => onQuizDone(4)}
         />
       )}
       {step === 5 && (
         <Step5Review
           review={unit.session.step5_review}
-          done={doneSteps[5]}
-          onDone={() => markStepDone(5)}
+          done={quizDoneSteps[5]}
+          onDone={() => onQuizDone(5)}
         />
       )}
     </>
   );
 }
 
-/* STEP 1 — 이해 퀴즈 1문제 */
+/* ------------------------------------------------------------------ */
+/* STEP 1 — 이해 퀴즈 1문제                                               */
+/* ------------------------------------------------------------------ */
+
 function Step1Quiz({
   quiz,
   done,
@@ -173,7 +274,10 @@ function Step1Quiz({
   );
 }
 
-/* STEP 2 — 빈칸 3문제 */
+/* ------------------------------------------------------------------ */
+/* STEP 2 — 빈칸 3문제                                                   */
+/* ------------------------------------------------------------------ */
+
 function Step2Blanks({
   blanks,
   done,
@@ -224,7 +328,10 @@ function Step2Blanks({
   );
 }
 
-/* STEP 3 — 따라 말하기 */
+/* ------------------------------------------------------------------ */
+/* STEP 3 — 따라 말하기                                                  */
+/* ------------------------------------------------------------------ */
+
 function Step3Speaking({
   sentences,
   done,
@@ -281,7 +388,10 @@ function Step3Speaking({
   );
 }
 
-/* STEP 4 — 단어 카드 + 한국어 기반 퀴즈 3문제 (flip은 완료 조건 아님) */
+/* ------------------------------------------------------------------ */
+/* STEP 4 — 단어 카드 + 한국어 기반 퀴즈 3문제 (flip은 완료 조건 아님)      */
+/* ------------------------------------------------------------------ */
+
 function Step4Words({
   words,
   wordsQuiz,
@@ -386,7 +496,10 @@ function Step4Words({
   );
 }
 
-/* STEP 5 — 상황 기반 복습 3문제 (한국어만) */
+/* ------------------------------------------------------------------ */
+/* STEP 5 — 상황 기반 복습 3문제 (한국어만)                               */
+/* ------------------------------------------------------------------ */
+
 function Step5Review({
   review,
   done,
