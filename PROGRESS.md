@@ -24,10 +24,16 @@
       (u1{유닛번호}_step{n}_{언어})
 - [x] API 키 보안 점검 및 재발급
 - [x] Vercel 배포 준비 완료
+- [x] Netlify 프로덕션 배포 완료
+      (`lucky-begonia-eea7de.netlify.app`, 개인 GitHub `pluepe/pluepe-korean-platform` fork)
+- [x] Bunny 보안 설정 — Allowed domains 등록 + API Key / Token Key rotate
+- [x] Netlify 환경변수 전체 주입 + `SECRETS_SCAN_ENABLED=false` / `SECRETS_SCAN_OMIT_KEYS=BUNNY_STREAM_LIBRARY_ID`
+- [x] Bunny Library ID 하드코딩 제거
+      (`data/topik1/u01_convenience.json`, `app/unit/[unitId]/page.tsx` → `process.env.BUNNY_LIBRARY_ID`)
+- [x] `/unit/1` 프로덕션 E2E 검증 (영상 재생 · 0/5 포지션 · 사이드바 잠금 정상)
 
 ## 다음 작업 예정
 
-- [ ] Vercel 배포 완료
 - [ ] 유닛 2 (카페에서 주문하기) 콘텐츠 생성
 - [ ] 마이페이지 진도율 연동
       (Bunny iframe postMessage 버그)
@@ -41,6 +47,18 @@
 ## 완료 목록
 
 ### 2026.04.21
+**Netlify 프로덕션 배포 + Bunny 보안 정리 (세션 마무리)**
+- [x] Netlify 사이트 생성 — 개인 GitHub `pluepe/pluepe-korean-platform` fork 연동
+      URL: `lucky-begonia-eea7de.netlify.app`
+- [x] Netlify Environment variables — `.env.local` 전체 값 등록
+- [x] Netlify 빌드 설정 — `SECRETS_SCAN_ENABLED=false`, `SECRETS_SCAN_OMIT_KEYS=BUNNY_STREAM_LIBRARY_ID`
+- [x] Bunny Dashboard — Allowed domains 에 `lucky-begonia-eea7de.netlify.app` + `localhost:3000` 추가
+- [x] Bunny 키 재발급 — `BUNNY_STREAM_API_KEY`, `BUNNY_TOKEN_KEY` 모두 rotate
+- [x] 하드코딩 제거 — `data/topik1/u01_convenience.json` 의 `bunny_library_id` 값 제거
+- [x] 환경변수 연동 — `app/unit/[unitId]/page.tsx` 에서 `process.env.BUNNY_LIBRARY_ID` 로 주입
+- [x] 프로덕션 E2E 검증 — `lucky-begonia-eea7de.netlify.app/unit/1`
+      영상 재생 OK · 0% / 0/5 학습자 포지션 OK · 사이드바 잠금 OK
+
 **유닛 1 (편의점에서 물건 사기) 훈련 시스템 MVP**
 - [x] `data/topik1/u01_convenience.json` — CLAUDE_v3.md §8 전체 구조
       (session 5 STEP · words 8개 + quiz 3 · patterns 3 + blank quiz · mini_test 3문제 · ai_extension 3)

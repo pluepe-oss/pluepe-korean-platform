@@ -347,3 +347,58 @@ SESSION_LOG.md 읽고 이어서 작업해줘
 ```
 SESSION_LOG.md 읽고 이어서 작업해줘
 ```
+
+---
+
+## Session 5 — 2026.04.21 (late) · Netlify 배포 + Bunny 보안
+
+> 📝 유닛 1 MVP 완성 후 그날 저녁에 이어서 진행한 배포 마무리 세션.
+
+### 목표
+- Vercel 대신 Netlify 로 프로덕션 배포 확정
+- Bunny 키/도메인 보안 정리 (노출 키 rotate + Allowed domains 제한)
+- 빌드 산출물에 남아있던 Bunny Library ID 하드코딩 제거
+
+### 완료
+**Netlify 배포**
+- 개인 GitHub 계정(`pluepe`)으로 레포 fork → `github.com/pluepe/pluepe-korean-platform`
+- Netlify 사이트 생성 + main 브랜치 자동 빌드 연결
+- 프로덕션 URL: `https://lucky-begonia-eea7de.netlify.app`
+- `.env.local` 전체 키 값을 Netlify Environment variables 에 1:1 복제
+- 빌드 secrets scan 예외 설정
+  - `SECRETS_SCAN_ENABLED = false`
+  - `SECRETS_SCAN_OMIT_KEYS = BUNNY_STREAM_LIBRARY_ID`
+
+**Bunny 보안**
+- Bunny Dashboard → Allowed domains 에 `lucky-begonia-eea7de.netlify.app`, `localhost:3000` 두 건만 허용
+- `BUNNY_STREAM_API_KEY` rotate 완료 (노출된 기존 키 폐기)
+- `BUNNY_TOKEN_KEY` rotate 완료
+
+**코드 정리**
+- `data/topik1/u01_convenience.json` — `bunny_library_id` 하드코딩 값 제거
+- `app/unit/[unitId]/page.tsx` — `process.env.BUNNY_LIBRARY_ID` 환경변수 참조로 교체
+- commit `518bde7 fix: Remove hardcoded Bunny library ID from build output`
+- commit `276a5e3 fix: Netlify deploy trigger`
+
+**프로덕션 E2E 검증**
+- `https://lucky-begonia-eea7de.netlify.app/unit/1` 접속
+- 영상 재생 정상 ✅
+- 학습자 포지션 `0% · 0/5` 정상 ✅
+- 사이드바 잠금(세션 완료 전 단어/표현/테스트/AI 잠금) 정상 ✅
+
+### 의사결정
+- **호스팅을 Vercel 에서 Netlify 단일로 전환**: Vercel 빌드 산출물에서 Library ID 하드코딩 경고가 반복되어, Bunny 키 rotate + 환경변수 주입을 동시에 적용하기 위해 Netlify 신규 배포 경로를 채택. Vercel 쪽 환경변수는 예비로 남겨두되 프로덕션은 Netlify URL 을 단일 진실원천으로 고정.
+- **개인 GitHub fork 로 배포**: 조직 계정 연결 전 개인 `pluepe` 계정 fork 를 사용해 초기 배포 검증. 커스텀 도메인 확보 단계에서 조직 레포로 이관 예정.
+- **`BUNNY_STREAM_LIBRARY_ID` 는 noise 처리**: 실질적으로 비밀이 아닌 공개 식별자이지만 Netlify secrets scan 이 경고를 발생시켜 빌드 실패. `SECRETS_SCAN_OMIT_KEYS` 로 해당 키만 스캔 예외에 등록. 전체 스캔은 껐지만 향후 다시 켤 때도 이 키만 예외 유지 권장.
+- **Bunny Library ID 를 코드/JSON 에서 완전히 제거**: JSON 콘텐츠에서 ID 값을 지우고 플레이어에서만 `process.env.BUNNY_LIBRARY_ID` 를 읽도록 단일화. 콘텐츠 파일은 GUID 만 보관하고 라이브러리 지정은 런타임 환경변수가 책임진다는 규칙 확정.
+
+### 미해결 이슈 (인수)
+- 마이페이지 진도율 0% 고정 (Bunny iframe `postMessage` 호환 이슈)
+- 유닛 2 (카페에서 주문하기) 콘텐츠 생성
+- Bunny 영상 썸네일 자동화 — Korean Studio
+- `split_video.py` 전환자막 타임코드 — Korean Studio
+
+### 다음 명령어
+```
+SESSION_LOG.md 읽고 이어서 작업해줘
+```

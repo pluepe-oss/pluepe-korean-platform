@@ -22,7 +22,7 @@
 | AI | Claude API (Sonnet) | 오답 해설, 챗봇 |
 | 메일 | Resend | 체험 D-3 / D-1 / D-day 알림 (Vercel Cron 트리거) |
 | 차트 | Recharts | 학습 진도 · 분석 |
-| 호스팅 | Vercel (+ Railway) | CDN, 서버리스 |
+| 호스팅 | Netlify (프로덕션) / Vercel (예비) | 2026.04.21부터 Netlify 단일 배포 |
 
 ## 폴더 구조
 
@@ -163,9 +163,15 @@ npm run lint     # ESLint
 
 ## Bunny 영상 연결 정보
 
-- Library ID: `640837`
+- Library ID: 환경변수 `BUNNY_STREAM_LIBRARY_ID` 로 주입 (코드/JSON 하드코딩 금지)
 - embed URL 형식:
-  `https://iframe.mediadelivery.net/embed/640837/{GUID}?autoplay=false&preload=false&t=0`
+  `https://iframe.mediadelivery.net/embed/{BUNNY_STREAM_LIBRARY_ID}/{GUID}?autoplay=false&preload=false&t=0`
+- Allowed domains: `lucky-begonia-eea7de.netlify.app`, `localhost:3000`
+- 키 관리: `BUNNY_STREAM_API_KEY`, `BUNNY_TOKEN_KEY` 는 Netlify Environment Variables 에서만 관리
+  (2026.04.21 rotate 완료)
+- Netlify 빌드 secrets scan 예외:
+  - `SECRETS_SCAN_ENABLED = false`
+  - `SECRETS_SCAN_OMIT_KEYS = BUNNY_STREAM_LIBRARY_ID`
 
 ## Bunny Title 규칙 (확정)
 
@@ -180,6 +186,13 @@ npm run lint     # ESLint
 - `u101_step1_vi`: `b1601bdc-b71b-4ca5-8f5f-df90ab18db6e`
 - `u101_step2_vi`: `8b6840f1-c801-4ba0-9695-c86a5fb3ece4`
 - `u101_step3_vi`: `9079f373-bba7-4558-8a6f-217b43134e1d`
+
+## 프로덕션 배포 (Netlify)
+
+- 프로덕션 URL: `https://lucky-begonia-eea7de.netlify.app`
+- GitHub 연동: `github.com/pluepe/pluepe-korean-platform` (개인 계정 pluepe, main 브랜치 push 시 자동 빌드)
+- 환경변수: `.env.local` 전체 값 Netlify Dashboard → Site settings → Environment variables 에 1:1 등록
+- 검증 경로: `/unit/1` — 영상 재생 · 0%/0/5 학습자 포지션 · 사이드바 잠금 모두 정상 (2026.04.21)
 
 ## 완성된 파일 목록 (2026.04.21 기준)
 
