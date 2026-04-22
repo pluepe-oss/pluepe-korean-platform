@@ -6,6 +6,25 @@
 
 ---
 
+## Session 2026.04.22 (오후)
+
+### 완료
+- app/api/progress/route.ts 에러 핸들링 강화
+  (upsert 실패 시 console.error, 비로그인 시 success:false, try/catch 전체)
+- Supabase user_progress 테이블 생성 완료
+  (트리거 함수 update_updated_at + user_progress_updated_at 트리거)
+
+### 미완료 (다음 세션 이어서)
+- /my 마이페이지 신규 생성 (PRD 작성 후 진행 예정)
+- UnitClient.tsx postProgress 응답 검증 추가
+
+### 다음 세션 우선순위
+1. /my 마이페이지 PRD 확정 후 개발
+2. 홈/유닛 목록 페이지
+3. 무료/유료 접근 제한 로직
+
+---
+
 ## Session 2026.04.22
 
 작업 내용: 영상 완료 감지 + 학습 정책 적용
