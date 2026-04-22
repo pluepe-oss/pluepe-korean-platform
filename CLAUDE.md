@@ -17,7 +17,7 @@
 | --- | --- | --- |
 | 프레임워크 | Next.js 16 + React 19 (App Router, PWA) | TypeScript, Tailwind CSS v4 |
 | 인증·DB | Supabase (Auth + PostgreSQL + RLS) | `@supabase/ssr` 사용 |
-| 영상 | Cloudflare Stream (`@cloudflare/stream-react`) | DRM 기반 다운로드 차단, 재생 위치 자동 저장 |
+| 영상 | Bunny.net Stream (iframe embed + Player.js SDK) | Allowed Domains 제한 + API Key/Token 로 퍼가기 차단, 재생 위치 자동 저장 |
 | 결제 | Stripe Checkout + Webhook | 7일 무료체험, GoPay/WeChat Pay 연동 |
 | AI | Claude API (Sonnet) | 오답 해설, 챗봇 |
 | 메일 | Resend | 체험 D-3 / D-1 / D-day 알림 (Vercel Cron 트리거) |
@@ -45,9 +45,24 @@ pluepe-korean-platform/
 │   │   ├── exam/page.tsx       # 시험보기
 │   │   ├── vocab/page.tsx      # 단어외우기
 │   │   ├── me/page.tsx         # 마이페이지
-│   │   └── [courseId]/         # 개별 강의 플레이어 (Cloudflare Stream)
+│   │   └── [courseId]/         # 개별 강의 플레이어 (Bunny.net Stream, 레거시 courses 테이블 기반)
 │   │       ├── page.tsx        # 서버 컴포넌트: 권한 체크 + 데이터 fetch
-│   │       └── video-player.tsx # 클라이언트: SDK, 진도 저장, 속도, paywall
+│   │       └── video-player.tsx # 클라이언트: iframe embed, 진도 저장, 속도, paywall
+│   ├── unit/                   # 유닛 훈련 시스템 (TOPIK 1 MVP, data/topik1/*.json 기반)
+│   │   └── [unitId]/
+│   │       ├── page.tsx        # 서버 컴포넌트: 유닛 JSON 로드 + bunny_library_id 주입
+│   │       ├── UnitClient.tsx  # 클라이언트: 5섹션 탭 전환 + 진도 상태 관리
+│   │       ├── unit.module.css # navy/mint/orange 디자인 시스템
+│   │       ├── types.ts        # UnitData 타입 · SECTION_ORDER · SECTION_LABEL
+│   │       └── components/
+│   │           ├── SessionPlayer.tsx   # STEP 1~5 (Bunny iframe + Player.js SDK)
+│   │           ├── WordsSection.tsx    # 단어 플래시카드 + 퀴즈
+│   │           ├── PatternsSection.tsx # 패턴 빈칸 퀴즈
+│   │           ├── TestSection.tsx     # 미니 테스트 3문제
+│   │           └── AISection.tsx       # AI 확장 (/api/ai 호출)
+│   ├── api/
+│   │   ├── ai/route.ts         # Claude API 프록시 (서버 사이드)
+│   │   └── progress/route.ts   # user_progress 저장 (비로그인 silent skip)
 │   ├── admin/page.tsx          # Admin 대시보드 (원장·강사)
 │   └── master/page.tsx         # Master 콘솔 (pluepe 운영팀)
 ├── lib/
@@ -57,10 +72,15 @@ pluepe-korean-platform/
 │       └── middleware.ts       # 세션 갱신 헬퍼
 ├── middleware.ts               # Next.js 미들웨어 (세션 refresh)
 ├── PROGRESS.md                 # 일자별 진행 현황 체크리스트
+├── SESSION_LOG.md              # 세션별 맥락 로그 (왜/무엇을/결정사항)
+├── data/
+│   └── topik1/
+│       └── u01_convenience.json  # 유닛 1 콘텐츠 (편의점)
 ├── supabase/
 │   ├── schema.sql              # 테이블 · RLS · 시드 초기 스키마
 │   └── migrations/
-│       └── 001_courses_is_free.sql  # courses.is_free 컬럼 추가
+│       ├── 001_courses_is_free.sql
+│       └── 002_user_progress.sql  # user_progress 테이블 + RLS + updated_at 트리거
 ├── docs/                       # PRD 등 기획 문서
 ├── .env.local                  # 로컬 환경변수 (커밋 금지)
 └── .env.local.example          # 팀 공유용 템플릿
@@ -72,7 +92,8 @@ pluepe-korean-platform/
 
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` — 클라이언트/서버 공통
 - `SUPABASE_SERVICE_ROLE_KEY` — 서버 전용. RLS를 우회하므로 절대 클라이언트에 노출 금지
-- Stripe · Cloudflare Stream · Anthropic · SendGrid 키는 해당 Phase에서 추가
+- Stripe · Bunny.net Stream · Anthropic · Resend 키는 해당 Phase에서 추가
+  (Bunny 는 `BUNNY_STREAM_LIBRARY_ID`, `BUNNY_STREAM_API_KEY`, `BUNNY_TOKEN_KEY`)
 
 ## 개발 명령
 
@@ -86,7 +107,7 @@ npm run lint     # ESLint
 ## 설계 원칙
 
 - 모든 DB 접근은 Supabase RLS 정책으로 Master / Admin / Student 권한을 분리한다
-- 영상은 Cloudflare Stream의 서명된 URL로만 서빙해 다운로드를 차단한다. 플레이어는 `@cloudflare/stream-react` 컴포넌트를 사용하고, 우클릭 방지·서버 측 구독 권한 체크·5초 간격 `progress.last_position_seconds` upsert를 기본 규칙으로 한다
+- 영상은 Bunny.net Stream iframe embed + Allowed Domains 제한으로 서빙해 무단 퍼가기를 차단한다. 플레이어는 Player.js SDK (`https://assets.mediadelivery.net/playerjs/player-0.1.0.min.js`) 로 `ready` / `ended` / `timeupdate` / `seeked` 이벤트를 구독하고, 서버 측 구독 권한 체크 · 영상 완료 감지(ended 또는 timeupdate 95% fallback) · seek 스킵 방지(미완료 STEP 에서 seeked 발생 시 `videoWatched` 초기화) 를 기본 규칙으로 한다
 - 결제 상태 변경은 Stripe Webhook → Supabase 저장을 단일 진실원천(SSoT)으로 둔다
 - Claude API 호출은 반드시 Route Handler(서버 사이드)에서 수행한다
 
@@ -98,7 +119,7 @@ npm run lint     # ESLint
 | --- | --- |
 | `users` | **`auth.users`와 1:1 매핑된 프로필 + 권한/조직 메타**. 컬럼: `id`, `email`, `name`, `role`(master/admin/student), `academy_id`, `country_code`, `preferred_language` |
 | `academies` | B2B 학원 조직 (이름, 국가, 소유 admin, 연락처) |
-| `courses` | 강의 (`type`: topik1/topik2/eps-topik, `stream_video_id` Cloudflare Stream UID, `is_free` 무료 여부, `is_published` 공개 여부) |
+| `courses` | 강의 (`type`: topik1/topik2/eps-topik, `stream_video_id` Bunny.net video GUID — 레거시 컬럼명 유지, `is_free` 무료 여부, `is_published` 공개 여부) |
 | `progress` | 학생 × 강의 진도율 및 마지막 재생 위치 |
 | `exam_results` | 모의고사 응시 기록 (점수, 답안 `jsonb`) |
 | `subscriptions` | Stripe 구독 상태. B2C(`user_id`) XOR B2B(`academy_id`) |
@@ -120,7 +141,7 @@ npm run lint     # ESLint
 | Week | 단계 |
 | --- | --- |
 | 1~2 | 프로젝트 세팅, Supabase 스키마, 인증, PWA 기초 |
-| 3~4 | TOPIK 1 콘텐츠, Cloudflare Stream, 단어 암기 |
+| 3~4 | TOPIK 1 콘텐츠, Bunny.net Stream, 단어 암기 |
 | 5~6 | Stripe 결제, 7일 체험, SendGrid 메일 |
 | 7~8 | TOPIK 2 콘텐츠, AI 챗봇, 진도 대시보드 |
 | 9~10 | B2B Admin 대시보드, EPS-TOPIK |
