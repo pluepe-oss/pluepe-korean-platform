@@ -4,6 +4,14 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "../unit.module.css";
 import type { UnitData } from "../types";
 import { optionClass, QuizFooter, useQuizStates } from "./quiz-state";
+import { getRandomItems } from "./utils";
+
+// 단어 퀴즈 유형 라벨 — JSON의 `type` 필드 기준으로 표시.
+const WORDS_TYPE_LABEL: Record<"situation" | "meaning" | "fill", string> = {
+  situation: "💡 상황",
+  meaning: "📖 뜻",
+  fill: "🗣️ 표현",
+};
 
 export default function WordsSection({
   unit,
@@ -16,10 +24,9 @@ export default function WordsSection({
     unit.words.map(() => false),
   );
 
-  // 8개 단어 퀴즈 중 랜덤 3개
+  // 단어 퀴즈 전체 풀에서 랜덤 5개 출제
   const quiz = useMemo(() => {
-    const shuffled = [...unit.words_quiz].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, 3);
+    return getRandomItems(unit.words_quiz, 5);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -27,6 +34,20 @@ export default function WordsSection({
     useQuizStates(quiz.length);
 
   const [notified, setNotified] = useState(false);
+  // 힌트(베트남어 등)는 문제 풀이 중 숨기고, [확인] 클릭 후에만 노출.
+  // 재시도 시 다시 숨김.
+  const [showHint, setShowHint] = useState<Record<number, boolean>>({});
+
+  const handleCheck = (qIdx: number, answer: number) => {
+    check(qIdx, answer);
+    setShowHint((prev) => ({ ...prev, [qIdx]: true }));
+  };
+
+  const handleRetry = (qIdx: number) => {
+    retry(qIdx);
+    setShowHint((prev) => ({ ...prev, [qIdx]: false }));
+  };
+
   useEffect(() => {
     if (!notified && allCorrect) {
       onComplete(correctCount, quiz.length);
@@ -56,7 +77,7 @@ export default function WordsSection({
             <div className={styles.wordInner}>
               <div className={`${styles.wordFace} ${styles.wordFront}`}>
                 <div className={styles.wKo}>{w.korean}</div>
-                <div className={styles.wVi}>{w.vietnamese}</div>
+                <div className={styles.wVi}>{w.translation}</div>
               </div>
               <div className={`${styles.wordFace} ${styles.wordBack}`}>
                 <div className={styles.wLabel}>EXAMPLE</div>
@@ -73,7 +94,7 @@ export default function WordsSection({
                       fontStyle: "italic",
                     }}
                   >
-                    {w.example_vi}
+                    {w.example}
                   </div>
                 </div>
               </div>
@@ -85,15 +106,19 @@ export default function WordsSection({
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {quiz.map((q, qIdx) => {
           const s = states[qIdx];
+          // hint / hint_translation / hint_vi 셋 중 존재하는 것을 순서대로 사용.
+          const hintText = q.hint ?? q.hint_translation ?? q.hint_vi;
           return (
             <div key={qIdx} className={styles.blankItem}>
-              <div className={styles.hintText}>문제 {qIdx + 1}</div>
+              <div className={styles.hintText}>
+                {WORDS_TYPE_LABEL[q.type]}
+              </div>
               <div
                 style={{
                   fontSize: 18,
                   fontWeight: 800,
                   color: "#122c4f",
-                  margin: "4px 0 12px",
+                  margin: "4px 0 8px",
                   textAlign: "center",
                 }}
               >
@@ -114,9 +139,17 @@ export default function WordsSection({
               </div>
               <QuizFooter
                 state={s}
-                onCheck={() => check(qIdx, q.answer)}
-                onRetry={() => retry(qIdx)}
+                onCheck={() => handleCheck(qIdx, q.answer)}
+                onRetry={() => handleRetry(qIdx)}
               />
+              {hintText && showHint[qIdx] && (
+                <div
+                  className={styles.hintText}
+                  style={{ marginTop: 10 }}
+                >
+                  💬 {hintText}
+                </div>
+              )}
             </div>
           );
         })}

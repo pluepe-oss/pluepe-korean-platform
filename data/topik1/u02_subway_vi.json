@@ -1,0 +1,144 @@
+{
+  "unit_id": "topik1_u02",
+  "language": "vi",
+  "exam_type": "TOPIK1",
+  "topic": "지하철 타기",
+  "topic_translation": "Đi tàu điện ngầm",
+  "level": 1,
+  "duration_min": 25,
+  "bunny_library_id": "640837",
+  "bunny_video_ids": {
+    "step1": "0367c47a-07c8-4675-a139-2fdb6987bf0a",
+    "step2": "eb2b0271-620f-4b83-b5fc-187375032def",
+    "step3": "062dc9f9-d582-42a2-b483-5430f2a7996a"
+  },
+  "is_free": false,
+  "key_expressions": [
+    { "ko": "이 지하철 어디 가요?", "translation": "Tàu điện ngầm này đi đâu vậy?" },
+    { "ko": "○○역에서 내리세요.", "translation": "Hãy xuống ở ga ○○." },
+    { "ko": "환승해야 해요.", "translation": "Bạn cần phải chuyển tàu." }
+  ],
+  "session": {
+    "step1": {
+      "bunny_video_id": "0367c47a-07c8-4675-a139-2fdb6987bf0a",
+      "quiz": {
+        "question": "이 사람은 어디에 가고 있나요?",
+        "options": ["지하철역", "편의점", "병원"],
+        "answer": 0
+      }
+    },
+    "step2": {
+      "bunny_video_id": "eb2b0271-620f-4b83-b5fc-187375032def",
+      "blanks": [
+        { "sentence": "이 지하철 어디 ____?", "hint": "đi đâu", "options": ["가요","와요","있어요"], "answer": 0 },
+        { "sentence": "다음 역에서 ____.", "hint": "xuống tàu", "options": ["타세요","내리세요","기다리세요"], "answer": 1 },
+        { "sentence": "여기서 ____해야 해요.", "hint": "chuyển tàu", "options": ["출발","환승","도착"], "answer": 1 }
+      ]
+    },
+    "step3": {
+      "bunny_video_id": "062dc9f9-d582-42a2-b483-5430f2a7996a",
+      "sentences": [
+        { "ko": "이 지하철 어디 가요?", "translation": "Tàu điện ngầm này đi đâu vậy?" },
+        { "ko": "○○역에서 내리세요.", "translation": "Hãy xuống ở ga ○○." },
+        { "ko": "환승해야 해요.", "translation": "Bạn cần phải chuyển tàu." }
+      ]
+    },
+    "step4_words": [
+      { "korean": "지하철", "translation": "tàu điện ngầm", "example": "지하철 타요." },
+      { "korean": "역", "translation": "ga (tàu)", "example": "다음 역에서 내려요." },
+      { "korean": "내리다", "translation": "xuống (tàu)", "example": "여기서 내리세요." },
+      { "korean": "환승", "translation": "chuyển tàu", "example": "환승해야 해요." },
+      { "korean": "출구", "translation": "lối ra", "example": "2번 출구로 나오세요." },
+      { "korean": "교통카드", "translation": "thẻ giao thông", "example": "교통카드 있어요." }
+    ],
+    "step5_review": [
+      { "ko": "이 지하철 어디 가요?", "translation": "Tàu điện ngầm này đi đâu vậy?", "context": "Khi không biết tàu đi đâu" },
+      { "ko": "○○역에서 내리세요.", "translation": "Hãy xuống ở ga ○○.", "context": "Khi chỉ dẫn ai đó xuống ở đâu" },
+      { "ko": "환승해야 해요.", "translation": "Bạn cần phải chuyển tàu.", "context": "Khi cần đổi sang tuyến khác" }
+    ]
+  },
+  "words": [
+    { "korean": "지하철", "translation": "tàu điện ngầm", "example_ko": "지하철 타요.", "example": "Tôi đi tàu điện ngầm." },
+    { "korean": "역", "translation": "ga (tàu)", "example_ko": "다음 역에서 내려요.", "example": "Xuống ở ga tiếp theo." },
+    { "korean": "내리다", "translation": "xuống (tàu/xe)", "example_ko": "여기서 내리세요.", "example": "Hãy xuống ở đây." },
+    { "korean": "타다", "translation": "lên (tàu/xe)", "example_ko": "지하철 타요.", "example": "Tôi lên tàu điện ngầm." },
+    { "korean": "환승", "translation": "chuyển tàu", "example_ko": "환승해야 해요.", "example": "Bạn cần chuyển tàu." },
+    { "korean": "출구", "translation": "lối ra", "example_ko": "2번 출구로 나오세요.", "example": "Đi ra lối ra số 2." },
+    { "korean": "교통카드", "translation": "thẻ giao thông", "example_ko": "교통카드로 타요.", "example": "Tôi dùng thẻ giao thông." },
+    { "korean": "몇 호선", "translation": "tuyến số mấy", "example_ko": "몇 호선이에요?", "example": "Đây là tuyến số mấy?" }
+  ],
+  "words_quiz": [
+    {
+      "type": "situation",
+      "question": "지하철에서 목적지에 도착했을 때 하는 행동은?",
+      "options": ["내리다", "타다", "환승하다", "기다리다"],
+      "answer": 0,
+      "hint": "다음 역에서 ____세요."
+    },
+    {
+      "type": "situation",
+      "question": "다른 노선으로 갈아탈 때 쓰는 말은?",
+      "options": ["환승", "출발", "도착", "대기"],
+      "answer": 0,
+      "hint": "여기서 ____해야 해요."
+    },
+    {
+      "type": "fill",
+      "question": "지하철이 어디 가는지 물어볼 때?",
+      "options": ["이 지하철 어디 가요?", "이 지하철 얼마예요?", "이 지하철 언제 와요?", "이 지하철 몇 호선이에요?"],
+      "answer": 0,
+      "hint": "____. (Tàu này đi đâu vậy?)"
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "이 지하철 [장소] 가요?",
+      "meaning": "Tàu điện ngầm này có đi [địa điểm] không?",
+      "examples": ["이 지하철 어디 가요?", "이 지하철 강남 가요?", "이 지하철 시청 가요?"],
+      "blank_quiz": { "sentence": "이 지하철 강남 ____?", "answer": "가요", "options": ["가요","와요","있어요","없어요"] }
+    },
+    {
+      "pattern": "[장소]에서 내리세요",
+      "meaning": "Hãy xuống ở [địa điểm]",
+      "examples": ["다음 역에서 내리세요.", "강남역에서 내리세요.", "여기서 내리세요."],
+      "blank_quiz": { "sentence": "강남____에서 내리세요.", "answer": "역", "options": ["역","길","집","곳"] }
+    },
+    {
+      "pattern": "[장소]에서 환승하세요",
+      "meaning": "Hãy chuyển tàu ở [địa điểm]",
+      "examples": ["시청역에서 환승하세요.", "강남역에서 환승하세요.", "홍대역에서 환승하세요."],
+      "blank_quiz": { "sentence": "시청역에서 ____하세요.", "answer": "환승", "options": ["환승","출발","도착","대기"] }
+    }
+  ],
+  "mini_test": [
+    {
+      "type": "listening",
+      "script": "A: 이 지하철 강남 가요? B: 네, 강남역에서 내리세요.",
+      "question": "이 사람은 어디에서 내려야 합니까?",
+      "options": ["시청역", "강남역", "홍대역", "종로역"],
+      "answer": 1,
+      "explanation": "'강남역에서 내리세요'는 강남역에서 내려야 한다는 뜻이에요. '내리세요' = hãy xuống."
+    },
+    {
+      "type": "reading",
+      "text": "2호선 → 강남역 환승",
+      "question": "이 사람은 어디에서 환승합니까?",
+      "options": ["1호선", "강남역", "2호선", "시청역"],
+      "answer": 1,
+      "explanation": "'환승'은 다른 노선으로 갈아타는 것이에요. = chuyển tàu."
+    },
+    {
+      "type": "situation",
+      "sentence": "교통카드로 지하철을 탔어요.",
+      "question": "이 사람은 무엇으로 지하철을 탔습니까?",
+      "options": ["현금", "신용카드", "교통카드", "표"],
+      "answer": 2,
+      "explanation": "'교통카드'는 버스, 지하철을 탈 때 쓰는 카드예요. = thẻ giao thông."
+    }
+  ],
+  "ai_extension": [
+    "\"강남역에서 내리세요\"를 더 자연스럽게 말하는 방법 알려줘",
+    "지하철에서 자주 쓰는 표현 3개 더 알려줘",
+    "환승할 때 역무원에게 물어보는 표현 알려줘"
+  ]
+}

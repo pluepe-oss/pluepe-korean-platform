@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./unit.module.css";
 import {
   SECTION_LABEL,
@@ -25,14 +25,6 @@ import AISection from "./components/AISection";
 const DEV_MODE = false;
 
 type CompletedMap = Record<SectionKey, boolean>;
-
-const INITIAL_COMPLETED: CompletedMap = {
-  session: false,
-  words: false,
-  patterns: false,
-  test: false,
-  ai: false,
-};
 
 /** 사이드 레일 각 메뉴의 서브 텍스트 */
 const SECTION_SUB: Record<SectionKey, string> = {
@@ -72,31 +64,67 @@ async function postProgress(
   }
 }
 
-export default function UnitClient({ unit }: { unit: UnitData }) {
+// URL ?section=... 값이 유효한 SectionKey 인지 확인하는 타입 가드
+function isSectionKey(v: string | null): v is SectionKey {
+  return !!v && (SECTION_ORDER as string[]).includes(v);
+}
+
+export default function UnitClient({
+  unit,
+  initialCompleted = {},
+}: {
+  unit: UnitData;
+  /** 서버에서 user_progress 로 조회한 섹션별 완료 상태 */
+  initialCompleted?: Record<string, boolean>;
+}) {
   const router = useRouter();
-  const [current, setCurrent] = useState<SectionKey>(
-    DEV_MODE ? "ai" : "session",
+  const searchParams = useSearchParams();
+
+  // 서버에서 온 initialCompleted 를 SectionKey 별 boolean 맵으로 정규화
+  const restoredCompleted = useMemo<CompletedMap>(() => {
+    if (DEV_MODE) {
+      return { session: true, words: true, patterns: true, test: true, ai: true };
+    }
+    return {
+      session: Boolean(initialCompleted.session),
+      words: Boolean(initialCompleted.words),
+      patterns: Boolean(initialCompleted.patterns),
+      test: Boolean(initialCompleted.test),
+      ai: Boolean(initialCompleted.ai),
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 초기 탭 결정: DEV_MODE > URL ?section=... (잠금 해제된 경우만) > session
+  const initialSection = useMemo<SectionKey>(() => {
+    if (DEV_MODE) return "ai";
+    const requested = searchParams.get("section");
+    if (!isSectionKey(requested)) return "session";
+    const idx = SECTION_ORDER.indexOf(requested);
+    if (idx === 0) return requested;
+    // 이전 섹션이 복원된 완료 상태여야 잠금 해제
+    const prev = SECTION_ORDER[idx - 1];
+    if (restoredCompleted[prev]) return requested;
+    return "session";
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [current, setCurrent] = useState<SectionKey>(initialSection);
+  const [completed, setCompleted] = useState<CompletedMap>(restoredCompleted);
+  const [allDone, setAllDone] = useState(() =>
+    SECTION_ORDER.every((k) => restoredCompleted[k]),
   );
-  const [completed, setCompleted] = useState<CompletedMap>(
-    DEV_MODE
-      ? { session: true, words: true, patterns: true, test: true, ai: true }
-      : INITIAL_COMPLETED,
-  );
-  const [allDone, setAllDone] = useState(DEV_MODE);
 
   // session 섹션 내부 STEP 상태 (UnitClient로 lift — 하단 [다음] 버튼이 STEP 이동도 담당)
   const [sessionStep, setSessionStep] = useState<StepKey>(1);
-  // STEP 완료 조건 정책: STEP 1~3 은 영상 AND 퀴즈 둘 다, STEP 4~5 는 퀴즈만
-  const [videoWatched, setVideoWatched] = useState<SessionStepsDone>(
-    DEV_MODE
-      ? { 1: true, 2: true, 3: true, 4: true, 5: true }
-      : INITIAL_STEPS_DONE,
-  );
-  const [quizDone, setQuizDone] = useState<SessionStepsDone>(
-    DEV_MODE
-      ? { 1: true, 2: true, 3: true, 4: true, 5: true }
-      : INITIAL_STEPS_DONE,
-  );
+  // STEP 완료 조건 정책: STEP 1~3 은 영상 AND 퀴즈 둘 다, STEP 4~5 는 퀴즈만.
+  // session 섹션이 이미 완료 상태로 복원됐으면 STEP 1~5 모두 true 로 시작.
+  const initialStepsDone: SessionStepsDone = restoredCompleted.session
+    ? { 1: true, 2: true, 3: true, 4: true, 5: true }
+    : INITIAL_STEPS_DONE;
+  const [videoWatched, setVideoWatched] =
+    useState<SessionStepsDone>(initialStepsDone);
+  const [quizDone, setQuizDone] = useState<SessionStepsDone>(initialStepsDone);
   const sessionStepsDone = useMemo<SessionStepsDone>(
     () => ({
       1: videoWatched[1] && quizDone[1],
@@ -374,7 +402,7 @@ export default function UnitClient({ unit }: { unit: UnitData }) {
                 </span>
               </div>
             </div>
-            <div className={styles.subtitle}>{unit.topic_vi}</div>
+            <div className={styles.subtitle}>{unit.topic_translation}</div>
 
             <div className={styles.progressRow}>
               <div className={styles.progressText}>

@@ -1,5 +1,49 @@
 # pluepe 한국어 학습 플랫폼 — 개발 진행 현황
 
+## 2026.04.23 완료 (후속)
+- [x] `TestSection.tsx` — 듣기 문항 스크립트 노출 정책 개선
+      - 문제 풀이 중(`s.status === "idle"`)에는 스크립트 숨김 (🔊 듣기 버튼만 노출)
+      - 정답 확인 후(`s.status !== "idle" && q.script`)에만 "스크립트" 박스로 원문 공개
+      - 실제 TOPIK1 듣기 시험과 동일한 체감 + 오답 복습용 정보 확보 양립
+- [x] `data/topik1/u01_convenience_vi.json` — 금액 보기 한국어 표기 통일
+      - `listening` 3문항 options 아라비아 → 한국어 (예: "1,500원" → "천오백 원")
+      - `reading` 1문항 options, `mini_test` 2문항 options 동일 변환
+      - 간판/영수증 텍스트(`reading_sign`/`reading_notice`/`reading_dialogue.text`)는 시각적 리얼리티 유지 위해 아라비아 숫자 보존
+      - listening script 내부 금액 발화도 한국어로 바꿔 TTS 안정성 확보
+- [x] `npm run build` 통과 (33 routes, TypeScript 검사 정상)
+
+## 2026.04.23 완료
+- [x] `app/learn/[courseId]/video-player.tsx` 진도 버그 수정
+      - Player.js SDK 로드 + ready/timeupdate/ended 이벤트 구독
+      - Bunny iframe 실제 재생 위치 기준 percent 계산
+      - 5초 throttle + 중복 저장 방지 (`lastSavedAtRef`, `lastSavedSecondsRef`)
+      - ended 시 최신 duration 으로 100% 저장
+- [x] `supabase/migrations/003_learning_streak.sql` 작성
+      - `users.learning_start_date timestamptz` + `users.streak int default 0` 추가
+      - `user_progress.activity_date date` 추가
+      - `(user_id, activity_date)` 복합 인덱스
+- [x] `/my` 마이페이지 신규 개발 (서버 컴포넌트, `app/my/page.tsx`)
+      - 6섹션: 헤더(Phase/Day/진도바) · Today(Phase별 CTA) · Progress(유닛 카드 12개) · Weakness(베타: 텍스트) · Exam(잠금/오픈) · Account(B2B/trialing/B2C/none 4분기)
+      - 데이터: users(name·언어·academy_id·learning_start_date·streak) + user_progress(unit_id×section 집계) + subscriptions(self∪academy)
+      - UNIT_CATALOG 매핑: `topik1_u01`→/unit/1(편의점), `topik1_u02`→/unit/2(지하철), 3~12 잠금
+      - Phase 계산: learning_start_date 기준 Day 1~12 / 13~20 / 21~28
+      - `/learn/me/signout-button` · `/learn/me/portal-button` 재사용 (파일 미수정)
+- [x] 유닛 다국어(VI/EN/ZH/ID) 확장 1단계
+      - `data/topik1/u01_convenience.json` → `u01_convenience_vi.json` 리네이밍 + 공통 필드명 구조 전환
+      - `data/topik1/u01_convenience_en.json` 신규 추가 (영상은 PLACEHOLDER_EN)
+      - `types.ts` — `translation` / `meaning` / `hint` / `example` / `options_ko` 공통 구조로 리팩터
+      - `page.tsx` — Supabase `users.preferred_language` 기반 언어별 JSON 동적 로드 + `unitFileMap` 도입, placeholder 유닛은 Bunny 라이브러리 주입 건너뛰기
+      - Session / Words / Patterns 컴포넌트 필드 참조 및 퀴즈 구조 업데이트
+      - STEP 5 복습: 퀴즈형 → 카드 열람형으로 전환
+      - SessionPlayer: PLACEHOLDER 영상일 때 "영상 준비 중입니다 / Video coming soon" 플레이스홀더 표시 + 해당 STEP 영상 시청 자동 충족
+      - `/api/ai` — `language` 파라미터 분기 (vi/en/zh/id 별 시스템 프롬프트)
+      - `AISection` — Claude 호출 시 `unit.language` 전달
+- [x] 유닛 2 (지하철 타기) VI 콘텐츠 추가
+      - `data/topik1/u02_subway_vi.json` 신규 (nested `session.step1/2/3` + 최상위 `bunny_video_ids` 포맷)
+      - `page.tsx` unitFileMap 에 `"2": u02_subway` 추가 + `normalizeUnitShape()` 로 u02 nested 세션 → 공통 포맷 변환
+      - `types.ts` — `bunny_video_ids?` 옵셔널 필드 추가
+      - `SessionPlayer` 영상 해석: `bunny_video_ids.step{n}` → `step_videos[n]` → `bunny_video_id` 순으로 확장 (u01 기존 동작 유지)
+
 ## 2026.04.22 완료
 - [x] PRD v7.0 확정
 - [x] 마이페이지 PRD 확정
@@ -15,7 +59,7 @@
 - [x] DEV_MODE = false 복구
 
 ## 다음 작업 예정
-- [ ] Supabase DB 마이그레이션
+- [ ] Supabase DB 마이그레이션 (learning_start_date / streak)
 - [ ] /my 마이페이지 개발
 - [ ] /courses 유닛 목록 페이지
 - [ ] / 랜딩 페이지
@@ -335,6 +379,8 @@
 - [ ] Supabase SQL Editor에 `supabase/migrations/009_seed_admin_academy.sql` 실행
 - [ ] Supabase SQL Editor에 `supabase/migrations/010_invitations.sql` 실행
 - [ ] Supabase SQL Editor에 `supabase/migrations/002_user_progress.sql` 실행 (유닛 훈련 진도 저장용)
+- [ ] Supabase SQL Editor에 `supabase/migrations/003_learning_streak.sql` 실행 (learning_start_date / streak / activity_date 컬럼 추가)
+- [ ] Supabase SQL Editor에서 `supabase/migrations/004_users_streak_rls.sql` 실행 (users_update_own 정책 — streak 업데이트용)
 - [ ] Supabase Dashboard → Authentication → Users → Add user (`student1@test.com`)
 - [ ] Supabase SQL Editor에 `supabase/migrations/011_seed_test_student.sql` 실행 (위 가입 후)
 - [x] Supabase SQL Editor에 `supabase/migrations/007_questions_table.sql` 실행

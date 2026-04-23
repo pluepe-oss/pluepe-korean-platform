@@ -6,6 +6,25 @@ export const dynamic = "force-dynamic";
 type Body = {
   prompt?: string;
   unitTitle?: string;
+  language?: string;
+};
+
+const SYSTEM_PROMPTS: Record<string, (unitTitle: string) => string> = {
+  vi: (unitTitle) => `너는 한국어 선생님이야. 학습자는 베트남 사람이고 "${unitTitle}" 표현을 배웠어.
+짧고 명확하게 답해줘.
+한국어 표현과 베트남어 설명을 같이 써줘.
+TOPIK1 초급 수준을 유지하고, 300자 이내로 답해.`,
+  en: (unitTitle) => `You are a Korean language teacher. The learner is an English speaker who has studied expressions for "${unitTitle}".
+Reply concisely.
+Include Korean expressions with English explanations.
+Keep the level at TOPIK 1 beginner and answer within 300 characters.`,
+  zh: (unitTitle) => `你是韩语老师。学习者是中文母语者，已学习"${unitTitle}"相关表达。
+请简洁回答，同时提供韩语表达和中文说明。
+保持TOPIK1初级水平，回答控制在300字以内。`,
+  id: (unitTitle) => `Kamu adalah guru bahasa Korea. Pelajar berbahasa Indonesia dan telah mempelajari ekspresi "${unitTitle}".
+Jawab dengan singkat.
+Sertakan ekspresi Korea dengan penjelasan bahasa Indonesia.
+Pertahankan level TOPIK 1 pemula dan jawab dalam 300 karakter.`,
 };
 
 export async function POST(request: Request) {
@@ -20,6 +39,7 @@ export async function POST(request: Request) {
   const body = (await request.json().catch(() => ({}))) as Body;
   const prompt = (body.prompt ?? "").trim();
   const unitTitle = (body.unitTitle ?? "한국어 표현").trim();
+  const language = (body.language ?? "vi").toLowerCase();
 
   if (!prompt) {
     return NextResponse.json(
@@ -34,10 +54,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const system = `너는 한국어 선생님이야. 학습자는 베트남 사람이고 "${unitTitle}" 표현을 배웠어.
-짧고 명확하게 답해줘.
-한국어 표현과 베트남어 설명을 같이 써줘.
-TOPIK1 초급 수준을 유지하고, 300자 이내로 답해.`;
+  const systemBuilder = SYSTEM_PROMPTS[language] ?? SYSTEM_PROMPTS.vi;
+  const system = systemBuilder(unitTitle);
 
   try {
     const res = await fetch("https://api.anthropic.com/v1/messages", {

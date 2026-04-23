@@ -1,0 +1,131 @@
+{
+  "unit_id": "topik1_u01",
+  "language": "en",
+  "exam_type": "TOPIK1",
+  "topic": "편의점에서 물건 사기",
+  "topic_translation": "Buying things at a convenience store",
+  "level": 1,
+  "duration_min": 25,
+  "bunny_library_id": "PLACEHOLDER_EN",
+  "bunny_video_id": "PLACEHOLDER_EN",
+  "is_free": true,
+  "key_expressions": [
+    { "ko": "물 하나 주세요.", "translation": "Please give me one bottle of water." },
+    { "ko": "이거 얼마예요?", "translation": "How much is this?" },
+    { "ko": "카드로 계산할게요.", "translation": "I'll pay by card." }
+  ],
+  "session": {
+    "step1_quiz": {
+      "question": "Where does this situation take place?",
+      "options": ["Convenience store", "Hospital", "Bank"],
+      "answer": 0
+    },
+    "step2_blanks": [
+      { "sentence": "물 ____ 주세요.", "hint": "one (quantity)", "options": ["하나","둘","많이"], "answer": 0 },
+      { "sentence": "이거 ____예요?", "hint": "how much", "options": ["어디","얼마","언제"], "answer": 1 },
+      { "sentence": "____로 계산할게요.", "hint": "by card", "options": ["현금","포인트","카드"], "answer": 2 }
+    ],
+    "step3_sentences": [
+      { "ko": "물 하나 주세요.", "translation": "Please give me one bottle of water." },
+      { "ko": "이거 얼마예요?", "translation": "How much is this?" },
+      { "ko": "카드로 계산할게요.", "translation": "I'll pay by card." }
+    ],
+    "step4_words": [
+      { "korean": "물", "translation": "water", "example": "물 하나 주세요." },
+      { "korean": "하나", "translation": "one (item)", "example": "하나 주세요." },
+      { "korean": "얼마", "translation": "how much", "example": "이거 얼마예요?" },
+      { "korean": "계산", "translation": "payment / checkout", "example": "카드로 계산할게요." },
+      { "korean": "카드", "translation": "card", "example": "카드로 할게요." },
+      { "korean": "주세요", "translation": "please give me", "example": "물 주세요." }
+    ],
+    "step5_review": [
+      { "ko": "물 하나 주세요.", "translation": "Please give me one bottle of water.", "context": "When buying a drink at a convenience store" },
+      { "ko": "이거 얼마예요?", "translation": "How much is this?", "context": "When asking the price of an item" },
+      { "ko": "카드로 계산할게요.", "translation": "I'll pay by card.", "context": "When paying at the counter" }
+    ]
+  },
+  "words": [
+    { "korean": "물", "translation": "water", "example_ko": "물 하나 주세요.", "example": "Please give me one bottle of water." },
+    { "korean": "김밥", "translation": "gimbap (Korean rice roll)", "example_ko": "김밥 하나 주세요.", "example": "Please give me one gimbap." },
+    { "korean": "과자", "translation": "snack / chips", "example_ko": "과자 주세요.", "example": "Please give me some snacks." },
+    { "korean": "얼마", "translation": "how much", "example_ko": "이거 얼마예요?", "example": "How much is this?" },
+    { "korean": "카드", "translation": "card", "example_ko": "카드로 계산할게요.", "example": "I'll pay by card." },
+    { "korean": "현금", "translation": "cash", "example_ko": "현금 있어요.", "example": "I have cash." },
+    { "korean": "계산", "translation": "payment / checkout", "example_ko": "계산할게요.", "example": "I'll pay now." },
+    { "korean": "봉투", "translation": "bag", "example_ko": "봉투 주세요.", "example": "Please give me a bag." }
+  ],
+  "words_quiz": [
+    {
+      "type": "situation",
+      "question": "편의점에서 물건 값을 물어볼 때 쓰는 말은?",
+      "options": ["얼마", "어디", "언제", "누구"],
+      "answer": 0,
+      "hint": "이거 ____예요?"
+    },
+    {
+      "type": "situation",
+      "question": "돈을 내는 것을 뭐라고 해요?",
+      "options": ["계산", "주문", "예약", "취소"],
+      "answer": 0,
+      "hint": "카드로 ____할게요."
+    },
+    {
+      "type": "fill",
+      "question": "편의점에서 물 한 개를 달라고 할 때?",
+      "options": ["물 하나 주세요", "물 어디 있어요", "물 얼마예요", "물 없어요"],
+      "answer": 0,
+      "hint": "____."
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "[명사] 하나 주세요",
+      "meaning": "Please give me one [noun]",
+      "examples": ["물 하나 주세요.", "커피 하나 주세요.", "김밥 하나 주세요."],
+      "blank_quiz": { "sentence": "____ 하나 주세요. (영수증)", "answer": "영수증", "options": ["영수증","포인트","비밀번호","할인"] }
+    },
+    {
+      "pattern": "이거 얼마예요?",
+      "meaning": "How much is this?",
+      "examples": ["이거 얼마예요?", "김밥 얼마예요?", "커피 얼마예요?"],
+      "blank_quiz": { "sentence": "커피 ____예요?", "answer": "얼마", "options": ["얼마","어디","언제","누구"] }
+    },
+    {
+      "pattern": "[수단]로 계산할게요",
+      "meaning": "I'll pay by [method]",
+      "examples": ["카드로 계산할게요.", "현금으로 계산할게요.", "포인트로 계산할게요."],
+      "blank_quiz": { "sentence": "현금____로 계산할게요.", "answer": "으", "options": ["으","이","가","을"] }
+    }
+  ],
+  "mini_test": [
+    {
+      "type": "listening",
+      "script": "A: 물 하나 주세요. B: 네, 여기 있습니다.",
+      "question": "What did the person order?",
+      "options": ["Water", "Bread", "Milk", "Snack"],
+      "answer": 0,
+      "explanation": "'물 하나 주세요' means 'please give me one bottle of water.' '물' = water, '하나' = one."
+    },
+    {
+      "type": "reading",
+      "text": "물 1,000원",
+      "question": "How much does the water cost?",
+      "options": ["500 won", "1,000 won", "2,000 won", "3,000 won"],
+      "answer": 1,
+      "explanation": "'1,000원' is read as '천 원' (cheon won), which means 1,000 Korean won."
+    },
+    {
+      "type": "situation",
+      "sentence": "카드로 계산할게요.",
+      "question": "What is this person doing?",
+      "options": ["Ordering food", "Paying", "Moving", "Making a reservation"],
+      "answer": 1,
+      "explanation": "'계산' means payment or checkout. '카드로 계산할게요' = 'I will pay by card.'"
+    }
+  ],
+  "ai_extension": [
+    "Change '물 하나 주세요' to a café situation and show me a natural phrase.",
+    "How do I say '이거 얼마예요?' more politely in Korean?",
+    "Give me 3 more expressions I can use at a convenience store in Korean."
+  ]
+}

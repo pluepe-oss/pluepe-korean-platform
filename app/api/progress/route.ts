@@ -46,6 +46,35 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, skipped: "unauthenticated" });
     }
 
+    // KST(UTC+9) 기준 오늘/어제 날짜 — user_progress.activity_date(date) 와 매칭.
+    // UTC 환경에서도 "ko-KR 하루"의 경계를 정확히 맞추기 위해 +9h 오프셋을 건 뒤 ISO date 부분만 자른다.
+    const now = new Date();
+    const kst = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+    const today = kst.toISOString().slice(0, 10);
+    const yesterday = new Date(kst.getTime() - 24 * 60 * 60 * 1000)
+      .toISOString()
+      .slice(0, 10);
+
+    // 1) 오늘 / 어제 activity_date 존재 여부 — upsert 이전에 조회해야
+    //    "이번 섹션 완료가 오늘 첫 activity 인지"를 판정할 수 있다.
+    const [todayRes, yesterdayRes] = await Promise.all([
+      supabase
+        .from("user_progress")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("activity_date", today)
+        .limit(1),
+      supabase
+        .from("user_progress")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("activity_date", yesterday)
+        .limit(1),
+    ]);
+    const alreadyActiveToday = (todayRes.data?.length ?? 0) > 0;
+    const hadYesterday = (yesterdayRes.data?.length ?? 0) > 0;
+
+    // 2) user_progress upsert — activity_date 도 함께 기록
     const { error } = await supabase.from("user_progress").upsert(
       {
         user_id: user.id,
@@ -55,6 +84,7 @@ export async function POST(request: Request) {
         score,
         total,
         completed_at: new Date().toISOString(),
+        activity_date: today,
       },
       { onConflict: "user_id,unit_id,section" },
     );
@@ -73,6 +103,32 @@ export async function POST(request: Request) {
         { success: false, error: "진도 저장 실패", detail: error.message },
         { status: 500 },
       );
+    }
+
+    // 3) streak 계산 — 오늘 첫 activity 일 때만 users.streak 업데이트
+    //    · 어제 기록 있음 → 기존 streak + 1
+    //    · 어제 기록 없음 → streak = 1 (연속 끊김 리셋)
+    //    · 오늘 이미 기록 있음(중복 완료) → 건드리지 않음
+    if (!alreadyActiveToday) {
+      const { data: userRow } = await supabase
+        .from("users")
+        .select("streak")
+        .eq("id", user.id)
+        .maybeSingle();
+      const currentStreak = userRow?.streak ?? 0;
+      const newStreak = hadYesterday ? currentStreak + 1 : 1;
+      const { error: streakErr } = await supabase
+        .from("users")
+        .update({ streak: newStreak })
+        .eq("id", user.id);
+      if (streakErr) {
+        // streak 반영 실패해도 섹션 저장 자체는 성공이므로 응답은 그대로 유지하고 로그만 남긴다.
+        console.error("[progress] streak update failed", {
+          user_id: user.id,
+          code: streakErr.code,
+          message: streakErr.message,
+        });
+      }
     }
 
     return NextResponse.json({ success: true });

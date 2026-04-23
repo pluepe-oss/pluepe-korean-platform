@@ -272,3 +272,25 @@ npm run lint     # ESLint
 - `app/api/progress/route.ts`
 - `data/topik1/u01_convenience.json`
 - `supabase/migrations/002_user_progress.sql`
+
+## 콘텐츠 라이브러리 참조
+
+유닛 플레이어 개발 시 반드시 아래 문서 참조.
+
+- `docs/PRD_content_library_topik1_final.md`
+  → 문항 유형 구조 + JSON 필드명 기준
+
+- `docs/content_library_u01_convenience.md`
+  → 실제 문항 예시 + 섹션별 구조
+
+### 새로 추가되는 섹션
+
+- `listening` — 듣기 문항
+- `reading` — 읽기 문항
+- `patterns_quiz` — 패턴 퀴즈
+- `review` — 복습 문항
+- `sentence_bank` — 문장 뱅크
+
+### 문항 출제 방식
+
+랜덤 출제 (저장된 전체 문항에서 매번 10개 랜덤 선택).
