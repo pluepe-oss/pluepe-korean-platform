@@ -407,6 +407,38 @@ SESSION_LOG.md 읽고 이어서 작업해줘
 
 ---
 
+## Session 6 — 2026.04.25 · 온보딩 언어 선택 + /my 재설계 마무리
+
+### 완료
+- `/onboarding/language` 언어 선택 페이지 생성 (`app/onboarding/language/page.tsx`)
+  - plan 쿼리 기반 언어 분기 (topik1/topik2 → vi/en/zh, eps-topik → vi/en/id)
+  - 선택 후 변경 불가 알럿 모달
+  - Supabase `users.preferred_language` 업데이트
+  - D형 디자인 (max-width 480px, 중앙 집중)
+- `preferred_language` 기본값 `'ko'` → `null` 변경
+  - `supabase/migrations/005_preferred_language_null.sql` 추가
+  - 기준 확정: null=미설정, vi/en/zh/id=선택완료
+- `/my` 마이페이지 전면 재설계 확정 (커밋 `c3cae3f`)
+- streak 시스템 구현 완료 (커밋 `c3cae3f`)
+- `user_progress` 복구 로직 추가 (커밋 `c3cae3f`)
+
+### 다음 작업
+- `/my` 학습 목록 탭 구조 변경 (TOPIK1/2/EPS 탭 분리)
+- `/pricing` 상품 페이지
+- 무료/유료 접근 제한
+
+### 미결
+- `/onboarding/checkout` 페이지 미구현
+- `learning_start_date` 자동 기록 미완
+- 모바일 반응형 확인 필요
+
+### 다음 명령어
+```
+SESSION_LOG.md 읽고 이어서 작업해줘
+```
+
+---
+
 ## Session 5 — 2026.04.21 (late) · Netlify 배포 + Bunny 보안
 
 > 📝 유닛 1 MVP 완성 후 그날 저녁에 이어서 진행한 배포 마무리 세션.

@@ -1,5 +1,26 @@
 # pluepe 한국어 학습 플랫폼 — 개발 진행 현황
 
+## 2026.04.25 완료
+- [x] `/onboarding/language` 언어 선택 페이지 신규 생성 (`app/onboarding/language/page.tsx`)
+      - plan 쿼리 기반 언어 분기: topik1/topik2 → vi/en/zh, eps-topik → vi/en/id
+      - 선택 후 변경 불가 알럿 모달
+      - Supabase `users.preferred_language` 업데이트
+      - D형 디자인 (max-width 480px, 중앙 집중 레이아웃)
+- [x] `preferred_language` 기본값 `'ko'` → `null` 변경
+      - `supabase/migrations/005_preferred_language_null.sql` 추가
+      - 기준 확정: null=미설정, vi/en/zh/id=선택완료
+- [x] `/my` 마이페이지 전면 재설계 확정 (커밋 `c3cae3f`)
+- [x] streak 시스템 구현 완료 (커밋 `c3cae3f`)
+- [x] `user_progress` 복구 로직 추가 (커밋 `c3cae3f`)
+
+## 다음 작업 예정 (2026.04.26~)
+- [ ] `/my` 학습 목록 탭 구조 변경 (TOPIK1 / TOPIK2 / EPS 탭 분리)
+- [ ] `/pricing` 상품 페이지
+- [ ] 무료/유료 접근 제한 로직
+- [ ] `/onboarding/checkout` 페이지 (미구현)
+- [ ] `learning_start_date` 자동 기록 (미완)
+- [ ] 모바일 반응형 확인
+
 ## 2026.04.23 완료 (후속)
 - [x] `TestSection.tsx` — 듣기 문항 스크립트 노출 정책 개선
       - 문제 풀이 중(`s.status === "idle"`)에는 스크립트 숨김 (🔊 듣기 버튼만 노출)
