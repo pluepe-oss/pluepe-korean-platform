@@ -1,5 +1,51 @@
 # pluepe 한국어 학습 플랫폼 — 개발 진행 현황
 
+## 2026.04.25 확정 정책 (오늘)
+
+- EPS-TOPIK 지원언어: VN / EN / ID → **VN / TH / ID** (영어 → 태국어로 변경)
+- "세션" → **"오늘의 학습"** 용어 변경 예정 (전체 일괄 적용 예정)
+- `/pricing` 전면 재기획 예정 (현재 구현본 폐기)
+- UI 텍스트 한국어 원칙 확정 (CLAUDE.md §UI 텍스트 언어 규칙 참조)
+
+### /pricing 재기획 확정 사항
+
+- `users.intended_plan` 컬럼 추가 예정 (회원가입 후 선택한 미결제 플랜 저장용)
+- 미결제 재로그인 시 "이전 선택 있어요" 화면 노출
+  → 저장된 `intended_plan` 을 읽어 사용자에게 복귀 지점 제시
+- 버튼 2개 구성:
+  1. [이어서 구독하기] — 저장된 플랜으로 Stripe Checkout 재진입
+  2. [처음부터 다시 선택] — `intended_plan` clear 후 STEP 1 부터 재시작
+
+### 접근 제어 로직 확정 (accountKind × preferred_language 분기)
+
+| 상황 | 조건 | 라우팅 |
+|---|---|---|
+| 회원가입 후 결제 전 | subscription 없음 | `/pricing` 리다이렉트 |
+| 언어 미설정 | `users.preferred_language === null` | `/onboarding/language` |
+| 구독 없음 | `accountKind === 'none'` | `/pricing` |
+| 체험 중 | `accountKind === 'trialing'` | `/my` (각 상품 `unit/1` 만 접근 가능) |
+| 체험 만료 | `accountKind === 'expired'` | `/my` (전체 잠금) |
+| 유료 구독자 | `accountKind === 'b2c_active'` | `plan_type` 기준 해당 상품 탭 오픈 |
+
+### TOPIK 2 / EPS 유닛 경로 예약 (향후 구현)
+
+- `/unit/topik2/[unitId]` — TOPIK 2 유닛 플레이어 (예약)
+- `/unit/eps/[unitId]` — EPS-TOPIK 유닛 플레이어 (예약)
+- 현재 `/unit/[unitId]` 는 TOPIK 1 전용으로 사용 중
+- 향후 상품별 유닛 경로 분리 후 라우팅 변경 예정
+
+## 2026.04.25 완료 (오늘 추가분)
+
+- [x] `/courses/topik1` 강좌소개 페이지 완성
+  - Hero 섹션 (가·나·다 카드 스택)
+  - 학습 방식 5단계 (설명 문장 + 줄바꿈)
+  - 학습 목록 (4개 Phase 아코디언 — 다중 열기 가능, 최소 1개 유지)
+  - Basic vs Premium 플랜 섹션
+  - 하단 navy CTA 배너
+  - 영어 레이블 전체 삭제
+  - 섹션 간격 조정
+  - Phase 4 카드 스타일 통일
+
 ## 2026.04.26 완료
 - [x] /courses/topik1 강의 소개 페이지 생성 (15개 유닛 / 4 Phase)
 - [x] /courses/topik2 강의 소개 페이지 생성 (20개 유닛 / 4 Phase)
@@ -67,17 +113,17 @@
 | Price ID | 상품 | 등급 | 주기 | 가격 | 월 환산 |
 |---|---|---|---|---|---|
 | price_T1_B_monthly | TOPIK 1 | Basic | 월간 | $12.90 | - |
-| price_T1_B_yearly | TOPIK 1 | Basic | 연간 | $92.90 | $7.74 |
+| price_T1_B_yearly | TOPIK 1 | Basic | 연간 | $92.90 | $7.70 |
 | price_T1_P_monthly | TOPIK 1 | Premium | 월간 | $19.90 | - |
 | price_T1_P_yearly | TOPIK 1 | Premium | 연간 | $142.90 | $11.90 |
 | price_T2_B_monthly | TOPIK 2 | Basic | 월간 | $16.90 | - |
-| price_T2_B_yearly | TOPIK 2 | Basic | 연간 | $121.90 | $10.15 |
+| price_T2_B_yearly | TOPIK 2 | Basic | 연간 | $121.90 | $10.20 |
 | price_T2_P_monthly | TOPIK 2 | Premium | 월간 | $24.90 | - |
-| price_T2_P_yearly | TOPIK 2 | Premium | 연간 | $179.90 | $14.99 |
+| price_T2_P_yearly | TOPIK 2 | Premium | 연간 | $179.90 | $15.00 |
 | price_EPS_B_monthly | EPS-TOPIK | Basic | 월간 | $14.90 | - |
 | price_EPS_B_yearly | EPS-TOPIK | Basic | 연간 | $106.90 | $8.90 |
 | price_EPS_P_monthly | EPS-TOPIK | Premium | 월간 | $22.90 | - |
-| price_EPS_P_yearly | EPS-TOPIK | Premium | 연간 | $164.90 | $13.74 |
+| price_EPS_P_yearly | EPS-TOPIK | Premium | 연간 | $164.90 | $13.70 |
 
 #### 향후 확장 예정
 | Price ID | 내용 | 금액 |

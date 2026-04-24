@@ -20,6 +20,44 @@ export const STRIPE_PRICE_IDS = {
 
 export type PlanType = keyof typeof STRIPE_PRICE_IDS;
 
+// 2026.04.26 확정 상품 체계: (topik1 | topik2 | eps) × (basic | premium) × (monthly | yearly)
+export type Product = "topik1" | "topik2" | "eps";
+export type Tier = "basic" | "premium";
+export type Interval = "monthly" | "yearly";
+
+export const PRICE_ID_MAP: Record<Product, Record<Tier, Record<Interval, string>>> = {
+  topik1: {
+    basic: {
+      monthly: process.env.STRIPE_PRICE_T1_B_MONTHLY ?? "",
+      yearly: process.env.STRIPE_PRICE_T1_B_YEARLY ?? "",
+    },
+    premium: {
+      monthly: process.env.STRIPE_PRICE_T1_P_MONTHLY ?? "",
+      yearly: process.env.STRIPE_PRICE_T1_P_YEARLY ?? "",
+    },
+  },
+  topik2: {
+    basic: {
+      monthly: process.env.STRIPE_PRICE_T2_B_MONTHLY ?? "",
+      yearly: process.env.STRIPE_PRICE_T2_B_YEARLY ?? "",
+    },
+    premium: {
+      monthly: process.env.STRIPE_PRICE_T2_P_MONTHLY ?? "",
+      yearly: process.env.STRIPE_PRICE_T2_P_YEARLY ?? "",
+    },
+  },
+  eps: {
+    basic: {
+      monthly: process.env.STRIPE_PRICE_EPS_B_MONTHLY ?? "",
+      yearly: process.env.STRIPE_PRICE_EPS_B_YEARLY ?? "",
+    },
+    premium: {
+      monthly: process.env.STRIPE_PRICE_EPS_P_MONTHLY ?? "",
+      yearly: process.env.STRIPE_PRICE_EPS_P_YEARLY ?? "",
+    },
+  },
+};
+
 export function getAppUrl(): string {
   return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 }

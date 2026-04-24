@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TOPIK1 15 Units</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Pretendard,Arial,sans-serif;background:#f6f8fb;color:#172033;line-height:1.55}
+    .page{max-width:1120px;margin:0 auto;padding:42px 20px 70px}
+
+    .hero{background:linear-gradient(135deg,#102743 0%,#123b5f 58%,#19c7b6 100%);border-radius:30px;padding:32px 36px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden}
+    .hero:after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.14)}
+    .badge{display:inline-flex;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.16);font-size:14px;font-weight:700;margin-bottom:18px}
+    .hero h1{font-size:clamp(31px,5vw,50px);line-height:1.15;letter-spacing:-1.4px;margin-bottom:12px;max-width:720px}
+    .hero p{font-size:17px;color:rgba(255,255,255,.83);max-width:660px;margin-bottom:18px}
+    .hero-stats{display:flex;flex-wrap:wrap;gap:10px}
+    .stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);padding:11px 14px;border-radius:15px;min-width:110px}
+    .stat strong{display:block;font-size:20px}.stat span{font-size:12px;color:rgba(255,255,255,.75)}
+
+    /* 강조 학습 흐름 */
+    .flow-banner{margin-bottom:28px;background:#fff;border:1px solid #e6ebf3;border-radius:18px;padding:16px 18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;font-weight:800;color:#0f766e}
+    .flow-banner span{background:#f0fdfb;border:1px solid #d7f3ef;padding:6px 10px;border-radius:10px;font-size:13px}
+
+    .intro{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin:0 0 18px}
+    .intro h2{font-size:25px;letter-spacing:-.7px}.intro p{font-size:15px;color:#6c7890;margin-top:4px}
+
+    .phase{margin-bottom:28px}
+    details.phase summary{list-style:none;cursor:pointer}
+    details.phase summary::-webkit-details-marker{display:none}
+    details.phase:not([open]) .grid{display:none}
+            
+    .phase-head{ /* 기본 */display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid #e6ebf3;border-radius:22px;padding:20px 22px;margin-bottom:14px;box-shadow:0 12px 28px rgba(20,37,63,.055)}
+    .phase-label{font-size:13px;font-weight:900;color:#14a99c;letter-spacing:.6px;margin-bottom:3px}.phase-head h3{ /* 기본 */font-size:22px;letter-spacing:-.5px}.phase-head p{font-size:14px;color:#728096}.count{font-size:13px;font-weight:900;color:#0b8178;background:#e8fbf8;padding:8px 13px;border-radius:999px;white-space:nowrap}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:#fff;border:1px solid #e6ebf3;border-radius:23px;padding:20px;box-shadow:0 12px 28px rgba(20,37,63,.055);transition:.18s ease}
+    .card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(20,37,63,.09)}
+    .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:13px}.icon{width:44px;height:44px;border-radius:15px;background:#e8fbf8;display:grid;place-items:center;font-size:23px}.num{font-size:12px;font-weight:900;color:#9aa5b8}
+    .card h4{font-size:18px;letter-spacing:-.45px;margin-bottom:12px}.expr{list-style:none;display:grid;gap:6px;margin-bottom:14px}.expr li{font-size:14px;color:#334155;position:relative;padding-left:18px}.expr li:before{content:"✓";position:absolute;left:0;color:#14a99c;font-weight:900}
+    .title-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+    .badge-chip{font-size:12px;font-weight:900;color:#0b8178;background:#e8fbf8;padding:6px 10px;border-radius:999px;white-space:nowrap}
+    .result{margin-top:10px;font-size:14px;color:#526079;font-weight:600}.detail strong{color:#172033}
+
+    .cta{margin-top:38px;background:#102743;color:#fff;border-radius:28px;padding:38px;display:flex;justify-content:space-between;align-items:center;gap:20px}.cta h2{font-size:28px;letter-spacing:-.8px;margin-bottom:7px}.cta p{color:rgba(255,255,255,.74)}.btn{display:inline-flex;align-items:center;justify-content:center;min-width:170px;height:52px;border-radius:999px;background:#19c7b6;color:#052e2b;text-decoration:none;font-weight:950}
+
+    @media(max-width:940px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:650px){.page{padding:26px 14px 56px}.hero{padding:36px 24px;border-radius:24px}.grid{grid-template-columns:1fr}.phase-head,.cta,.intro{flex-direction:column;align-items:flex-start}.btn{width:100%}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="badge">TOPIK 1</div>
+      <h1>TOPIK1 한국어 훈련</h1>
+      <p>하루 20분<br>매일 반복 훈련, 한국어로 말할 수 있습니다.</p>
+      <div class="hero-stats">
+        
+        
+        
+      </div>
+    </section>
+
+    <div class="intro">
+      <div>
+        <h2>학습 목록</h2>
+        
+      </div>
+    </div>
+
+    <details class="phase" open>
+      <summary class="phase-head" style="border:1px solid #19c7b6;background:#f0fdfb;"><div><h3 style="color:#0f766e;">처음 한국어</h3><p>가게 · 이동 · 주문 · 길</p></div><div class="count">1–5</div></summary>
+      <div class="grid">
+        <article class="card"><div class="top"><div class="icon">🏪</div><div class="num">1</div></div><div class="title-row"><h4>편의점에서 물건 사기</h4><span class="badge-chip">계산하기</span></div><ul class="expr"><li>이거 얼마예요?</li><li>카드로 계산할게요</li><li>봉투 필요 없어요</li></ul><div class="result">가격을 묻고 계산할 수 있어요.</div></article>
+        <article class="card"><div class="top"><div class="icon">🚇</div><div class="num">2</div></div><div class="title-row"><h4>지하철 타기</h4><span class="badge-chip">이동하기</span></div><ul class="expr"><li>어디로 가요?</li><li>몇 번 출구예요?</li><li>여기 맞아요?</li></ul><div class="result">방향과 출구를 물을 수 있어요.</div></article>
+        <article class="card"><div class="top"><div class="icon">☕</div><div class="num">3</div></div><div class="title-row"><h4>카페에서 주문하기</h4><span class="badge-chip">주문하기</span></div><ul class="expr"><li>아메리카노 주세요</li><li>여기서 마실게요</li><li>테이크아웃이요</li></ul><div class="result">원하는 음료를 말할 수 있어요.</div></article>
+        <article class="card"><div class="top"><div class="icon">🍜</div><div class="num">4</div></div><div class="title-row"><h4>식당에서 음식 주문하기</h4><span class="badge-chip">음식 주문</span></div><ul class="expr"><li>이거 주세요</li><li>추천해 주세요</li><li>물 주세요</li></ul><div class="result">음식과 필요한 것을 말할 수 있어요.</div></article>
+        <article class="card"><div class="top"><div class="icon">🗺️</div><div class="num">5</div></div><div class="title-row"><h4>길 묻기</h4><span class="badge-chip">위치 묻기</span></div><ul class="expr"><li>화장실 어디예요?</li><li>어떻게 가요?</li><li>가까워요?</li></ul><div class="result">위치와 길을 물을 수 있어요.</div></article>
+      </div>
+    </details>
+
+    <details class="phase">
+      <summary class="phase-head" style="border:1px solid #19c7b6;background:#f0fdfb;"><div><h3 style="color:#0f766e;">생활 한국어</h3><p>병원 · 약국 · 은행 · 쇼핑</p></div><div class="count">6–9</div></summary>
+      <div class="grid">
+        <article class="card"><div class="top"><div class="icon">🏥</div><div class="num">6</div></div><div class="title-row"><h4>병원에서 진료받기</h4><span class="badge-chip">증상 말하기</span></div><ul class="expr"><li>어디가 아파요?</li><li>배가 아파요</li><li>진료 받고 싶어요</li></ul><div class="result">아픈 곳과 증상을 말할 수 있어요.</div></article>
+        <article class="card"><div class="top"><div class="icon">💊</div><div class="num">7</div></div><div class="title-row"><h4>약국에서 약 사기</h4><span class="badge-chip">약 사기</span></div><ul class="expr"><li>감기약 있어요?</li><li>하루 몇 번 먹어요?</li><li>식후에 먹어요?</li></ul><div class="result">약과 복용 방법을 물을 수 있어요.</div></article>
+        <article class="card"><div class="top"><div class="icon">🏦</div><div class="num">8</div></div><div class="title-row"><h4>은행/ATM 이용하기</h4><span class="badge-chip">은행 업무</span></div><ul class="expr"><li>계좌 만들고 싶어요</li><li>출금할게요</li><li>송금할게요</li></ul><div class="result">계좌, 출금, 송금을 말할 수 있어요.</div></article>
+        <article class="card"><div class="top"><div class="icon">👕</div><div class="num">9</div></div><div class="title-row"><h4>쇼핑몰에서 옷 사기</h4><span class="badge-chip">옷 사기</span></div><ul class="expr"><li>입어 봐도 돼요?</li><li>다른 사이즈 있어요?</li><li>조금 커요</li></ul><div class="result">사이즈와 착용을 말할 수 있어요.</div></article>
+      </div>
+    </details>
+
+    <details class="phase">
+      <summary class="phase-head" style="border:1px solid #19c7b6;background:#f0fdfb;"><div><h3 style="color:#0f766e;">일상 한국어</h3><p>수업 · 숙소 · 일정</p></div><div class="count">10–12</div></summary>
+      <div class="grid">
+        <article class="card"><div class="top"><div class="icon">📚</div><div class="num">10</div></div><div class="title-row"><h4>학원에서 질문하기</h4><span class="badge-chip">질문하기</span></div><ul class="expr"><li>질문 있어요</li><li>다시 설명해 주세요</li><li>이해했어요</li></ul><div class="result">질문하고 다시 물을 수 있어요.</div></article>
+        <article class="card"><div class="top"><div class="icon">🏠</div><div class="num">11</div></div><div class="title-row"><h4>집/숙소 관련 표현</h4><span class="badge-chip">숙소 생활</span></div><ul class="expr"><li>체크인 할게요</li><li>방에 문제가 있어요</li><li>와이파이 돼요?</li></ul><div class="result">체크인과 문제를 말할 수 있어요.</div></article>
+        <article class="card"><div class="top"><div class="icon">🗓️</div><div class="num">12</div></div><div class="title-row"><h4>일상 일정 말하기</h4><span class="badge-chip">일정 말하기</span></div><ul class="expr"><li>오늘 뭐 해요?</li><li>내일 만나요</li><li>지금 바빠요</li></ul><div class="result">오늘과 내일 일정을 말할 수 있어요.</div></article>
+      </div>
+    </details>
+
+    <details class="phase">
+      <summary class="phase-head" style="border:1px solid #19c7b6;background:#f0fdfb;"><div><h3 style="color:#0f766e;">나에 대해 말하는 한국어</h3><p>가족 · 취미 · 날씨</p></div><div class="count">13–15</div></summary>
+      <div class="grid">
+        <article class="card"><div class="top"><div class="icon">👨‍👩‍👧</div><div class="num">13</div></div><div class="title-row"><h4>가족/지인 소개</h4><span class="badge-chip">소개하기</span></div><ul class="expr"><li>저는 ___입니다</li><li>우리 가족은 ___입니다</li><li>친구가 많아요</li></ul><div class="result">가족과 친구를 소개할 수 있어요.</div></article>
+        <article class="card"><div class="top"><div class="icon">🎬</div><div class="num">14</div></div><div class="title-row"><h4>취미/여가 말하기</h4><span class="badge-chip">취미 말하기</span></div><ul class="expr"><li>영화를 좋아해요</li><li>운동을 해요</li><li>주말에 쉬어요</li></ul><div class="result">취미와 주말 활동을 말할 수 있어요.</div></article>
+        <article class="card"><div class="top"><div class="icon">🌦️</div><div class="num">15</div></div><div class="title-row"><h4>날씨/계절 표현</h4><span class="badge-chip">날씨 말하기</span></div><ul class="expr"><li>오늘은 더워요</li><li>비가 와요</li><li>그래서 집에 있어요</li></ul><div class="result">날씨와 이유를 말할 수 있어요.</div></article>
+      </div>
+    </details>
+</main>
+</body>
+</html>

@@ -111,6 +111,20 @@ npm run lint     # ESLint
 - 결제 상태 변경은 Stripe Webhook → Supabase 저장을 단일 진실원천(SSoT)으로 둔다
 - Claude API 호출은 반드시 Route Handler(서버 사이드)에서 수행한다
 
+## UI 텍스트 언어 규칙
+
+- 모든 학습자 화면 UI 텍스트는 한국어 사용 원칙
+- 영어 레이블 사용 금지
+  (예: `HOW IT WORKS` / `CURRICULUM` / `PHASE 1` / `CHOOSE YOUR PLAN` 등)
+- 단, 아래 경우는 영어 허용:
+  1. 브랜드명: TOPIK / EPS / Basic / Premium / AI
+  2. 코드·기술 용어: API / URL 등
+  3. 디자인상 영어가 반드시 필요한 경우
+     → 반드시 한국어 병기 또는 한국어 우선 표기
+- 적용 범위: 모든 학습자 페이지
+  (`/courses` / `/my` / `/unit` / `/pricing` / `/onboarding` 등)
+- 어드민·마스터 페이지(`/admin`, `/master`)는 예외 허용
+
 ## Supabase 스키마
 
 `supabase/schema.sql`이 DB 단일 진실원천. 테이블 10개:
@@ -181,6 +195,21 @@ npm run lint     # ESLint
 
 - `DEV_MODE = false` (운영 상태)
 - 배포 전 반드시 확인
+
+## ⚠️ dev 서버 / build 충돌 방지 규칙
+
+**문제:** dev 서버가 살아있는 상태에서 `npm run build`를 실행하면
+`.next` 디렉토리가 production 산출물로 덮이면서
+webpack 캐시 파일(page_client-reference-manifest.js 등)이 사라짐.
+이후 dev 서버가 해당 파일을 찾지 못해 UNKNOWN 에러 발생.
+
+**규칙:**
+1. `npm run build` 실행 전 반드시 dev 서버 먼저 종료 (Ctrl+C)
+2. build 완료 후 dev 서버 재시작 시 반드시 아래 순서 실행:
+```bash
+   rm -rf .next && npx next dev --turbo
+```
+3. Claude Code가 build 명령을 제안할 때는 위 규칙을 함께 안내할 것
 
 ## Bunny 영상 연결 정보
 

@@ -491,3 +491,46 @@ SESSION_LOG.md 읽고 이어서 작업해줘
 ```
 SESSION_LOG.md 읽고 이어서 작업해줘
 ```
+
+---
+
+## Session 2026.04.25 · /courses/topik1 강좌소개 페이지 완성
+
+### 완료
+- `/courses/topik1` 강좌소개 페이지 최종 디자인 완성
+  - Hero 섹션: navy 배경 + SVG 그리드 + 가·나·다 카드 스택 + 언어 배지 + orange `구독하기` CTA
+  - 학습 방식 5단계: 5개 카드 (세션 / 단어 / 패턴 / 테스트 / AI 확장) + 각 카드 설명 `<br/>` 줄바꿈
+  - 학습 목록: 4개 Phase 아코디언 (Phase 1 기본 열림, 여러 개 동시 열기 가능, 최소 1개 유지)
+  - Basic vs Premium 플랜: 카드 outline 스타일 통일 (Basic mint / Premium orange), 기능 리스트 핵심 키워드 bold
+  - 하단 navy CTA 배너: "지금 바로 시작하세요" + orange 버튼
+- 섹션 간 padding 절반 수준으로 축소 (32~40px)
+- Phase 4 (13~15) 카드 잠금 해제: 1~12와 동일 스타일, mint "준비 중" 뱃지만 차별화
+- 영어 레이블 전체 삭제 (`HOW IT WORKS` / `CURRICULUM` / `CHOOSE YOUR PLAN` / `PHASE N`)
+- 가격 월환산 수정 (Basic 연간 $7.70 / Premium 연간 $11.90)
+
+### 주요 결정사항
+- **Basic vs Premium 차이 3가지 확정**
+  1. AI 회화 연습 횟수: Basic 유닛당 3회 / Premium 5회
+  2. 모의고사 횟수: Basic 완료 후 1회 / Premium 진도 중 2회 + 최종 1회 = 3회
+  3. 문제 난이도: Basic 기본 / Premium 기본 + 심화
+- **플랜 카드 문구 확정** (차근차근 합격 루트 / 빠르게, 확실하게)
+- **가격 월환산 표시 방식**: `$7.70 /월` 형식, 연간가 총액은 표시 안 함
+- **EPS-TOPIK 언어 변경**: VN/EN/ID → **VN/TH/ID** (영어 제거, 태국어 추가)
+- **"세션" → "오늘의 학습" 용어 변경 예정** (다음 세션에서 전체 일괄 교체)
+- **`/pricing` 재기획 예정**: 현재 4스텝 퍼널 구조 폐기, 새 기획 대기
+- **UI 텍스트 한국어 원칙 확정** (CLAUDE.md §UI 텍스트 언어 규칙에 명시)
+- `topik1_korean_training_ui.html` → `docs/design/` 에 보관 (참고용, 코드 복사 금지)
+- 아코디언 로직 3차 변경: 단일 open (accordion) → 다중 open + 최소 1개 유지 (independent toggle) 로 최종 확정
+
+### 미해결 / 다음 작업
+- `git push origin main` + Netlify 배포 확인
+- `/courses/topik2`, `/courses/eps-topik` 동일 구조 적용
+- 메인 페이지 `/` 기획 + 구현 (현재 `pluepe — 준비 중` placeholder)
+- `/pricing` 재기획 + 재구현
+- "세션" → "오늘의 학습" 전체 교체 (유닛 플레이어 + 강좌소개 + 마이페이지 등)
+- EPS-TOPIK 페이지에서 `🇬🇧 영어` → `🇹🇭 태국어` 변경
+
+### 다음 명령어
+```
+SESSION_LOG.md 읽고 이어서 작업해줘
+```
