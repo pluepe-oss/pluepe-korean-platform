@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import SignOutButton from "@/app/learn/me/signout-button";
 import PortalButton from "@/app/learn/me/portal-button";
 import AccountMenu from "./_account-menu";
+import { ProgressTabs } from "./_progress-tabs";
 
 /* ------------------------------------------------------------------ */
 /* TOPIK 1 유닛 카탈로그                                                */
@@ -69,7 +70,7 @@ type Subscription = {
 };
 
 type UnitStatus = "done" | "in_progress" | "not_started" | "locked";
-type AccountKind = "b2b" | "trialing" | "b2c_active" | "none";
+type AccountKind = "b2b" | "trialing" | "expired" | "b2c_active" | "none";
 
 /* ------------------------------------------------------------------ */
 /* 헬퍼                                                                 */
@@ -127,6 +128,14 @@ export default async function MyPage() {
     .eq("user_id", user.id);
   const progressList = (progressData ?? []) as ProgressRow[];
 
+  // unit_id별 완료 섹션 수 집계
+  const progressMap: Record<string, number> = {};
+  for (const row of progressList) {
+    if (row.completed) {
+      progressMap[row.unit_id] = (progressMap[row.unit_id] ?? 0) + 1;
+    }
+  }
+
   // 2-1. 가장 최근 완료된 test 섹션 (오답 복습 카드용)
   const { data: lastTestData } = await supabase
     .from("user_progress")
@@ -161,7 +170,7 @@ export default async function MyPage() {
     .select(
       "plan_type, status, trial_ends_at, current_period_end, stripe_customer_id",
     )
-    .in("status", ["trialing", "active", "past_due"])
+    .in("status", ["trialing", "active", "past_due", "canceled"])
     .order("created_at", { ascending: false })
     .limit(1);
   subQuery = profile.academy_id
@@ -211,13 +220,48 @@ export default async function MyPage() {
 
   /* ---------------- 계정 분기 ---------------- */
 
+  // 만료 판단: status가 'canceled' 이거나
+  // trialing 인데 trial_ends_at 이 현재 시각보다 과거인 경우
+  const now = new Date();
+  const trialEnd = sub?.trial_ends_at ? new Date(sub.trial_ends_at) : null;
+  const isExpired =
+    sub?.status === "canceled" ||
+    (sub?.status === "trialing" && trialEnd !== null && trialEnd < now);
+
   const accountKind: AccountKind = profile.academy_id
     ? "b2b"
-    : sub?.status === "trialing"
-      ? "trialing"
-      : sub?.status === "active"
-        ? "b2c_active"
-        : "none";
+    : isExpired
+      ? "expired"
+      : sub?.status === "trialing"
+        ? "trialing"
+        : sub?.status === "active"
+          ? "b2c_active"
+          : "none";
+
+  if (accountKind === "none") redirect("/pricing");
+
+  const planType = String(sub?.plan_type ?? "");
+  const tabAccess =
+    accountKind === "expired"
+      ? { topik1: false, topik2: false, eps: false }
+      : accountKind === "trialing"
+        ? { topik1: true, topik2: true, eps: true }
+        : accountKind === "b2c_active" || accountKind === "b2b"
+          ? {
+              topik1: true,
+              topik2:
+                planType.includes("topik2") || planType.includes("premium"),
+              eps: planType.includes("eps") || planType.includes("premium"),
+            }
+          : { topik1: false, topik2: false, eps: false };
+
+  const unitsForTabs = UNIT_CATALOG.map((u) => ({
+    id: u.unitId,
+    unitNum: u.number,
+    title: u.title,
+    path: `/unit/${u.slug}`,
+    implemented: u.implemented,
+  }));
   const isTrialing = accountKind === "trialing";
   const trialRemaining = isTrialing ? daysUntil(sub?.trial_ends_at ?? null) : null;
   const trialDaysLeft = trialRemaining ?? 0;
@@ -366,175 +410,20 @@ export default async function MyPage() {
 
       {/* ② 학습 목록 */}
       <section className="px-4 py-6 md:px-10 md:py-8">
-        <div className="mb-4 flex items-center gap-3">
-          <span className="text-2xl font-bold text-[#27d3c3]">02</span>
-          <h2 className="text-2xl font-bold text-[#122c4f]">학습 목록</h2>
-          <div className="h-px flex-1 bg-gray-200" />
-        </div>
-
-        {/* 잠긴 유닛 안내 */}
-        <p className="mb-4 text-sm text-[#64748b]">
-          🔓 이전 단원을 완료하면 순서대로 열려요
-        </p>
-
-        {/* 테이블 (md 이상) */}
-        <div className="hidden overflow-hidden rounded-2xl border border-gray-100 bg-white md:block">
-          <table className="w-full text-base">
-            <thead className="border-b border-gray-100 bg-gray-50">
-              <tr>
-                <th className="w-12 px-6 py-3 text-left font-semibold text-[#64748b]">
-                  NO.
-                </th>
-                <th className="px-4 py-3 text-left font-semibold text-[#64748b]">
-                  단원명
-                </th>
-                <th className="px-4 py-3 text-left font-semibold text-[#64748b]">
-                  주제
-                </th>
-                <th className="w-40 px-4 py-3 text-left font-semibold text-[#64748b]">
-                  진행률
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {unitStats.map((u, i) => {
-                const isCurrent = u.status === "in_progress";
-                const isDone = u.status === "done";
-                const isLocked = u.status === "locked";
-                const progressValue =
-                  u.status === "not_started" ? 0 : u.percent;
-                return (
-                  <tr
-                    key={u.unitId}
-                    className={`border-b border-gray-50 transition ${
-                      isCurrent ? "bg-orange-50" : ""
-                    } ${
-                      isLocked
-                        ? "cursor-not-allowed opacity-50"
-                        : "hover:bg-gray-50"
-                    }`}
-                  >
-                    <td className="px-6 py-4 text-[#64748b]">
-                      {String(i + 1).padStart(2, "0")}
-                    </td>
-                    <td className="px-4 py-4">
-                      {isLocked ? (
-                        <span className="font-semibold text-[#122c4f]">
-                          {u.title}
-                        </span>
-                      ) : (
-                        <Link
-                          href={`/unit/${u.slug}`}
-                          className="font-semibold text-[#122c4f] hover:underline"
-                        >
-                          {u.title}
-                        </Link>
-                      )}
-                      {isCurrent && (
-                        <span className="ml-2 rounded-full bg-[#ff7d5a] px-2 py-0.5 text-xs text-white">
-                          진행 중
-                        </span>
-                      )}
-                      {isDone && (
-                        <span className="ml-2 text-xs text-[#27d3c3]">✓</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-4 text-[#64748b]">
-                      {u.theme ?? "일상"}
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="flex items-center gap-2">
-                        <div className="h-1.5 flex-1 rounded-full bg-gray-100">
-                          <div
-                            className={`h-1.5 rounded-full ${
-                              isDone ? "bg-[#27d3c3]" : "bg-[#ff7d5a]"
-                            }`}
-                            style={{ width: `${progressValue}%` }}
-                          />
-                        </div>
-                        <span className="w-8 text-xs text-[#64748b]">
-                          {progressValue}%
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-
-        {/* 카드 리스트 (모바일) */}
-        <ul className="grid grid-cols-1 gap-3 md:hidden">
-          {unitStats.map((u, i) => {
-            const isCurrent = u.status === "in_progress";
-            const isDone = u.status === "done";
-            const isLocked = u.status === "locked";
-            const progressValue =
-              u.status === "not_started" ? 0 : u.percent;
-            const card = (
-              <div
-                className={`rounded-xl border p-4 ${
-                  isCurrent
-                    ? "border-orange-200 bg-orange-50"
-                    : isLocked
-                      ? "cursor-not-allowed border-gray-200 bg-gray-50 opacity-60"
-                      : "border-gray-200 bg-white"
-                }`}
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <div className="text-xs text-[#64748b]">
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                    <div className="font-semibold text-[#122c4f]">
-                      {u.title}
-                      {isCurrent && (
-                        <span className="ml-2 rounded-full bg-[#ff7d5a] px-2 py-0.5 text-xs text-white">
-                          진행 중
-                        </span>
-                      )}
-                      {isDone && (
-                        <span className="ml-2 text-xs text-[#27d3c3]">✓</span>
-                      )}
-                    </div>
-                    <div className="mt-1 text-xs text-[#64748b]">
-                      {u.theme ?? "일상"}
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center gap-2">
-                  <div className="h-1.5 flex-1 rounded-full bg-gray-100">
-                    <div
-                      className={`h-1.5 rounded-full ${
-                        isDone ? "bg-[#27d3c3]" : "bg-[#ff7d5a]"
-                      }`}
-                      style={{ width: `${progressValue}%` }}
-                    />
-                  </div>
-                  <span className="w-8 text-right text-xs text-[#64748b]">
-                    {progressValue}%
-                  </span>
-                </div>
-              </div>
-            );
-            return (
-              <li key={u.unitId}>
-                {isLocked ? (
-                  card
-                ) : (
-                  <Link href={`/unit/${u.slug}`} className="block">
-                    {card}
-                  </Link>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+        <h2 style={{ fontSize: 18, fontWeight: 700, color: "#0f172a", marginBottom: 20 }}>
+          학습 목록
+        </h2>
+        <ProgressTabs
+          units={unitsForTabs}
+          progressMap={progressMap}
+          tabAccess={tabAccess}
+          isTrial={accountKind === "trialing"}
+          isExpired={accountKind === "expired"}
+        />
       </section>
 
       {/* ③ 복습과 시험 */}
-      <section className="px-4 pb-6 md:px-10 md:pb-8">
+      <section className="px-4 pb-6 md:px-10 md:pb-8" data-section="review">
         <div className="mb-6 flex items-center gap-3">
           <span className="text-2xl font-bold text-[#27d3c3]">03</span>
           <h2 className="text-2xl font-bold text-[#122c4f]">복습과 시험</h2>
@@ -778,19 +667,19 @@ export default async function MyPage() {
               </>
             )}
 
-            {accountKind === "none" && (
+            {accountKind === "expired" && (
               <>
                 <div className="mb-1 text-xs text-[#64748b]">
                   사용 시작일: {formatDate(profile.learning_start_date, "첫 학습 시 자동 기록")}
                 </div>
                 <p className="mb-4 mt-3 text-base text-[#64748b]">
-                  7일 무료 체험으로 전체 강의를 열어드려요.
+                  체험 기간이 종료되었어요. 구독하시면 모든 학습을 이어서 할 수 있어요.
                 </p>
                 <Link
                   href="/pricing"
                   className="block w-full rounded-xl bg-[#ff7d5a] py-3 text-center font-bold text-white transition hover:bg-[#e86945]"
                 >
-                  7일 무료 체험 시작 →
+                  구독하기 →
                 </Link>
               </>
             )}

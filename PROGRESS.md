@@ -1,5 +1,19 @@
 # pluepe 한국어 학습 플랫폼 — 개발 진행 현황
 
+## 2026.04.26 완료
+- [x] /courses/topik1 강의 소개 페이지 생성 (15개 유닛 / 4 Phase)
+- [x] /courses/topik2 강의 소개 페이지 생성 (20개 유닛 / 4 Phase)
+- [x] /courses/eps-topik 강의 소개 페이지 생성 (20개 유닛 / 4 Phase)
+- [x] 공통 UnitAccordion 컴포넌트 생성
+- [x] 빌드 통과 (37 routes)
+
+## 다음 작업 예정
+- [ ] /my 탭 구조 변경 빌드 확인 및 로컬 검증
+- [ ] /pricing 5단계 퍼널 페이지 개발
+- [ ] / 랜딩 페이지 개발
+- [ ] Stripe 상품 12개 생성 (price_T1_B_monthly 등)
+- [ ] 무료/유료 접근 제한 로직
+
 ## 2026.04.25 완료
 - [x] `/onboarding/language` 언어 선택 페이지 신규 생성 (`app/onboarding/language/page.tsx`)
       - plan 쿼리 기반 언어 분기: topik1/topik2 → vi/en/zh, eps-topik → vi/en/id
@@ -12,6 +26,108 @@
 - [x] `/my` 마이페이지 전면 재설계 확정 (커밋 `c3cae3f`)
 - [x] streak 시스템 구현 완료 (커밋 `c3cae3f`)
 - [x] `user_progress` 복구 로직 추가 (커밋 `c3cae3f`)
+
+## 2026.04.26 확정 정책
+
+### 회원 유형 5분기 (accountKind)
+| 유형 | 조건 | /my 접근 |
+|---|---|---|
+| b2b | academy_id 있음 | ✅ 허용 |
+| trialing | status = 'trialing' | ✅ 허용 |
+| expired | status = 'canceled' OR 만료일 지남 | ✅ 허용 (전체 잠금) |
+| b2c_active | status = 'active' | ✅ 허용 |
+| none | 구독 없음 | /pricing 리다이렉트 |
+
+### 체험중 (trialing) 탭 접근 정책
+- TOPIK 1 탭: 유닛 1개
+- TOPIK 2 탭: 유닛 1개
+- EPS-TOPIK 탭: 유닛 1개
+- 복습 섹션: 허용 (학습 데이터 기반)
+- 시험 섹션: 잠금
+
+### 체험 만료 (expired) 정책
+- /my 접근 허용
+- 탭 3개 전체 잠금
+- 하단 CTA: "구독하기 →" (/pricing 연결)
+
+### /free-trial 정책
+- 회원가입 필요, 카드 등록 없음
+- 진도 저장 없음 (/free-trial 전용 공간)
+- TOPIK 1 유닛 1개만, TOPIK 2/EPS 접근 없음
+- /my 와 완전히 분리된 별도 공간
+
+### 상품 구조 최종 확정 (2026.04.26)
+
+#### 유닛 수
+- TOPIK 1    → 15개 (기존 12개에서 변경 — 코드 전반 수정 필요)
+- TOPIK 2    → 20개
+- EPS-TOPIK  → 20개
+
+#### 가격표 (USD)
+| Price ID | 상품 | 등급 | 주기 | 가격 | 월 환산 |
+|---|---|---|---|---|---|
+| price_T1_B_monthly | TOPIK 1 | Basic | 월간 | $12.90 | - |
+| price_T1_B_yearly | TOPIK 1 | Basic | 연간 | $92.90 | $7.74 |
+| price_T1_P_monthly | TOPIK 1 | Premium | 월간 | $19.90 | - |
+| price_T1_P_yearly | TOPIK 1 | Premium | 연간 | $142.90 | $11.90 |
+| price_T2_B_monthly | TOPIK 2 | Basic | 월간 | $16.90 | - |
+| price_T2_B_yearly | TOPIK 2 | Basic | 연간 | $121.90 | $10.15 |
+| price_T2_P_monthly | TOPIK 2 | Premium | 월간 | $24.90 | - |
+| price_T2_P_yearly | TOPIK 2 | Premium | 연간 | $179.90 | $14.99 |
+| price_EPS_B_monthly | EPS-TOPIK | Basic | 월간 | $14.90 | - |
+| price_EPS_B_yearly | EPS-TOPIK | Basic | 연간 | $106.90 | $8.90 |
+| price_EPS_P_monthly | EPS-TOPIK | Premium | 월간 | $22.90 | - |
+| price_EPS_P_yearly | EPS-TOPIK | Premium | 연간 | $164.90 | $13.74 |
+
+#### 향후 확장 예정
+| Price ID | 내용 | 금액 |
+|---|---|---|
+| price_EXAM_addon | 모의고사 1회 추가권 | 미정 |
+| coupon_XX | 할인 쿠폰 | % 미정 |
+
+#### Stripe 설정
+- 통화: USD 기본 (Adaptive Pricing 활성화 권장 — IP 기반 현지 통화)
+- 무료체험: trial_period_days 7일
+- 상품 6개 (T1 Basic/Premium, T2 Basic/Premium, EPS Basic/Premium)
+- Price ID 12개
+
+#### 지원 언어
+- TOPIK 1/2  → VN / EN / CN
+- EPS-TOPIK  → VN / EN / ID
+
+#### /pricing 5단계 퍼널
+- STEP 1: 목표 선택 (TOPIK 1 / TOPIK 2 / EPS-TOPIK)
+- STEP 2: 언어 선택 (상품별 분기)
+- STEP 3: 상품 소개 (선택 상품 전용 페이지)
+- STEP 4: 구독 선택 (Free 7일체험 / Basic / Premium)
+- STEP 5: 결제 → Stripe Checkout
+
+#### 테스트 계정 필요 목록 (미생성)
+| 유형 | 이메일 | 상태 |
+|---|---|---|
+| b2b (학원생) | test_b2b@pluepe.com | 미생성 |
+| trialing (체험중) | test_trial@pluepe.com | 미생성 |
+| expired (체험만료) | test_expired@pluepe.com | 미생성 |
+| b2c_active TOPIK1 Basic | test_t1_basic@pluepe.com | 미생성 |
+| b2c_active TOPIK1 Premium | test_t1_premium@pluepe.com | 미생성 |
+| b2c_active TOPIK2 Basic | test_t2_basic@pluepe.com | 미생성 |
+| b2c_active TOPIK2 Premium | test_t2_premium@pluepe.com | 미생성 |
+| b2c_active EPS Basic | test_eps_basic@pluepe.com | 미생성 |
+| b2c_active EPS Premium | test_eps_premium@pluepe.com | 미생성 |
+| free-trial 방문자 | test_freetrial@pluepe.com | 미생성 |
+
+### 테스트 계정 필요 목록 (미생성)
+회원 유형별 테스트 ID 생성 필요 — 상품 확정 후 일괄 생성
+
+| 유형 | 이메일 | 상태 |
+|---|---|---|
+| b2b (학원생) | test_b2b@pluepe.com | 미생성 |
+| trialing (체험중) | test_trial@pluepe.com | 미생성 |
+| expired (체험만료) | test_expired@pluepe.com | 미생성 |
+| b2c_active TOPIK1 | test_topik1@pluepe.com | 미생성 |
+| b2c_active TOPIK2 | test_topik2@pluepe.com | 미생성 |
+| b2c_active PREMIUM | test_premium@pluepe.com | 미생성 |
+| free-trial 방문자 | test_freetrial@pluepe.com | 미생성 |
 
 ## 다음 작업 예정 (2026.04.26~)
 - [ ] `/my` 학습 목록 탭 구조 변경 (TOPIK1 / TOPIK2 / EPS 탭 분리)
