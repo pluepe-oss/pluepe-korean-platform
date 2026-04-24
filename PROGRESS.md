@@ -102,32 +102,32 @@
 - STEP 4: 구독 선택 (Free 7일체험 / Basic / Premium)
 - STEP 5: 결제 → Stripe Checkout
 
-#### 테스트 계정 필요 목록 (미생성)
+#### 테스트 계정 필요 목록 (SQL 준비 완료)
 | 유형 | 이메일 | 상태 |
 |---|---|---|
-| b2b (학원생) | test_b2b@pluepe.com | 미생성 |
-| trialing (체험중) | test_trial@pluepe.com | 미생성 |
-| expired (체험만료) | test_expired@pluepe.com | 미생성 |
-| b2c_active TOPIK1 Basic | test_t1_basic@pluepe.com | 미생성 |
-| b2c_active TOPIK1 Premium | test_t1_premium@pluepe.com | 미생성 |
-| b2c_active TOPIK2 Basic | test_t2_basic@pluepe.com | 미생성 |
-| b2c_active TOPIK2 Premium | test_t2_premium@pluepe.com | 미생성 |
-| b2c_active EPS Basic | test_eps_basic@pluepe.com | 미생성 |
-| b2c_active EPS Premium | test_eps_premium@pluepe.com | 미생성 |
-| free-trial 방문자 | test_freetrial@pluepe.com | 미생성 |
+| b2b (학원생) | test_b2b@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| trialing (체험중) | test_trial@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| expired (체험만료) | test_expired@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| b2c_active TOPIK1 Basic | test_t1_basic@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| b2c_active TOPIK1 Premium | test_t1_premium@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| b2c_active TOPIK2 Basic | test_t2_basic@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| b2c_active TOPIK2 Premium | test_t2_premium@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| b2c_active EPS Basic | test_eps_basic@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| b2c_active EPS Premium | test_eps_premium@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| free-trial 방문자 | test_freetrial@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
 
-### 테스트 계정 필요 목록 (미생성)
+### 테스트 계정 필요 목록 (SQL 준비 완료)
 회원 유형별 테스트 ID 생성 필요 — 상품 확정 후 일괄 생성
 
 | 유형 | 이메일 | 상태 |
 |---|---|---|
-| b2b (학원생) | test_b2b@pluepe.com | 미생성 |
-| trialing (체험중) | test_trial@pluepe.com | 미생성 |
-| expired (체험만료) | test_expired@pluepe.com | 미생성 |
-| b2c_active TOPIK1 | test_topik1@pluepe.com | 미생성 |
-| b2c_active TOPIK2 | test_topik2@pluepe.com | 미생성 |
-| b2c_active PREMIUM | test_premium@pluepe.com | 미생성 |
-| free-trial 방문자 | test_freetrial@pluepe.com | 미생성 |
+| b2b (학원생) | test_b2b@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| trialing (체험중) | test_trial@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| expired (체험만료) | test_expired@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| b2c_active TOPIK1 | test_topik1@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| b2c_active TOPIK2 | test_topik2@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| b2c_active PREMIUM | test_premium@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
+| free-trial 방문자 | test_freetrial@pluepe.com | SQL 준비 완료 (Dashboard 수동 생성 필요) |
 
 ## 다음 작업 예정 (2026.04.26~)
 - [ ] `/my` 학습 목록 탭 구조 변경 (TOPIK1 / TOPIK2 / EPS 탭 분리)
