@@ -58,7 +58,7 @@ export default function Topik1CoursePage() {
                 lineHeight: 1.6,
               }}
             >
-              7일 무료체험으로 TOPIK 1 첫 유닛을 경험해보세요
+              7일 무료체험으로 TOPIK 1 첫 주제를 경험해보세요
             </p>
           </div>
           <Link

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import styles from "../unit.module.css";
 import type { UnitData } from "../types";
 
@@ -12,13 +13,32 @@ type PromptState = {
 const USED_KEY = (unitId: string, idx: number) =>
   `pluepe_ai_used_${unitId}_${idx}`;
 
+// Basic = 3개 / Premium = 5개 (기본 콘텐츠 최대치)
+const BASIC_AI_LIMIT = 3;
+
 export default function AISection({
   unit,
   onComplete,
+  planTier = "basic",
+  accountKind = "b2c_active",
 }: {
   unit: UnitData;
   onComplete: () => void;
+  /** 작업 3-1: Basic 은 AI 확장 3개만 노출, Premium 은 5개 모두 노출 */
+  planTier?: "basic" | "premium" | null;
+  /** 작업 4: trial / b2c / b2b / expired 분기에 따라 안내 배너 메시지 변경 */
+  accountKind?: "b2b" | "b2c_active" | "trialing" | "expired" | "none";
 }) {
+  // Basic 사용자에게는 처음 3개만 표시 (trial 도 동일 — 3개 노출, 결제 후 Premium 시 5개)
+  const visibleAI = useMemo(() => {
+    if (planTier === "premium") return unit.ai_extension;
+    return unit.ai_extension.slice(0, BASIC_AI_LIMIT);
+  }, [unit.ai_extension, planTier]);
+  const hasMoreForPremium =
+    (planTier ?? "basic") !== "premium" &&
+    unit.ai_extension.length > BASIC_AI_LIMIT;
+  const additionalCount = unit.ai_extension.length - BASIC_AI_LIMIT;
+
   const [states, setStates] = useState<PromptState[]>(() =>
     unit.ai_extension.map(() => ({ status: "idle", text: "" })),
   );
@@ -114,7 +134,7 @@ export default function AISection({
 
   return (
     <div className={styles.aiPrompts}>
-      {unit.ai_extension.map((prompt, i) => {
+      {visibleAI.map((prompt, i) => {
         const s = states[i];
         const isUsed = used[i];
         const isLoading = s.status === "loading";
@@ -178,6 +198,77 @@ export default function AISection({
           </div>
         );
       })}
+
+      {/* 작업 4: 계정 상태별 분기 배너
+            - trialing  : "체험 중에는 3가지" + "구독 후 Premium 시 5가지" / [구독하기 → /pricing]
+            - b2c_active basic : "Basic 에서는 3가지" + "Premium 시 +N개" / [업그레이드 → /pricing?upgrade=premium]
+            - b2c_active premium / 그 외 : 배너 X (Premium 은 모든 5개 노출 + hasMoreForPremium=false)
+       */}
+      {hasMoreForPremium && (() => {
+        const isTrial = accountKind === "trialing";
+        const title = isTrial
+          ? "체험 중에는 3가지 AI 확장 사용 가능"
+          : "Basic 플랜에서는 3가지 AI 확장 사용 가능";
+        const sub = isTrial
+          ? "구독 후 Premium 업그레이드 시 5가지 모두 사용 가능"
+          : `Premium 업그레이드 시 +${additionalCount}개 추가 학습`;
+        const ctaLabel = isTrial ? "구독하기 →" : "업그레이드 →";
+        const ctaHref = isTrial ? "/pricing" : "/pricing?upgrade=premium";
+
+        return (
+          <div
+            style={{
+              marginTop: 16,
+              background: "rgba(39,211,195,0.08)",
+              border: "1px solid rgba(39,211,195,0.3)",
+              borderRadius: 22,
+              padding: "16px 20px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 14,
+            }}
+          >
+            <div style={{ minWidth: 0 }}>
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "#0f172a",
+                }}
+              >
+                {title}
+              </p>
+              <p
+                style={{
+                  margin: "4px 0 0",
+                  fontSize: 12,
+                  color: "#64748b",
+                }}
+              >
+                {sub}
+              </p>
+            </div>
+            <Link
+              href={ctaHref}
+              style={{
+                flexShrink: 0,
+                background: "#122c4f",
+                color: "#ffffff",
+                padding: "10px 18px",
+                borderRadius: 10,
+                fontSize: 13,
+                fontWeight: 700,
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {ctaLabel}
+            </Link>
+          </div>
+        );
+      })()}
     </div>
   );
 }

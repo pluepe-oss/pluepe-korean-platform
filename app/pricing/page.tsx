@@ -1,7 +1,8 @@
 'use client';
 
-import { Suspense, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { createClient as createBrowserSupabase } from '@/lib/supabase/client';
 
 type Product = 'topik1' | 'topik2' | 'eps';
 type Language = 'vi' | 'en' | 'zh' | 'id';
@@ -243,8 +244,28 @@ function PrimaryButton({
   );
 }
 
+const INTENDED_PLAN_LABEL: Record<string, string> = {
+  topik1_basic: 'TOPIK 1 Basic',
+  topik1_premium: 'TOPIK 1 Premium',
+  topik2_basic: 'TOPIK 2 Basic',
+  topik2_premium: 'TOPIK 2 Premium',
+  eps_basic: 'EPS-TOPIK Basic',
+  eps_premium: 'EPS-TOPIK Premium',
+};
+
+function parseIntendedPlan(
+  raw: string | null,
+): { product: Product; tier: 'basic' | 'premium' } | null {
+  if (!raw) return null;
+  const [p, t] = raw.split('_');
+  if (p !== 'topik1' && p !== 'topik2' && p !== 'eps') return null;
+  if (t !== 'basic' && t !== 'premium') return null;
+  return { product: p as Product, tier: t as 'basic' | 'premium' };
+}
+
 function PricingFunnel() {
   const searchParams = useSearchParams();
+  const resumeRequested = searchParams.get('resume') === 'true';
   const initialProduct = (() => {
     const raw = searchParams.get('product');
     if (raw === 'topik1' || raw === 'topik2' || raw === 'eps') return raw;
@@ -258,6 +279,95 @@ function PricingFunnel() {
   const [interval, setIntervalState] = useState<Interval>('monthly');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // resume 플로우용 — 현재 사용자 + 저장된 intended_plan
+  const [userId, setUserId] = useState<string | null>(null);
+  const [intendedPlan, setIntendedPlan] = useState<string | null>(null);
+  const [showResumeCard, setShowResumeCard] = useState(false);
+  const [profileLoaded, setProfileLoaded] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const supabase = createBrowserSupabase();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!user || cancelled) {
+          if (!cancelled) setProfileLoaded(true);
+          return;
+        }
+        const { data } = await supabase
+          .from('users')
+          .select('intended_plan')
+          .eq('id', user.id)
+          .maybeSingle();
+        if (cancelled) return;
+        setUserId(user.id);
+        const saved = (data?.intended_plan as string | null) ?? null;
+        setIntendedPlan(saved);
+        if (resumeRequested && saved) setShowResumeCard(true);
+      } finally {
+        if (!cancelled) setProfileLoaded(true);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [resumeRequested]);
+
+  // intended_plan 저장 헬퍼 (비로그인 silent skip)
+  const saveIntendedPlan = async (value: string | null) => {
+    if (!userId) return;
+    try {
+      const supabase = createBrowserSupabase();
+      await supabase
+        .from('users')
+        .update({ intended_plan: value })
+        .eq('id', userId);
+      setIntendedPlan(value);
+    } catch (err) {
+      console.error('[pricing] intended_plan 저장 실패', err);
+    }
+  };
+
+  const handleResume = () => {
+    const parsed = parseIntendedPlan(intendedPlan);
+    if (!parsed) {
+      setShowResumeCard(false);
+      return;
+    }
+    setProduct(parsed.product);
+    setPlan(parsed.tier);
+    setShowResumeCard(false);
+    // STEP 4 는 결제 스텝 — language 가 비어 있으면 STEP 2(언어 선택) 로 우회
+    setStep(language ? 4 : 2);
+  };
+
+  const handleStartOver = async () => {
+    await saveIntendedPlan(null);
+    setShowResumeCard(false);
+    setProduct(null);
+    setLanguage(null);
+    setPlan(null);
+    setStep(1);
+  };
+
+  const handleStep1Next = async () => {
+    if (!product) return;
+    // STEP 1 완료 시 intended_plan 저장 (기본 tier=basic 으로 잠정, STEP 4 에서 확정값으로 덮어씀)
+    await saveIntendedPlan(`${product}_basic`);
+    setStep(2);
+  };
+
+  const selectPlan = async (p: Plan) => {
+    setPlan(p);
+    // basic/premium 선택 시 intended_plan 확정 업데이트 (trial 은 저장하지 않음)
+    if (product && (p === 'basic' || p === 'premium')) {
+      await saveIntendedPlan(`${product}_${p}`);
+    }
+  };
 
   const availableLanguages = useMemo<Language[]>(
     () => (product ? PRODUCT_META[product].langs : []),
@@ -368,7 +478,7 @@ function PricingFunnel() {
                 {meta.desc}
               </div>
               <div style={{ fontSize: 13, color: COLOR.sub, marginBottom: 10 }}>
-                총 {meta.units}개 유닛
+                총 {meta.units}개 주제
               </div>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 {meta.langs.map((l) => (
@@ -392,7 +502,7 @@ function PricingFunnel() {
         })}
       </div>
 
-      <PrimaryButton onClick={() => setStep(2)} disabled={!product}>
+      <PrimaryButton onClick={handleStep1Next} disabled={!product}>
         다음 →
       </PrimaryButton>
     </>
@@ -585,7 +695,7 @@ function PricingFunnel() {
         >
           <CardBase
             selected={plan === 'trial'}
-            onClick={() => setPlan('trial')}
+            onClick={() => selectPlan('trial')}
           >
             <div
               style={{
@@ -618,7 +728,7 @@ function PricingFunnel() {
               }}
             >
               <li style={{ fontSize: 13, color: COLOR.text }}>
-                ✓ 선택 상품 유닛 1개 체험
+                ✓ 선택 상품 주제 1개 체험
               </li>
               <li style={{ fontSize: 13, color: COLOR.text }}>
                 ✓ 언제든 해지 가능 (7일 내)
@@ -628,7 +738,7 @@ function PricingFunnel() {
 
           <CardBase
             selected={plan === 'basic'}
-            onClick={() => setPlan('basic')}
+            onClick={() => selectPlan('basic')}
           >
             <div
               style={{
@@ -660,7 +770,7 @@ function PricingFunnel() {
                 gap: 4,
               }}
             >
-              <li style={{ fontSize: 13, color: COLOR.text }}>✓ 전체 유닛 접근</li>
+              <li style={{ fontSize: 13, color: COLOR.text }}>✓ 전체 주제 접근</li>
               <li style={{ fontSize: 13, color: COLOR.text }}>
                 ✓ 단어 / 패턴 훈련
               </li>
@@ -670,7 +780,7 @@ function PricingFunnel() {
 
           <CardBase
             selected={plan === 'premium'}
-            onClick={() => setPlan('premium')}
+            onClick={() => selectPlan('premium')}
             badge={{ label: '인기', color: COLOR.mint }}
           >
             <div
@@ -707,7 +817,7 @@ function PricingFunnel() {
                 ✓ Basic 전체 기능
               </li>
               <li style={{ fontSize: 13, color: COLOR.text }}>
-                ✓ AI 첨삭 (유닛당 5회)
+                ✓ AI 첨삭 (주제당 5회)
               </li>
               <li style={{ fontSize: 13, color: COLOR.text }}>✓ 모의고사 3회</li>
               <li style={{ fontSize: 13, color: COLOR.text }}>
@@ -788,6 +898,86 @@ function PricingFunnel() {
     );
   };
 
+  const resumeCard =
+    showResumeCard && intendedPlan ? (
+      <div
+        style={{
+          background: COLOR.white,
+          border: `2px solid ${COLOR.orange}`,
+          borderRadius: 22,
+          padding: 20,
+          marginBottom: 20,
+          boxShadow: '0 12px 30px rgba(15,23,42,0.08)',
+        }}
+      >
+        <div
+          style={{
+            fontSize: 12,
+            fontWeight: 700,
+            color: COLOR.orange,
+            letterSpacing: '0.4px',
+            marginBottom: 6,
+          }}
+        >
+          이전에 선택한 상품이 있어요
+        </div>
+        <div
+          style={{
+            fontSize: 17,
+            fontWeight: 700,
+            color: COLOR.text,
+            marginBottom: 14,
+          }}
+        >
+          {INTENDED_PLAN_LABEL[intendedPlan] ?? intendedPlan}을 진행 중이셨네요
+        </div>
+        <PrimaryButton onClick={handleResume} variant="orange">
+          이어서 구독하기 →
+        </PrimaryButton>
+        <button
+          type="button"
+          onClick={handleStartOver}
+          style={{
+            marginTop: 10,
+            width: '100%',
+            background: 'transparent',
+            border: 'none',
+            color: COLOR.sub,
+            fontSize: 13,
+            fontWeight: 500,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            padding: '6px 0',
+            textDecoration: 'underline',
+          }}
+        >
+          처음부터 다시 선택
+        </button>
+      </div>
+    ) : null;
+
+  // profile 로딩 중에는 깜박임 방지용으로 스텝을 비워두고 카드만 대기
+  if (!profileLoaded && resumeRequested) {
+    return (
+      <div
+        className="px-container"
+        style={{
+          maxWidth: 480,
+          margin: '0 auto',
+          padding: 24,
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: COLOR.sub,
+          fontSize: 14,
+        }}
+      >
+        불러오는 중...
+      </div>
+    );
+  }
+
   return (
     <div
       className="px-container"
@@ -801,6 +991,7 @@ function PricingFunnel() {
         justifyContent: 'center',
       }}
     >
+      {resumeCard}
       <Progress step={step} />
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}

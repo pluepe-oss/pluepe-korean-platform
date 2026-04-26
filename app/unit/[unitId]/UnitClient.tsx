@@ -72,10 +72,16 @@ function isSectionKey(v: string | null): v is SectionKey {
 export default function UnitClient({
   unit,
   initialCompleted = {},
+  planTier = null,
+  accountKind = "b2c_active",
 }: {
   unit: UnitData;
   /** 서버에서 user_progress 로 조회한 섹션별 완료 상태 */
   initialCompleted?: Record<string, boolean>;
+  /** 구독 등급 — Basic/Premium 콘텐츠 분기 (AISection 등에서 활용) */
+  planTier?: "basic" | "premium" | null;
+  /** 학습 완료 화면 분기 (trial 한계, 마지막 주제 등) */
+  accountKind?: "b2b" | "b2c_active" | "trialing" | "expired" | "none";
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -242,7 +248,7 @@ export default function UnitClient({
       setSessionStep((prev) => (prev + 1) as StepKey);
       return;
     }
-    // AI 섹션(마지막): 유닛 완료 → 마이페이지로 이동
+    // AI 섹션(마지막): 주제 완료 → 마이페이지로 이동
     if (current === "ai") {
       if (completed.ai) {
         router.push("/my");
@@ -271,7 +277,7 @@ export default function UnitClient({
         !isLocked(SECTION_ORDER[currentIdx + 1])
       );
     }
-    // AI 섹션(마지막): 다음 섹션이 아니라 유닛 완료 버튼으로 동작 — ai 완료만 확인
+    // AI 섹션(마지막): 다음 섹션이 아니라 주제 완료 버튼으로 동작 — ai 완료만 확인
     if (current === "ai") {
       return completed.ai;
     }
@@ -294,7 +300,7 @@ export default function UnitClient({
       <div className={styles.wrap}>
         {/* 좌측 사이드 레일 */}
         <aside className={styles.rail}>
-          <Link href="/learn" className={styles.railBrand}>
+          <Link href="/my" className={styles.railBrand}>
             pluepe
           </Link>
           <div className={styles.railBrandSub}>
@@ -465,7 +471,12 @@ export default function UnitClient({
               />
             )}
             {current === "ai" && (
-              <AISection unit={unit} onComplete={() => markDone("ai")} />
+              <AISection
+                unit={unit}
+                onComplete={() => markDone("ai")}
+                planTier={planTier}
+                accountKind={accountKind}
+              />
             )}
           </div>
 
@@ -478,40 +489,145 @@ export default function UnitClient({
                 onClick={goNext}
                 disabled={!canGoNext}
               >
-                {current === "ai" ? "유닛 완료 🎉" : "다음 →"}
+                {current === "ai" ? "주제 완료 🎉" : "다음 →"}
               </button>
             </div>
           </div>
         </div>
 
-        {allDone && (
-          <div className={styles.completeCard}>
-            <div className={styles.completeIcon}>✓</div>
-            <div className={styles.completeTitle}>
-              {unit.topic} 완료 🎉
-            </div>
-            <div className={styles.completeBtnRow}>
-              <button
-                type="button"
-                className={styles.completeNextOutlineBtn}
-                onClick={() => {
-                  router.push(`/unit/${unit.unit_number + 1}`);
+        {allDone && (() => {
+          // 작업 7: 학습 완료 화면 — 다음 행동 분기
+          // TOPIK 1 = 15 주제이지만 13~15 는 "준비 중" 영구 잠금 → 학습 가능 마지막은 12
+          const TOPIK1_AVAILABLE_MAX = 12;
+          const TRIAL_MAX = 2;
+          const currentNum = unit.unit_number;
+          const trialLimitReached =
+            accountKind === "trialing" && currentNum >= TRIAL_MAX;
+          const isLastUnit = currentNum >= TOPIK1_AVAILABLE_MAX;
+
+          const primary = trialLimitReached
+            ? { label: "구독하고 계속하기 →", href: "/pricing" }
+            : isLastUnit
+              ? { label: "마이페이지로 →", href: "/my" }
+              : {
+                  label: `주제 ${currentNum + 1} 시작 →`,
+                  href: `/unit/${currentNum + 1}`,
+                };
+
+          return (
+            <div
+              style={{
+                background: "#ffffff",
+                borderRadius: 22,
+                padding: "32px 24px",
+                boxShadow: "0 12px 30px rgba(15,23,42,0.08)",
+                marginTop: 24,
+                textAlign: "center",
+              }}
+            >
+              <div style={{ fontSize: 48, lineHeight: 1, marginBottom: 12 }}>🎉</div>
+              <div
+                style={{
+                  fontSize: 22,
+                  fontWeight: 700,
+                  color: "#0f172a",
+                  marginBottom: 4,
                 }}
               >
-                다음 유닛 →
-              </button>
-              <button
-                type="button"
-                className={styles.completeNextBtn}
-                onClick={() => {
-                  router.push("/my");
+                학습 완료!
+              </div>
+              <div
+                style={{
+                  fontSize: 14,
+                  color: "#64748b",
+                  marginBottom: 8,
                 }}
               >
-                ✓ 유닛 완료
+                주제 {currentNum}. {unit.topic}
+              </div>
+              <div
+                style={{
+                  fontSize: 13,
+                  color: "#94a3b8",
+                  marginBottom: 24,
+                }}
+              >
+                5단계 모두 완료했어요
+              </div>
+
+              {/* Primary orange CTA — 화면 유일 orange */}
+              <button
+                type="button"
+                onClick={() => router.push(primary.href)}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "#ff7d5a",
+                  color: "#ffffff",
+                  border: "none",
+                  borderRadius: 12,
+                  padding: "14px 32px",
+                  fontSize: 15,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  marginBottom: 16,
+                  fontFamily: "inherit",
+                }}
+              >
+                {primary.label}
               </button>
+
+              {/* Secondary 2개 버튼 */}
+              <div
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCurrent("session");
+                    setAllDone(false);
+                  }}
+                  style={{
+                    background: "#ffffff",
+                    color: "#122c4f",
+                    border: "1.5px solid #122c4f",
+                    borderRadius: 12,
+                    padding: "10px 20px",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  한번 더 복습
+                </button>
+                <button
+                  type="button"
+                  onClick={() => router.push("/my")}
+                  style={{
+                    background: "#ffffff",
+                    color: "#122c4f",
+                    border: "1.5px solid #122c4f",
+                    borderRadius: 12,
+                    padding: "10px 20px",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  마이페이지로
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
         </div>
       </div>
     </div>

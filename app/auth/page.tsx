@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { AUTH_DICT, LANG_LABEL, type Lang } from "./_auth-i18n";
+import { getLoginDestination } from "./_actions";
 
 export default function AuthPage() {
   const router = useRouter();
@@ -17,25 +18,16 @@ export default function AuthPage() {
 
   const t = AUTH_DICT[lang];
 
+  // Email/Password 로그인 성공 후 서버 액션으로 목적지 결정.
+  // callback route (OAuth) 와 동일한 resolveLoginDestination 을 공유한다.
   async function redirectByRole() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) return;
-
-    const { data: profile } = await supabase
-      .from("users")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    const path =
-      profile?.role === "master"
-        ? "/master"
-        : profile?.role === "admin"
-          ? "/admin"
-          : "/learn";
-    router.replace(path);
+    try {
+      const dest = await getLoginDestination();
+      router.replace(dest);
+    } catch (err) {
+      console.error("[auth] redirect 실패:", err);
+      router.replace("/my");
+    }
   }
 
   async function handleEmailSignIn(e: React.FormEvent) {

@@ -3,16 +3,16 @@ import Link from 'next/link';
 type Feature = { before: string; highlight: string; after: string };
 
 const BASIC_FEATURES: Feature[] = [
-  { before: '전체 15유닛 ', highlight: '순차 학습', after: '' },
-  { before: 'AI 회화 연습 유닛당 ', highlight: '3회', after: '' },
+  { before: '전체 15주제 ', highlight: '순차 학습', after: '' },
+  { before: 'AI 회화 연습 주제당 ', highlight: '3회', after: '' },
   { before: '완료 후 ', highlight: '모의고사', after: ' 1회' },
   { before: '', highlight: '기본 난이도', after: ' 문제' },
   { before: '', highlight: '학습 진도', after: ' 통계' },
 ];
 
 const PREMIUM_FEATURES: Feature[] = [
-  { before: '전체 ', highlight: '15유닛 순차 학습', after: '' },
-  { before: 'AI 회화 연습 유닛당 ', highlight: '5회', after: '' },
+  { before: '전체 ', highlight: '15주제 순차 학습', after: '' },
+  { before: 'AI 회화 연습 주제당 ', highlight: '5회', after: '' },
   { before: '', highlight: '모의고사 3회', after: ' (진도 중 2회 + 최종)' },
   { before: '기본 + ', highlight: '심화 난이도 문제', after: '' },
   { before: '', highlight: '학습 진도 통계', after: '' },

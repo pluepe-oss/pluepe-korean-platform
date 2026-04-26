@@ -1,5 +1,90 @@
 # pluepe 한국어 학습 플랫폼 — 개발 진행 현황
 
+## 2026.04.26 세션 종료
+
+### 완료된 작업
+- /my 페이지 1차 일괄 수정 16건
+- /my 페이지 2차 일괄 수정 8건 (TOPIK 1 12 → 15, "구독 갱신" → "구독 연장" 등)
+- 4개 계정 1차/2차 시각 검증 (test_t2_basic 2차 미검증)
+- 콘텐츠팀 JSON 구조 분석 + 라이브러리 작업 정책 수립
+
+### 핵심 변경사항
+- TOPIK 1 = 15개 주제 (4 Phase 구조)
+- Trial UnitCard 시각 구분 (주제 2 활성 / 주제 3 navy 안내 박스)
+- 04 결제 내역 카드 구독 상태별 분기
+- unitFileMap 갭 자동 처리 ("준비 중" 표시)
+- "구독 갱신" → "구독 연장" 일괄 변경
+- AISection Trial 별도 메시지
+
+### 잔여 결함
+- #t1-19: expired 결제 이력 메시지 모호 (간단 수정 필요)
+
+### 다음 세션 시작점
+1. 잔여 검증 (test_t2_basic 2차, 학습 화면, 접근 제어)
+2. 또는 라이브러리 작업 시작 (콘텐츠팀 JSON 5개 가공)
+3. 또는 빌드 + Netlify 배포
+
+### 보류 티켓 #14~#19, #25~#27 유지
+
+---
+
+## 2026.04.26 일괄 수정 (4개 계정 검증 후 신규 결함 8건)
+
+검증 대상: test_t1_basic, test_trial, test_expired, test_t2_basic
+이전 일괄 수정에서 잘 작동하는 부분은 유지, 신규 결함 8건만 통합 수정.
+
+### 변경 내역
+
+- [x] **TOPIK 1 주제 갯수 12 → 15** (`/courses/topik1` CurriculumSection 과 일관성 확보)
+  - `app/my/page.tsx` UNIT_CATALOG 13~15 추가 (`locked: true` — 가족·취미·날씨)
+  - `TOTAL_UNITS_TOPIK1`, `COURSE_UNIT_COUNT.topik1`, `courseUnitCount` 기본값 모두 15
+  - `app/my/_progress-tabs.tsx` TABS topik1 count 15, LOCKED_COPY 본문, trial 안내 본문 모두 15
+  - `app/my/components/TodaySection.tsx` TOPIK1_MAX_UNIT 15 + TOPIK1_AVAILABLE_MAX 12 분리 (탐색 범위 1~12 유지)
+  - 모바일/PC 동일 — 회색 자물쇠 + "준비 중 · 곧 오픈 예정입니다" (13~15)
+- [x] **"구독 갱신하기" → "구독 연장하기"** 일괄 치환
+  - `app/my/page.tsx` (3곳: 03 좌·03 우 expired 오버레이, 04 만료 navy 버튼)
+  - `app/my/components/TodaySection.tsx` (3곳: aria-label, expired CardLayout, buttonLabel)
+  - `app/my/_progress-tabs.tsx` (1곳: LockedBanner)
+  - PROGRESS.md §접근 제어 텍스트 1곳
+  - 영문 변수명/타입명은 변경 없음 (UI 문구만)
+- [x] **Trial 학습목록 시각 분기 정밀화** (`_progress-tabs.tsx` UnitList 4-case)
+  1. 활성: navy/mint [시작하기·이어하기·다시 보기]
+  2. **Trial 다음 차례 (= 주제 2 미완료) → 자물쇠 X, 숫자 + "이전 주제를 완료하면 열려요"** ★ 카드 활성 톤 유지
+  3. **Trial 첫 잠금 (= 주제 3) → navy 안내 박스 + 흰색 텍스트 + [구독하기] navy CTA** ★ 화면 강조
+  4. 두 번째 이후 trial-blocked / 일반 progress-locked: 회색 자물쇠
+- [x] **AISection Trial 메시지 분기** (Basic / Trial / Premium 각 메시지)
+  - `accountKind` prop 추가, UnitClient 가 전달
+  - trial: "체험 중에는 3가지 사용 가능 / 구독 후 Premium 시 5가지" / [구독하기 → /pricing]
+  - basic: "Basic 에서는 3가지 / Premium 시 +N개" / [업그레이드 → /pricing?upgrade=premium]
+  - premium: 배너 표시 안 함
+- [x] **04 결제 내역 카드 4분기 메시지** (`/my` 04 섹션)
+  - `b2c_active`: "다음 결제 예정" + 일자 + 가격 + [결제 내역 보기 →]
+  - `trialing`: "첫 결제 예정" + trial_ends_at + 가격 + "체험 종료 후 자동 결제" 안내
+  - `expired`: "구독이 만료되었습니다" + "구독 연장 후 가능" 안내
+  - `b2b`: "학원에서 관리" + 학원 문의 안내
+  - 가격 매핑: basic ₩7,700/월, premium ₩11,900/월 (모든 코스 동일)
+- [x] **PRD_v7 §10 콘텐츠 로드맵 정정**
+  - "TOPIK1 (12유닛)" → "TOPIK1 (15주제)"
+  - 표 1~12 + 13~15 "준비 중 (잠금)" 추가
+  - **4 Phase 구조표 신규 추가** (CurriculumSection 과 1:1 일관)
+  - 개발 우선순위에 Phase 4 단계 추가
+- [x] **unitFileMap 갭 처리** (콘텐츠 미등록 자동 잠금)
+  - `_progress-tabs.tsx`: `implemented=false && !locked` → "콘텐츠 준비 중 · 곧 오픈됩니다" 회색 자물쇠 (3~12 적용)
+  - `components/UnitCard.tsx`: 미연결 컴포넌트도 일관성 차원에서 `coming_soon` / `content_missing` 상태 분기 추가
+  - 화면에는 1~15 모두 노출되지만 실제 진입 가능: 1, 2 (그 외는 회색 자물쇠 또는 navy 안내 박스)
+- [x] 작업 8 (cache: 'no-store') 정책 유지 — 이전 검증에서 정상 반영 확인
+
+### 보류 티켓 (이번 작업에서 처리 안 함)
+
+- #14: GNB 구현 (메인 페이지 기획 후)
+- #15: 콘텐츠 난이도 분기 (unit JSON 보강 후)
+- #16: `/pricing` 전면 재기획
+- #17: 약점 분석 섹션
+- #18: 모의시험 횟수 (Basic 1 / Premium 3) 별도 작업
+- #19: TOPIK 1 주제 2~15 라이브러리 구축 (콘텐츠 작업)
+
+---
+
 ## 2026.04.25 확정 정책 (오늘)
 
 - EPS-TOPIK 지원언어: VN / EN / ID → **VN / TH / ID** (영어 → 태국어로 변경)
@@ -52,6 +137,104 @@
 - [x] /courses/eps-topik 강의 소개 페이지 생성 (20개 유닛 / 4 Phase)
 - [x] 공통 UnitAccordion 컴포넌트 생성
 - [x] 빌드 통과 (37 routes)
+- [x] STEP 10 완료: intended_plan 컬럼 추가
+      - `supabase/migrations/014_users_intended_plan.sql` 생성
+      - `users.intended_plan` TEXT (nullable) + CHECK 제약 (6개 허용값)
+      - 결제 완료 시 null로 초기화하는 컬럼 코멘트 추가
+- [x] /courses/topik2 페이지 스펙 리라이트
+      - 헤더 "TOPIK 2 한국어 기초 과정" / AI 쓰기 첨삭 강조
+      - "콘텐츠 준비 중" 배너 추가 (mint tint)
+      - Hero CTA 를 secondary(mint outline) 로 변경해 orange CTA 1개(하단 "7일 무료로 시작하기 →") 규칙 준수
+      - Basic vs Premium 표에 AI 쓰기 첨삭 / 쓰기 연습 행 추가
+- [x] /courses/eps-topik 페이지 스펙 리라이트
+      - 헤더 "EPS-TOPIK 한국어 과정"
+      - 언어 배지 VN / TH / ID 로 교체 (영어 → 태국어)
+      - 유닛 수 15개로 축소, 3 Phase(산업 현장/생활/시험대비) 재편
+      - 듣기 테스트 단계 + 산업 현장 듣기 비중 강조
+      - Hero CTA secondary + 하단 orange CTA 단일화
+- [x] 로그인 리다이렉트 통합 (단일 진실 공급원)
+      - `lib/auth-redirect.ts` 신규: `resolveLoginDestination(userId)` — `getAccountContext()` 재사용
+      - `app/auth/callback/route.ts` OAuth 콜백 리팩토링
+      - `app/auth/_actions.ts` 신규 server action `getLoginDestination()`
+      - `app/auth/page.tsx` `redirectByRole()` → server action 호출 방식으로 교체
+      - 분기: preferred_language=null→/onboarding/language, kind=none+intended_plan→/pricing?resume=true,
+        kind=none→/pricing, 그 외→/my
+      - admin/master 역할 분기 제거 (현재 불필요)
+- [x] /learn 페이지 완전 삭제
+      - `app/learn/` 전체 디렉토리(17개 파일) 제거
+      - `app/learn/me/signout-button.tsx` / `portal-button.tsx` → `app/my/components/` 로 이동
+      - `app/my/page.tsx` import 경로 업데이트
+- [x] 프로젝트 전체 `/learn` 하드코딩 `/my` 로 교체
+      - `app/admin/_admin-nav.tsx` L76, L96 (학습자 화면 링크 × 2)
+      - `app/admin/layout.tsx` L24 (비관리자 redirect)
+      - `app/unit/[unitId]/UnitClient.tsx` L304 (railBrand 로고 링크)
+      - `app/my/page.tsx` L357, L508 (`/learn/exam` → `/my`)
+      - `app/auth/invite/_invite-form.tsx` L43, L81 (초대 수락 후 redirect × 2)
+      - `app/auth/invite/page.tsx` L157 (계정 불일치 안내 CTA)
+- [x] 빌드 통과 확인 (`npm run build`, 23.6s, 18 pages)
+      - 경로 목록에 `/learn` 소멸, `http://localhost/learn` → 404 응답 검증
+      - 루트 `proxy.ts` (Next 16 미들웨어 리네임) 는 세션 갱신만 수행 — `/learn` 리다이렉트 없음
+- [x] /my 4계정 검증 후 결함 8건 일괄 수정
+      1. UnitCard 잠금 분기 정정 — 구독자에게 [구독하기] 버튼 표시 제거
+         (이전 주제 미완료 시: 자물쇠 + "이전 주제를 완료하면 열려요" 텍스트만)
+      2. Trial 첫 잠금 주제(주제 3) navy 안내 박스: "체험은 주제 2까지 가능해요. 구독하고 12개 주제 전체를 학습할 수 있어요"
+      3. planTier 콘텐츠 분기:
+         - AISection: Basic 3개 / Premium 5개 + "Premium 에서 5가지 AI 확장 학습이 가능해요" 배너
+         - 모의시험 횟수(1/3) 분기는 모의시험 페이지 재구현 시 적용 예정
+      4. Today 카드 → 화살표 제거 → 명확한 navy [바로가기] 버튼 (orange 는 expired/trial한계만)
+      5. Today 카드 "약 20분" 표시 삭제 (메타 → "5단계 중 N단계 · N%" 또는 "주제 N · 5단계 학습")
+      6. 03 카드 "다시 연습해 보세요" → "다시 복습해 보세요"
+         "지난 테스트에서 틀린 문제 0개" / "아직 테스트 기록이 없어요" 문구 제거
+         학습 완료 주제 ≥ 1 시 "학습한 N개 주제 복습 가능" 동적 표시
+      7. /unit 학습 완료 화면: 🎉 + 주제명 + orange [다음 주제 시작/구독하기/마이페이지로] + secondary [한번 더 복습] / [마이페이지로]
+         - trial 주제 2 완료 → orange [구독하고 계속하기 →] /pricing
+         - 마지막 주제 12 완료 → orange [마이페이지로 →]
+      8. /my 캐시 정책: `dynamic = "force-dynamic"` + `revalidate = 0` (학습 직후 즉시 반영)
+      9. 빌드 통과 확인 (Compiled successfully, exit 0)
+- [x] Today 섹션 hero 안 통합 (원본 디자인 복원)
+      - hero 위 별도 섹션 → Navy hero 내부 4컬럼 그리드 (2fr 1fr 1fr 1fr)
+      - Today 카드: 흰 배경 / rounded 22 / shadow-card / 자체가 `<Link>` (별도 버튼 없음)
+      - 레이블 12px mint, 제목 18px navy, 메타 13px sub, 우측 → 화살표
+      - 잠금 상태(topik2/eps 콘텐츠 미준비)는 `<div>` 로 클릭 차단, 회색 배경
+      - 모바일: Today full-width (col-span-2), 통계 2x2 또는 단일 컬럼
+      - 빌드 통과 (18 pages, 30.1s)
+- [x] /my 일괄 수정 (Trial 정책 확정 + 16결함 통합 패치)
+      Trial 정책: "결제 등록 + 7일 무과금 + 주제 1, 2 체험"
+      - Today 섹션 최상단 이동 (PRD §2 준수)
+      - TodaySection 9가지 분기 정의 (Trial 2주제 한계 반영)
+      - /unit 접근 제어 trial unitId<=2 허용 (이전: 1만 허용)
+      - 새 reason: trial-limit-reached (주제 3+ 차단 시)
+      - CourseTabs(ProgressTabs) trial 분기 b2c_active 통합 (이전: 모두 민트 → b2c_active 동일)
+      - expired 잠금 회색 처리 (orange CTA 1개 규칙)
+      - 03 섹션 trial 활성, 모의시험 navy(전체 완료시), expired blur 잠금
+      - 04 결제 카드 trial "무료 체험 중 + 자동 결제 안내" 표시 + PortalButton
+      - 결제 내역 카드 PortalButton 중복 제거 (텍스트만)
+      - 헤더 통계 trial 정상 카운트 (b2c_active 동일)
+      - 헤더 mint 원에 사용자 이름 첫 글자 표시
+      - 헤더 인사말 좌측 정렬 (text-left)
+      - 코스명 옆 "12 주제" 단위 표기
+      - 학습 목록 진도바: 진행 중/완료만 표시, 미시작·잠금은 숨김
+      - 이전 주제 5섹션 미완료 시 다음 주제 시작 버튼 잠금 (UnitList 재구현)
+      - 첫 잠금 주제에 navy 안내 박스 1회 표시 (이전: 모든 잠금에 orange 버튼)
+      - SignOutButton 빨강 → secondary navy outline (디자인 시스템 §4-2)
+      - "유닛" → "주제" UI 텍스트 일괄 교체 (app/ 전체, 변수/타입명은 유지)
+      - ?reason= 쿼리 안내 카드 (trial-locked / trial-limit-reached / plan-mismatch / previous-unit-required)
+      - 빌드 통과 (18 pages, exit 0)
+- [x] TodaySection 6+1 상태 분기 + expired 무한 루프 수정
+      - 결함: `/my` 의 옛 hero "오늘 학습" 카드가 `accountKind` 무관하게 `/unit/{slug}` mint 버튼을 노출
+        → expired 클릭 시 `/unit/[unitId]` 접근 제어가 다시 `/my` 로 리다이렉트하여 무한 루프
+      - `app/my/components/TodaySection.tsx` 7 상태로 보강:
+        1. fresh + b2c/b2b → "학습 시작하기 →" orange `/unit/1`
+        2. in_progress (b2c/b2b/trialing) → "이어서 학습하기 →" orange `/unit/{n}`
+        3. next (b2c) → "다음 유닛 시작하기 →" orange `/unit/{n+1}`
+        4. all_done (b2c) → "처음부터 다시 학습하기" **navy** `/unit/1`
+        5. b2c/b2b + topik2|eps → 회색 "🔒 콘텐츠 준비 중" 비활성
+        6. expired → "구독 연장하기 →" orange **`/pricing`** (`/unit/*` 절대 금지)
+        7. fresh + trialing → "체험 학습 시작하기 →" orange `/unit/1`
+      - trialing maxUnit=1 강제 (unit 2+ 추천 차단으로 `/my?reason=trial-locked` 루프 방지)
+      - `/my/page.tsx` 옛 hero Today 카드 제거, `<TodaySection />` 을 hero 외부 독립 섹션으로 배치
+      - 이용 정보 섹션 trialing/expired 의 "구독하기" 버튼 orange → navy 로 변경 (orange CTA 1개 규칙 보호)
+      - 빌드 통과 확인 (exit 0, 18 pages)
 
 ## 다음 작업 예정
 - [ ] /my 탭 구조 변경 빌드 확인 및 로컬 검증

@@ -1,5 +1,6 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getAccountContext } from "@/lib/account-kind";
 import type { UnitData, UnitLanguage } from "./types";
 import UnitClient from "./UnitClient";
 
@@ -10,6 +11,10 @@ const unitFileMap: Record<string, { file: string; unitNumber: number }> = {
 
 const SUPPORTED_LANGS: UnitLanguage[] = ["vi", "en", "zh", "id"];
 const FALLBACK_LANG: UnitLanguage = "vi";
+
+// 현재 /unit/[unitId] 는 TOPIK 1 전용 (PROGRESS.md 참조).
+// TOPIK 2 / EPS 는 /unit/topik2/[unitId], /unit/eps/[unitId] 로 분리될 예정.
+const THIS_ROUTE_COURSE = "topik1" as const;
 
 function normalizeLanguage(raw: string | null | undefined): UnitLanguage {
   if (!raw) return FALLBACK_LANG;
@@ -38,7 +43,7 @@ async function resolvePreferredLanguage(): Promise<UnitLanguage> {
 }
 
 /**
- * user_progress 에서 해당 유저 × 해당 유닛의 섹션별 완료 상태를 조회한다.
+ * user_progress 에서 해당 유저 × 해당 주제의 섹션별 완료 상태를 조회한다.
  * 비로그인이거나 오류 시 빈 객체를 반환 (클라이언트는 전부 미완료로 시작).
  */
 async function loadUnitProgress(
@@ -163,7 +168,7 @@ async function loadUnit(unitId: string): Promise<UnitData | null> {
   if (!loaded) return null;
   const unit = normalizeUnitShape(loaded.data);
 
-  // PLACEHOLDER 로 표시된 유닛은 실제 Bunny 라이브러리 환경변수 주입을 건너뛴다
+  // PLACEHOLDER 로 표시된 주제는 실제 Bunny 라이브러리 환경변수 주입을 건너뛴다
   const isPlaceholder = unit.bunny_video_id?.startsWith("PLACEHOLDER");
   const bunnyLibraryId = isPlaceholder
     ? unit.bunny_library_id
@@ -176,14 +181,91 @@ async function loadUnit(unitId: string): Promise<UnitData | null> {
   };
 }
 
+/**
+ * 접근 제어: 로그인 / 구독 상태 / 플랜 타입 / 이전 주제 완료 여부를 검증.
+ * 부적합 시 적절한 경로로 redirect 하며, 통과 시 planTier 를 UnitClient 에 전달한다.
+ */
+async function enforceUnitAccess(unitId: string): Promise<{
+  planTier: "basic" | "premium" | null;
+  accountKind: "b2b" | "b2c_active" | "trialing" | "expired" | "none";
+}> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/auth");
+
+  const ctx = await getAccountContext(user.id);
+
+  if (ctx.kind === "none") redirect("/pricing");
+  if (ctx.kind === "expired") redirect("/my");
+
+  const unitNum = Number.parseInt(unitId, 10);
+  const isValidUnitNum = Number.isFinite(unitNum) && unitNum >= 1;
+
+  // 이전 주제(N-1) 5섹션 완료 여부 헬퍼
+  async function isPrevUnitDone(num: number): Promise<boolean> {
+    if (num <= 1) return true;
+    const prevUnitTableId = `topik1_u${String(num - 1).padStart(2, "0")}`;
+    const { data: prevRows } = await supabase
+      .from("user_progress")
+      .select("section")
+      .eq("user_id", user!.id)
+      .eq("unit_id", prevUnitTableId)
+      .eq("completed", true);
+    const doneSections = new Set((prevRows ?? []).map((r) => r.section));
+    return doneSections.size >= 5;
+  }
+
+  if (ctx.kind === "trialing") {
+    // Trial 정책: 주제 1, 2 만 진입 가능. 주제 3 이상 → trial-limit-reached
+    if (!isValidUnitNum) {
+      redirect("/my?reason=trial-locked");
+    }
+    if (unitNum >= 3) {
+      redirect("/my?reason=trial-limit-reached");
+    }
+    // 주제 2 진입 시 주제 1 5섹션 완료 검증
+    if (unitNum === 2 && !(await isPrevUnitDone(2))) {
+      redirect("/my?reason=previous-unit-required");
+    }
+  } else if (ctx.kind === "b2c_active" || ctx.kind === "b2b") {
+    // 이 라우트(/unit/[unitId]) 는 TOPIK 1 전용 — 플랜이 다르면 차단
+    if (ctx.planType !== THIS_ROUTE_COURSE) {
+      redirect("/my?reason=plan-mismatch");
+    }
+    // 이전 주제(N-1) 5섹션 완료 여부 확인
+    if (isValidUnitNum && unitNum > 1 && !(await isPrevUnitDone(unitNum))) {
+      redirect("/my?reason=previous-unit-required");
+    }
+  }
+
+  return { planTier: ctx.planTier, accountKind: ctx.kind };
+}
+
 export default async function UnitPage({
   params,
 }: {
   params: Promise<{ unitId: string }>;
 }) {
   const { unitId } = await params;
+
+  // 1) 접근 제어 (비로그인/구독/플랜/이전 주제 검증)
+  const { planTier, accountKind } = await enforceUnitAccess(unitId);
+
+  // 2) 주제 콘텐츠 로드
   const unit = await loadUnit(unitId);
   if (!unit) notFound();
+
+  // 3) 사용자 진도 복원
   const initialCompleted = await loadUnitProgress(unit.unit_id);
-  return <UnitClient unit={unit} initialCompleted={initialCompleted} />;
+
+  return (
+    <UnitClient
+      unit={unit}
+      initialCompleted={initialCompleted}
+      planTier={planTier}
+      accountKind={accountKind}
+    />
+  );
 }

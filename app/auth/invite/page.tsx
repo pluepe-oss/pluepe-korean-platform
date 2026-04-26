@@ -154,7 +154,7 @@ export default async function InvitePage({
         tone="amber"
         title="다른 계정으로 로그인되어 있어요"
         body={`초대받은 이메일은 ${inv.email} 입니다. 현재 로그인된 계정(${currentUser.email})과 달라요. 로그아웃 후 다시 접속해 주세요.`}
-        cta={{ href: "/learn/me", label: "마이페이지로" }}
+        cta={{ href: "/my", label: "마이페이지로" }}
       />
     );
   }

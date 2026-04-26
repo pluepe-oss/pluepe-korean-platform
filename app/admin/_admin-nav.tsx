@@ -73,7 +73,7 @@ export default function AdminNav({
             {userLabel}
           </div>
           <Link
-            href="/learn"
+            href="/my"
             className="mt-3 inline-block text-[11px] font-medium text-gray-500 hover:text-gray-700"
           >
             학습자 화면으로
@@ -93,7 +93,7 @@ export default function AdminNav({
             </div>
           </div>
           <Link
-            href="/learn"
+            href="/my"
             className="shrink-0 text-[11px] font-medium text-gray-500"
           >
             학습자 화면

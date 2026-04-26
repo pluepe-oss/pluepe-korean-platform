@@ -116,6 +116,24 @@ export async function POST(request: Request) {
         if (subId) {
           const sub = await stripe.subscriptions.retrieve(subId);
           await upsertSubscription(sub);
+
+          // 결제 완료 → users.intended_plan 초기화 (resume 카드 노출 방지)
+          const userId =
+            (sub.metadata?.user_id as string | undefined) ??
+            (session.client_reference_id ?? undefined);
+          if (userId) {
+            const db = adminClient();
+            const { error: clearErr } = await db
+              .from("users")
+              .update({ intended_plan: null })
+              .eq("id", userId);
+            if (clearErr) {
+              console.error(
+                "[stripe webhook] intended_plan 초기화 실패",
+                clearErr,
+              );
+            }
+          }
         }
         break;
       }

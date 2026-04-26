@@ -460,7 +460,7 @@ export default function CurriculumSection() {
                   <div
                     className="cur-grid"
                     role="region"
-                    aria-label={`${phase.title} 유닛 목록`}
+                    aria-label={`${phase.title} 주제 목록`}
                   >
                     {phase.units.map((unit) => (
                       <UnitCard key={unit.n} unit={unit} />

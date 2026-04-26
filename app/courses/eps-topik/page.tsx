@@ -13,10 +13,13 @@ function makeLocked(start: number, count: number): Unit[] {
   }));
 }
 
+// PRD v7 §3 — EPS-TOPIK 총 15 주제.
+// 산업 현장·생활·시험대비 3개 Phase 로 묶고, 듣기 비중을 높인 구성으로 설계.
+// 실제 콘텐츠는 Phase 1 에 2개 샘플만 공개, 나머지 13개는 "준비 중" placeholder.
 const PHASES: Phase[] = [
   {
     number: 1,
-    title: '작업장 기초',
+    title: '산업 현장 기초',
     range: '1~5',
     units: [
       {
@@ -25,15 +28,15 @@ const PHASES: Phase[] = [
         title: '작업장 안전 표현',
         badge: '안전',
         expressions: ['위험해요', '조심하세요', '안전모 쓰세요'],
-        result: '작업장 안전 표현을 말할 수 있어요',
+        result: '작업장 안전 표현을 듣고 말할 수 있어요',
       },
       {
         number: 2,
         emoji: '🏭',
-        title: '공장 업무 지시',
-        badge: '업무 지시',
+        title: '공장 업무 지시 듣기',
+        badge: '듣기',
         expressions: ['이거 해주세요', '다시 해요', '완료했어요'],
-        result: '업무 지시를 이해할 수 있어요',
+        result: '업무 지시를 듣고 이해할 수 있어요',
       },
       ...makeLocked(3, 3),
     ],
@@ -46,15 +49,9 @@ const PHASES: Phase[] = [
   },
   {
     number: 3,
-    title: '업무 심화',
+    title: '시험 대비 듣기',
     range: '11~15',
     units: makeLocked(11, 5),
-  },
-  {
-    number: 4,
-    title: '시험 대비',
-    range: '16~20',
-    units: makeLocked(16, 5),
   },
 ];
 
@@ -76,6 +73,7 @@ const LANG_BADGE: React.CSSProperties = {
   color: '#ffffff',
 };
 
+// 하단 전용 orange CTA — 화면당 1개만 사용.
 const CTA_ORANGE: React.CSSProperties = {
   display: 'inline-block',
   background: '#ff7d5a',
@@ -83,7 +81,21 @@ const CTA_ORANGE: React.CSSProperties = {
   padding: '14px 32px',
   borderRadius: 12,
   fontSize: 15,
-  fontWeight: 600,
+  fontWeight: 700,
+  textDecoration: 'none',
+  whiteSpace: 'nowrap',
+};
+
+// Hero 용 secondary 버튼 — mint outline.
+const CTA_SECONDARY: React.CSSProperties = {
+  display: 'inline-block',
+  background: 'transparent',
+  color: '#27d3c3',
+  border: '1.5px solid #27d3c3',
+  padding: '12px 28px',
+  borderRadius: 12,
+  fontSize: 14,
+  fontWeight: 700,
   textDecoration: 'none',
   whiteSpace: 'nowrap',
 };
@@ -100,6 +112,7 @@ const RESPONSIVE_CSS = `
   .cx-table th, .cx-table td { padding: 14px 16px; border-bottom: 1px solid #e2e8f0; text-align: left; }
   .cx-table thead th { background: #122c4f; color: #ffffff; font-weight: 600; }
   .cx-table tbody tr:last-child td { border-bottom: none; }
+  .cx-table tbody td:nth-child(3) { color: #1fb8aa; font-weight: 600; }
 `;
 
 function StepCard({
@@ -124,6 +137,52 @@ function StepCard({
   );
 }
 
+function ContentPendingBanner() {
+  return (
+    <section style={{ padding: '32px 0 0' }}>
+      <div className="cx-container">
+        <div
+          role="status"
+          style={{
+            background: 'rgba(39,211,195,0.1)',
+            border: '1px solid rgba(39,211,195,0.35)',
+            borderRadius: 22,
+            padding: '20px 24px',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 14,
+          }}
+        >
+          <span aria-hidden style={{ fontSize: 22 }}>🏗️</span>
+          <div>
+            <div
+              style={{
+                fontSize: 15,
+                fontWeight: 800,
+                color: '#0b8178',
+                marginBottom: 4,
+              }}
+            >
+              콘텐츠 준비 중
+            </div>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 13,
+                color: '#334155',
+                lineHeight: 1.6,
+              }}
+            >
+              EPS-TOPIK 주제는 산업 현장 카테고리별로 순차 공개됩니다.
+              듣기 중심 훈련을 먼저 경험하고 싶다면 아래에서 구독을 시작해 주세요.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function EpsTopikCoursePage() {
   return (
     <div
@@ -136,6 +195,7 @@ export default function EpsTopikCoursePage() {
     >
       <style dangerouslySetInnerHTML={{ __html: RESPONSIVE_CSS }} />
 
+      {/* Hero */}
       <section style={{ background: '#122c4f', color: '#ffffff', padding: '72px 0' }}>
         <div className="cx-container">
           <span
@@ -143,11 +203,13 @@ export default function EpsTopikCoursePage() {
               display: 'inline-block',
               padding: '6px 14px',
               borderRadius: 999,
-              background: 'rgba(255,255,255,0.15)',
+              background: 'rgba(39,211,195,0.18)',
+              color: '#27d3c3',
               fontSize: 13,
-              fontWeight: 700,
+              fontWeight: 800,
               marginBottom: 18,
               letterSpacing: '0.4px',
+              border: '1px solid rgba(39,211,195,0.3)',
             }}
           >
             EPS-TOPIK
@@ -155,14 +217,14 @@ export default function EpsTopikCoursePage() {
           <h1
             className="cx-hero-title"
             style={{
-              fontSize: 28,
-              fontWeight: 700,
+              fontSize: 36,
+              fontWeight: 800,
               margin: 0,
               marginBottom: 12,
               letterSpacing: '-0.4px',
             }}
           >
-            EPS-TOPIK 고용허가제 시험 대비 과정
+            EPS-TOPIK 한국어 과정
           </h1>
           <p
             style={{
@@ -174,19 +236,23 @@ export default function EpsTopikCoursePage() {
               lineHeight: 1.6,
             }}
           >
-            작업장과 생활에서 쓰이는 실전 한국어, 업종별 회화까지 한 번에.
+            작업장과 생활 속 실전 한국어를 듣기 중심으로 훈련하여 고용허가제 시험을 준비하세요.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
             <span style={LANG_BADGE}>🇻🇳 베트남어</span>
-            <span style={LANG_BADGE}>🇺🇸 영어</span>
+            <span style={LANG_BADGE}>🇹🇭 태국어</span>
             <span style={LANG_BADGE}>🇮🇩 인도네시아어</span>
           </div>
-          <Link href="/pricing" style={CTA_ORANGE}>
-            구독하기 →
+          <Link href="/pricing?product=eps" style={CTA_SECONDARY}>
+            자세히 보기
           </Link>
         </div>
       </section>
 
+      {/* 콘텐츠 준비 중 배너 */}
+      <ContentPendingBanner />
+
+      {/* 학습 방식 5단계 */}
       <section style={{ padding: '64px 0 32px' }}>
         <div className="cx-container">
           <h2
@@ -208,15 +274,16 @@ export default function EpsTopikCoursePage() {
               gap: 16,
             }}
           >
-            <StepCard num="①" title="세션" desc="영상으로 상황 학습" />
-            <StepCard num="②" title="단어" desc="핵심 단어 암기" />
-            <StepCard num="③" title="패턴" desc="문장 패턴 훈련" />
-            <StepCard num="④" title="테스트" desc="실력 확인" />
+            <StepCard num="①" title="세션" desc="현장 상황 영상" />
+            <StepCard num="②" title="단어" desc="업종별 핵심 단어" />
+            <StepCard num="③" title="패턴" desc="업무 지시 패턴" />
+            <StepCard num="④" title="듣기 테스트" desc="시험 형식 청취" />
             <StepCard num="⑤" title="AI 확장" desc="AI와 회화 연습" />
           </div>
         </div>
       </section>
 
+      {/* 학습 목록 (3 Phase × 5 주제 = 15 주제 아코디언) */}
       <section style={{ padding: '32px 0' }}>
         <div className="cx-container">
           <h2
@@ -231,12 +298,13 @@ export default function EpsTopikCoursePage() {
             학습 목록
           </h2>
           <p style={{ fontSize: 14, color: '#64748b', margin: 0, marginBottom: 24 }}>
-            총 20개 유닛 · 4개 Phase로 구성
+            총 15개 주제 · 산업 현장 카테고리별 3개 Phase 구성
           </p>
           <UnitAccordion phases={PHASES} />
         </div>
       </section>
 
+      {/* Basic vs Premium (산업 현장 + 듣기 비중 강조) */}
       <section style={{ padding: '32px 0' }}>
         <div className="cx-container">
           <h2
@@ -261,17 +329,22 @@ export default function EpsTopikCoursePage() {
               </thead>
               <tbody>
                 <tr>
-                  <td>유닛 접근</td>
+                  <td>주제 접근</td>
                   <td>순차 학습</td>
                   <td>자유 선택</td>
                 </tr>
                 <tr>
-                  <td>AI 연습</td>
-                  <td>유닛당 3회</td>
-                  <td>유닛당 5회 + 학습 로그</td>
+                  <td>산업 현장 듣기</td>
+                  <td>표준 속도</td>
+                  <td>표준 + 배속 + 현장 소음 버전</td>
                 </tr>
                 <tr>
-                  <td>모의고사</td>
+                  <td>AI 회화</td>
+                  <td>주제당 3회</td>
+                  <td>주제당 5회 + 업종별 롤플레이</td>
+                </tr>
+                <tr>
+                  <td>모의고사 (듣기 중심)</td>
                   <td>1회 (완료 후)</td>
                   <td>3회 (진도 중 2회 + 최종)</td>
                 </tr>
@@ -286,6 +359,7 @@ export default function EpsTopikCoursePage() {
         </div>
       </section>
 
+      {/* 하단 CTA (화면당 유일한 orange CTA) */}
       <section style={{ padding: '32px 0 80px' }}>
         <div className="cx-container">
           <div
@@ -320,11 +394,11 @@ export default function EpsTopikCoursePage() {
                   margin: 0,
                 }}
               >
-                7일 무료체험으로 EPS-TOPIK 첫 유닛을 경험해보세요
+                7일 무료체험으로 EPS-TOPIK 첫 주제과 듣기 훈련을 경험해보세요
               </p>
             </div>
-            <Link href="/pricing" style={CTA_ORANGE}>
-              구독하기 →
+            <Link href="/pricing?product=eps" style={CTA_ORANGE}>
+              7일 무료로 시작하기 →
             </Link>
           </div>
         </div>

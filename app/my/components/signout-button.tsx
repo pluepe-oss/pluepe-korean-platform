@@ -31,7 +31,7 @@ export default function SignOutButton() {
         type="button"
         onClick={() => setShowConfirm(true)}
         disabled={loading}
-        className="flex h-12 w-full items-center justify-center rounded-xl bg-red-600 text-sm font-semibold text-white active:bg-red-700 disabled:opacity-60"
+        className="flex h-12 w-full items-center justify-center rounded-xl border-[1.5px] border-[#122c4f] bg-white text-sm font-semibold text-[#122c4f] transition hover:bg-[#f1f5f9] disabled:opacity-60"
       >
         {loading ? "로그아웃 중..." : "로그아웃"}
       </button>
@@ -69,7 +69,7 @@ export default function SignOutButton() {
                   signOut();
                 }}
                 disabled={loading}
-                className="h-11 flex-1 rounded-lg bg-red-600 text-sm font-semibold text-white active:bg-red-700 disabled:opacity-60"
+                className="h-11 flex-1 rounded-lg bg-[#122c4f] text-sm font-semibold text-white active:bg-[#1a3d6e] disabled:opacity-60"
               >
                 로그아웃
               </button>

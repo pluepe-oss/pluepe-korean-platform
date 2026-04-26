@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      // 비로그인 사용자도 유닛 체험 가능 — 저장은 건너뛰고 success:false 로 skip 신호만 반환
+      // 비로그인 사용자도 주제 체험 가능 — 저장은 건너뛰고 success:false 로 skip 신호만 반환
       return NextResponse.json({ success: false, skipped: "unauthenticated" });
     }
 

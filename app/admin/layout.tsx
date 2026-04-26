@@ -21,7 +21,7 @@ export default async function AdminLayout({
 
   if (!profile) redirect("/auth");
   if (profile.role !== "admin" && profile.role !== "master") {
-    redirect("/learn");
+    redirect("/my");
   }
 
   let academyName: string | null = null;

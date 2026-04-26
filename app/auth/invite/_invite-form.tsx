@@ -40,7 +40,7 @@ export default function InviteForm(props: {
     setLoading(true);
     try {
       await acceptInvitation();
-      router.replace("/learn");
+      router.replace("/my");
       router.refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : "알 수 없는 오류");
@@ -78,7 +78,7 @@ export default function InviteForm(props: {
         return;
       }
       await acceptInvitation();
-      router.replace("/learn");
+      router.replace("/my");
       router.refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : "알 수 없는 오류");
