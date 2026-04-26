@@ -1,0 +1,230 @@
+{
+  "unit": "u103",
+  "topic": "카페에서 음료 주문하기",
+  "level": "TOPIK1",
+  "category": "음식",
+  "languages": [
+    "vi",
+    "en",
+    "zh"
+  ],
+  "topic_titles": {
+    "vi": "Gọi đồ uống ở quán cà phê",
+    "ko": "카페에서 음료 주문하기",
+    "en": "ordering drinks at a cafe",
+    "zh": "在咖啡厅点饮料"
+  },
+  "source": {
+    "content_json": "output/TOPIK1_초급/03_카페에서_음료_주문하기/content.json",
+    "content_generated_at": "2026-04-23T14:04:29",
+    "lang_generated_at": {
+      "en": "2026-04-23T14:04:29",
+      "vi": "2026-04-23T15:35:24",
+      "zh": "2026-04-23T14:04:29"
+    }
+  },
+  "dialogue_mode": "unified",
+  "dialogue": [
+    {
+      "line": 1,
+      "role": "손님",
+      "ko": "안녕하세요. 아메리카노 한 잔 주세요.",
+      "romanization": "",
+      "vi": "Xin chào. Cho tôi một ly Americano.",
+      "en": "Hello. One Americano, please.",
+      "zh": "你好，请给我一杯美式咖啡。"
+    },
+    {
+      "line": 2,
+      "role": "직원",
+      "ko": "사이즈는 어떻게 해 드릴까요?",
+      "romanization": "",
+      "vi": "Quý khách muốn dùng cỡ nào ạ?",
+      "en": "What size would you like?",
+      "zh": "您要多大杯的？"
+    },
+    {
+      "line": 3,
+      "role": "손님",
+      "ko": "미디엄으로 주세요.",
+      "romanization": "",
+      "vi": "Cho tôi cỡ vừa.",
+      "en": "Medium, please.",
+      "zh": "中杯。"
+    },
+    {
+      "line": 4,
+      "role": "직원",
+      "ko": "따뜻하게 드릴까요, 차갑게 드릴까요?",
+      "romanization": "",
+      "vi": "Bạn muốn uống nóng hay lạnh ạ?",
+      "en": "Would you like it hot or iced?",
+      "zh": "要热的还是冰的？"
+    },
+    {
+      "line": 5,
+      "role": "손님",
+      "ko": "차갑게 주세요.",
+      "romanization": "",
+      "vi": "Cho tôi uống đá.",
+      "en": "Iced, please.",
+      "zh": "冰的。"
+    },
+    {
+      "line": 6,
+      "role": "직원",
+      "ko": "여기서 드실 건가요, 포장해 드릴까요?",
+      "romanization": "",
+      "vi": "Bạn dùng tại đây hay mang về ạ?",
+      "en": "For here or to go?",
+      "zh": "在这里用还是打包？"
+    },
+    {
+      "line": 7,
+      "role": "손님",
+      "ko": "포장해 주세요.",
+      "romanization": "",
+      "vi": "Cho tôi mang về.",
+      "en": "To go, please.",
+      "zh": "打包。"
+    },
+    {
+      "line": 8,
+      "role": "직원",
+      "ko": "잠시만 기다려 주세요. 여기 있습니다.",
+      "romanization": "",
+      "vi": "Vui lòng đợi một chút. Đây ạ.",
+      "en": "Please wait a moment. Here you go.",
+      "zh": "请稍等。给您。"
+    }
+  ],
+  "vocabulary": [
+    {
+      "ko": "아메리카노",
+      "romanization": "",
+      "vi": "",
+      "en": "",
+      "zh": ""
+    },
+    {
+      "ko": "사이즈",
+      "romanization": "",
+      "vi": "",
+      "en": "",
+      "zh": ""
+    },
+    {
+      "ko": "미디엄",
+      "romanization": "",
+      "vi": "",
+      "en": "",
+      "zh": ""
+    },
+    {
+      "ko": "따뜻하다",
+      "romanization": "",
+      "vi": "",
+      "en": "",
+      "zh": ""
+    },
+    {
+      "ko": "차갑다",
+      "romanization": "",
+      "vi": "",
+      "en": "",
+      "zh": ""
+    },
+    {
+      "ko": "포장",
+      "romanization": "",
+      "vi": "",
+      "en": "",
+      "zh": ""
+    }
+  ],
+  "key_expressions": [
+    {
+      "ko": "~한 잔 주세요",
+      "romanization": "",
+      "situation": "음료를 주문할 때",
+      "vi": "",
+      "en": "",
+      "zh": ""
+    },
+    {
+      "ko": "사이즈는 어떻게 해 드릴까요?",
+      "romanization": "",
+      "situation": "사이즈를 물을 때",
+      "vi": "",
+      "en": "",
+      "zh": ""
+    },
+    {
+      "ko": "따뜻하게 드릴까요, 차갑게 드릴까요?",
+      "romanization": "",
+      "situation": "온도를 물을 때",
+      "vi": "",
+      "en": "",
+      "zh": ""
+    },
+    {
+      "ko": "여기서 드실 건가요, 포장해 드릴까요?",
+      "romanization": "",
+      "situation": "매장/포장 여부를 물을 때",
+      "vi": "",
+      "en": "",
+      "zh": ""
+    },
+    {
+      "ko": "잠시만 기다려 주세요",
+      "romanization": "",
+      "situation": "기다림을 요청할 때",
+      "vi": "",
+      "en": "",
+      "zh": ""
+    }
+  ],
+  "bunny_guids": {
+    "vi": {
+      "step1": "e78e8742-57ae-4756-818d-40bd72fb97ba",
+      "step2": "00984842-cd81-4714-a326-1decb5fbea6c",
+      "step3": "af8a3c93-45c3-430c-8f74-8c1753a3bb14"
+    },
+    "en": {
+      "step1": "3a4f5a0f-9c7a-44c6-9fb9-0530623af5a8",
+      "step2": "f87f3c16-a814-45f3-aade-e03f908fd81a",
+      "step3": "ca14d2fb-f1b4-4950-96e6-f59ef5b3af11"
+    },
+    "zh": {
+      "step1": "6fb72252-a0e2-462d-909f-cf14c67dc8c9",
+      "step2": "67450a13-1bcc-45af-ac13-f9c4ec4be226",
+      "step3": "ee4ff1d1-ac0e-484d-9988-86851f887764"
+    }
+  },
+  "grammar_points": [
+    {
+      "pattern": "~해 드릴까요?",
+      "explanation": "상대방에게 정중하게 의향을 물을 때",
+      "example_ko": "따뜻하게 해 드릴까요?",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "",
+      "en": "",
+      "example_en": "",
+      "zh": "",
+      "example_zh": ""
+    },
+    {
+      "pattern": "~으로 주세요",
+      "explanation": "선택 후 요청할 때",
+      "example_ko": "미디엄으로 주세요.",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "",
+      "en": "",
+      "example_en": "",
+      "zh": "",
+      "example_zh": ""
+    }
+  ]
+}

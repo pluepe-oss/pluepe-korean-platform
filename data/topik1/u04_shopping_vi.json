@@ -1,0 +1,328 @@
+{
+  "unit_id": "topik1_u04",
+  "language": "vi",
+  "exam_type": "TOPIK1",
+  "topic": "쇼핑몰에서 옷 사기",
+  "topic_translation": "Mua quần áo ở trung tâm mua sắm",
+  "level": 1,
+  "duration_min": 25,
+  "bunny_library_id": "640837",
+  "bunny_video_ids": {
+    "step1": "2c5ca133-8e71-47c7-9829-c8efb132a016",
+    "step2": "d343afba-ea29-414b-bd1a-dc57e9cd89a9",
+    "step3": "237e326f-f9ea-472f-a1b7-4002a55eb937"
+  },
+  "is_free": false,
+  "key_expressions": [
+    {
+      "ko": "이거 얼마예요?",
+      "translation": "Cái này giá bao nhiêu?"
+    },
+    {
+      "ko": "다른 색깔 있어요?",
+      "translation": "Có màu khác không?"
+    },
+    {
+      "ko": "입어봐도 돼요?",
+      "translation": "Tôi có thể thử được không?"
+    },
+    {
+      "ko": "좀 작아요",
+      "translation": "Hơi nhỏ"
+    },
+    {
+      "ko": "이걸로 할게요",
+      "translation": "Tôi lấy cái này"
+    }
+  ],
+  "session": {
+    "step1_quiz": {
+      "question": "이 대화가 일어나는 곳은 어디인가요?",
+      "options": [
+        "쇼핑몰",
+        "학교",
+        "병원"
+      ],
+      "answer": 0
+    },
+    "step2_blanks": [
+      {
+        "sentence": "이거 ____예요?",
+        "hint": "Từ dùng để hỏi giá cả",
+        "options": [
+          "얼마",
+          "언제",
+          "어디"
+        ],
+        "answer": 0
+      },
+      {
+        "sentence": "다른 ____ 있어요?",
+        "hint": "Từ chỉ màu sắc",
+        "options": [
+          "크기",
+          "색깔",
+          "모양"
+        ],
+        "answer": 1
+      },
+      {
+        "sentence": "____봐도 돼요?",
+        "hint": "Động từ có nghĩa là mặc thử quần áo",
+        "options": [
+          "입어",
+          "신어",
+          "써"
+        ],
+        "answer": 0
+      }
+    ],
+    "step3_sentences": [
+      {
+        "ko": "이거 얼마예요?",
+        "translation": "Cái này giá bao nhiêu?"
+      },
+      {
+        "ko": "다른 색깔 있어요?",
+        "translation": "Có màu khác không?"
+      },
+      {
+        "ko": "입어봐도 돼요?",
+        "translation": "Tôi có thể thử được không?"
+      }
+    ],
+    "step4_words": [
+      {
+        "korean": "옷",
+        "translation": "quần áo",
+        "example": "옷을(를) 사용해요."
+      },
+      {
+        "korean": "티셔츠",
+        "translation": "áo thun",
+        "example": "티셔츠를 찾고 있어요."
+      },
+      {
+        "korean": "색깔",
+        "translation": "màu sắc",
+        "example": "어떤 색깔을 원하세요?"
+      },
+      {
+        "korean": "사이즈",
+        "translation": "size",
+        "example": "좀 커요. 더 작은 사이즈 있어요?"
+      },
+      {
+        "korean": "가격",
+        "translation": "giá",
+        "example": "가격을(를) 사용해요."
+      },
+      {
+        "korean": "흰색",
+        "translation": "màu trắng",
+        "example": "흰색이나 파란색이요. 이거 얼마예요?"
+      }
+    ],
+    "step5_review": [
+      {
+        "ko": "이거 얼마예요?",
+        "translation": "Cái này giá bao nhiêu?",
+        "context": "Khi muốn hỏi giá cả"
+      },
+      {
+        "ko": "다른 색깔 있어요?",
+        "translation": "Có màu khác không?",
+        "context": "Khi muốn hỏi có màu khác không"
+      },
+      {
+        "ko": "입어봐도 돼요?",
+        "translation": "Tôi có thể thử được không?",
+        "context": "Khi muốn thử quần áo"
+      }
+    ]
+  },
+  "words": [
+    {
+      "korean": "옷",
+      "translation": "quần áo",
+      "example_ko": "옷을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "티셔츠",
+      "translation": "áo thun",
+      "example_ko": "티셔츠를 찾고 있어요.",
+      "example": ""
+    },
+    {
+      "korean": "색깔",
+      "translation": "màu sắc",
+      "example_ko": "어떤 색깔을 원하세요?",
+      "example": ""
+    },
+    {
+      "korean": "사이즈",
+      "translation": "size",
+      "example_ko": "좀 커요. 더 작은 사이즈 있어요?",
+      "example": ""
+    },
+    {
+      "korean": "가격",
+      "translation": "giá",
+      "example_ko": "가격을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "흰색",
+      "translation": "màu trắng",
+      "example_ko": "흰색이나 파란색이요. 이거 얼마예요?",
+      "example": ""
+    },
+    {
+      "korean": "파란색",
+      "translation": "màu xanh dương",
+      "example_ko": "흰색이나 파란색이요. 이거 얼마예요?",
+      "example": ""
+    },
+    {
+      "korean": "크다",
+      "translation": "to/rộng",
+      "example_ko": "크다을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "작다",
+      "translation": "nhỏ",
+      "example_ko": "작다을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "입어보다",
+      "translation": "thử (quần áo)",
+      "example_ko": "입어보다을(를) 사용해요.",
+      "example": ""
+    }
+  ],
+  "words_quiz": [
+    {
+      "type": "situation",
+      "question": "쇼핑몰에서 마음에 드는 셔츠를 발견했는데 내 몸에 맞는지 확인하고 싶을 때 점원에게 뭐라고 물어봐야 하나요?",
+      "options": [
+        "사이즈가 뭐예요?",
+        "색깔이 뭐예요?",
+        "가격이 얼마예요?",
+        "옷이 크네요"
+      ],
+      "answer": 0,
+      "hint": "Kích thước của quần áo"
+    },
+    {
+      "type": "situation",
+      "question": "친구가 새로 산 옷을 보여주면서 어떤지 물어볼 때, 그 옷의 색상에 대해 이야기하고 싶다면 뭐라고 말해야 하나요?",
+      "options": [
+        "가격이 비싸네요",
+        "사이즈가 커요",
+        "색깔이 예뻐요",
+        "티셔츠가 좋아요"
+      ],
+      "answer": 2,
+      "hint": "Nói về màu sắc đẹp"
+    },
+    {
+      "type": "fill",
+      "question": "저는 여름에 시원한 ____을/를 입는 것을 좋아해요.",
+      "options": [
+        "티셔츠",
+        "색깔",
+        "사이즈",
+        "가격"
+      ],
+      "answer": 0,
+      "hint": "Loại áo mặc mùa hè"
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "N+을/를 찾고 있어요",
+      "meaning": "đang tìm + N",
+      "examples": [
+        "바지를 찾고 있어요.",
+        "Tôi đang tìm quần."
+      ],
+      "blank_quiz": {
+        "sentence": "저는 새로운 ____을 찾고 있어요.",
+        "answer": "신발",
+        "options": [
+          "신발",
+          "먹어",
+          "예쁘",
+          "학교에서"
+        ]
+      }
+    },
+    {
+      "pattern": "어떤 + N",
+      "meaning": "N + gì",
+      "examples": [
+        "어떤 음식을 좋아해요?",
+        "Anh/chị thích món ăn gì?"
+      ],
+      "blank_quiz": {
+        "sentence": "____ 영화를 보고 싶어요?",
+        "answer": "어떤",
+        "options": [
+          "어떤",
+          "많이",
+          "잘",
+          "어서"
+        ]
+      }
+    }
+  ],
+  "mini_test": [
+    {
+      "type": "listening",
+      "script": "손님: 이거 얼마예요?\n점원: 삼만 원이에요.",
+      "question": "티셔츠 가격은 얼마입니까?",
+      "options": [
+        "이만 원",
+        "삼만 원",
+        "사만 원",
+        "오만 원"
+      ],
+      "answer": 1,
+      "explanation": "점원이 '삼만 원이에요'라고 대답했으므로 정답은 삼만 원입니다."
+    },
+    {
+      "type": "reading",
+      "text": "세일 중!\n티셔츠 50% 할인\n원가: 40,000원\n할인가: 20,000원",
+      "question": "할인된 티셔츠 가격은 얼마입니까?",
+      "options": [
+        "15,000원",
+        "20,000원",
+        "25,000원",
+        "40,000원"
+      ],
+      "answer": 1,
+      "explanation": "표지판에 '할인가: 20,000원'이라고 명시되어 있으므로 정답은 20,000원입니다."
+    },
+    {
+      "type": "situation",
+      "sentence": "옷이 너무 큰 것 같아요.",
+      "question": "이 상황에서 점원에게 뭐라고 말해야 합니까?",
+      "options": [
+        "더 큰 사이즈 있어요?",
+        "더 작은 사이즈 있어요?",
+        "다른 색깔 있어요?",
+        "얼마예요?"
+      ],
+      "answer": 1,
+      "explanation": "옷이 크다면 더 작은 사이즈를 요청해야 하므로 '더 작은 사이즈 있어요?'가 적절한 표현입니다."
+    }
+  ],
+  "ai_extension": [
+    "쇼핑몰에서 옷 사이즈 물어볼 때 쓰는 한국어 표현들 알려줘",
+    "옷 색깔이나 스타일에 대해 점원과 대화할 때 유용한 한국어 문장들 가르쳐줘",
+    "옷값 흥정하거나 할인 받을 때 쓸 수 있는 정중한 한국어 표현들 알려줘"
+  ]
+}

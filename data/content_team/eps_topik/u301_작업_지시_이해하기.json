@@ -1,0 +1,428 @@
+{
+  "unit": "u301",
+  "topic": "작업 지시 이해하기",
+  "level": "EPS",
+  "category": "작업",
+  "languages": [
+    "vi",
+    "th",
+    "id"
+  ],
+  "topic_titles": {
+    "ko": "작업 지시 이해하기",
+    "vi": "hiểu chỉ thị công việc",
+    "en": "understanding work instructions",
+    "id": "memahami instruksi kerja",
+    "th": "การเข้าใจคำสั่งงาน"
+  },
+  "source": {
+    "content_json": "output/EPS_TOPIK/01_작업_지시_이해하기/content.json",
+    "content_generated_at": "2026-04-24T15:42:16",
+    "lang_generated_at": {
+      "vi": "2026-04-24T20:00:53",
+      "en": "2026-04-24T20:49:29",
+      "id": "2026-04-24T23:02:36"
+    }
+  },
+  "dialogue_mode": "unified",
+  "dialogue": [
+    {
+      "line": 1,
+      "role": "감독",
+      "ko": "오늘은 A라인에서 일하세요.",
+      "romanization": "",
+      "vi": "Hôm nay hãy làm ở dây chuyền A.",
+      "th": "วันนี้ทำงานที่สายการผลิต A นะครับ",
+      "id": "Hari ini bekerja di Lini A."
+    },
+    {
+      "line": 2,
+      "role": "근로자",
+      "ko": "네, 알겠습니다. 무슨 일을 해요?",
+      "romanization": "",
+      "vi": "Dạ, tôi hiểu. Tôi làm việc gì ạ?",
+      "th": "ครับ รับทราบครับ ต้องทำหน้าที่อะไรบ้างครับ?",
+      "id": "Ya, baik. Pekerjaan apa yang dilakukan?"
+    },
+    {
+      "line": 3,
+      "role": "감독",
+      "ko": "부품을 조립하세요. 이 설명서를 보세요.",
+      "romanization": "",
+      "vi": "Hãy lắp ráp linh kiện. Hãy xem hướng dẫn này.",
+      "th": "ให้ประกอบชิ้นส่วนครับ ดูคู่มือการทำงานเล่มนี้ครับ",
+      "id": "Rakitlah komponen. Lihatlah manual ini."
+    },
+    {
+      "line": 4,
+      "role": "근로자",
+      "ko": "순서대로 하면 돼요?",
+      "romanization": "",
+      "vi": "Tôi làm theo thứ tự được không ạ?",
+      "th": "ทำตามลำดับขั้นตอนใช่ไหมครับ?",
+      "id": "Apakah boleh dilakukan sesuai urutan?"
+    },
+    {
+      "line": 5,
+      "role": "감독",
+      "ko": "네, 맞아요. 천천히 해도 괜찮아요.",
+      "romanization": "",
+      "vi": "Đúng rồi. Làm chậm cũng được.",
+      "th": "ใช่ครับ ถูกต้องครับ ค่อยๆ ทำไปก็ได้ครับ ไม่ต้องรีบ",
+      "id": "Ya, benar. Tidak apa-apa pelan-pelan."
+    },
+    {
+      "line": 6,
+      "role": "근로자",
+      "ko": "모르면 물어봐도 돼요?",
+      "romanization": "",
+      "vi": "Không biết thì có thể hỏi không ạ?",
+      "th": "ถ้าไม่เข้าใจ สอบถามได้ไหมครับ?",
+      "id": "Boleh bertanya kalau tidak tahu?"
+    },
+    {
+      "line": 7,
+      "role": "감독",
+      "ko": "네, 언제든지 물어보세요.",
+      "romanization": "",
+      "vi": "Có, hãy hỏi bất cứ lúc nào.",
+      "th": "ได้ครับ สอบถามได้ตลอดเวลาเลยครับ",
+      "id": "Ya, silakan tanya kapan saja."
+    },
+    {
+      "line": 8,
+      "role": "근로자",
+      "ko": "끝나면 어떻게 해요?",
+      "romanization": "",
+      "vi": "Xong rồi thì phải làm sao ạ?",
+      "th": "ถ้าทำเสร็จแล้ว ต้องทำยังไงต่อครับ?",
+      "id": "Bagaimana kalau sudah selesai?"
+    },
+    {
+      "line": 9,
+      "role": "감독",
+      "ko": "끝나면 저한테 바로 말하세요.",
+      "romanization": "",
+      "vi": "Xong thì nói với tôi ngay.",
+      "th": "พอเสร็จแล้ว ให้รีบบอกผมทันทีเลยนะ",
+      "id": "Kalau sudah selesai, langsung bicara ke saya."
+    },
+    {
+      "line": 10,
+      "role": "근로자",
+      "ko": "네, 다 끝나면 알려 드릴게요.",
+      "romanization": "",
+      "vi": "Vâng, tôi sẽ báo lại khi hoàn thành.",
+      "th": "ครับ ถ้าเสร็จเรียบร้อยแล้วจะแจ้งให้ทราบครับ",
+      "id": "Ya, saya akan beri tahu kalau sudah selesai."
+    }
+  ],
+  "vocabulary": [
+    {
+      "ko": "부품",
+      "romanization": "bupum",
+      "vi": "linh kiện",
+      "th": "ชิ้นส่วน",
+      "id": "komponen"
+    },
+    {
+      "ko": "조립하다",
+      "romanization": "joripada",
+      "vi": "lắp ráp",
+      "th": "ประกอบ",
+      "id": "merakit"
+    },
+    {
+      "ko": "설명서",
+      "romanization": "seolmyeongseo",
+      "vi": "hướng dẫn",
+      "th": "คู่มือ",
+      "id": "manual"
+    },
+    {
+      "ko": "순서",
+      "romanization": "sunseo",
+      "vi": "thứ tự",
+      "th": "ลำดับ",
+      "id": "urutan"
+    },
+    {
+      "ko": "라인",
+      "romanization": "rain",
+      "vi": "dây chuyền",
+      "th": "สายการผลิต",
+      "id": "lini"
+    },
+    {
+      "ko": "작업 지시서",
+      "romanization": "jageop jisiseo",
+      "vi": "phiếu chỉ thị công việc",
+      "th": "ใบสั่งงาน",
+      "id": "lembar instruksi kerja"
+    },
+    {
+      "ko": "불량품",
+      "romanization": "bullyangpum",
+      "vi": "hàng lỗi",
+      "th": "ของเสีย",
+      "id": "produk cacat"
+    },
+    {
+      "ko": "마감 시간",
+      "romanization": "magam sigan",
+      "vi": "thời hạn",
+      "th": "เวลาส่งงาน",
+      "id": "batas waktu"
+    },
+    {
+      "ko": "교대",
+      "romanization": "gyodae",
+      "vi": "ca làm việc",
+      "th": "กะ",
+      "id": "shift"
+    },
+    {
+      "ko": "공구",
+      "romanization": "gonggu",
+      "vi": "dụng cụ",
+      "th": "เครื่องมือ",
+      "id": "alat"
+    },
+    {
+      "ko": "확인하다",
+      "romanization": "hwakinada",
+      "vi": "kiểm tra",
+      "th": "ตรวจสอบ",
+      "id": "mengecek"
+    },
+    {
+      "ko": "보고하다",
+      "romanization": "bogohada",
+      "vi": "báo cáo",
+      "th": "รายงาน",
+      "id": "melaporkan"
+    },
+    {
+      "ko": "수량",
+      "romanization": "suryang",
+      "vi": "số lượng",
+      "th": "จำนวน",
+      "id": "jumlah"
+    },
+    {
+      "ko": "작업복",
+      "romanization": "jageombok",
+      "vi": "đồng phục làm việc",
+      "th": "ชุดทำงาน",
+      "id": "seragam kerja"
+    },
+    {
+      "ko": "이상 없음",
+      "romanization": "isang eomeum",
+      "vi": "không có vấn đề gì",
+      "th": "ไม่มีปัญหา",
+      "id": "tidak ada masalah"
+    }
+  ],
+  "key_expressions": [
+    {
+      "ko": "순서대로 하세요",
+      "romanization": "",
+      "situation": "",
+      "vi": "Hãy làm theo thứ tự",
+      "th": "ทำตามลำดับ",
+      "id": "Kerjakan sesuai urutan"
+    },
+    {
+      "ko": "모르면 바로 물어보세요",
+      "romanization": "",
+      "situation": "",
+      "vi": "Không biết thì hỏi ngay",
+      "th": "ไม่เข้าใจถามทันที",
+      "id": "Kalau tidak tahu, langsung tanya"
+    },
+    {
+      "ko": "천천히 해도 괜찮아요",
+      "romanization": "",
+      "situation": "",
+      "vi": "Làm chậm cũng được",
+      "th": "ทำช้าๆ ก็ได้",
+      "id": "Tidak apa-apa kalau pelan-pelan"
+    }
+  ],
+  "bunny_guids": {
+    "vi": {
+      "step1": "7a15b9cb-716d-4c29-9953-e8495cef8b46",
+      "step2": "64f05e3d-5992-4377-83c9-156269f3a940",
+      "step3": "b6448718-df6f-4ee0-94c6-ad716facebd7"
+    },
+    "th": {
+      "step1": "fc83f0d1-a5d1-4d44-a9fe-43a9bf99712b",
+      "step2": "cceedc11-5a62-4440-ad4d-d45893d523e1",
+      "step3": "d5582cdf-4529-491f-ba54-b2a834e6b50b"
+    },
+    "id": {
+      "step1": "22df3f02-ef0c-4cd5-95fe-dc5da269d1cb",
+      "step2": "fca1f2dd-e131-4f20-844c-4913c41fcbab",
+      "step3": "7f3cf63b-3e46-4e6d-8df3-3c944fd85aa0"
+    }
+  },
+  "grammar_points": [
+    {
+      "pattern": "V-세요",
+      "explanation": "정중한 명령 표현",
+      "example_ko": "조립하세요 / 하세요 / 물어보세요",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Hãy lắp ráp / Hãy làm / Hãy hỏi",
+      "th": "V-ครับ (สั่ง)",
+      "example_th": "ประกอบครับ / ทำครับ / ถามครับ",
+      "id": "V-lah",
+      "example_id": "Rakitlah / Kerjakanlah / Tanyakanlah"
+    },
+    {
+      "pattern": "V-면 돼요",
+      "explanation": "방법·허용 표현",
+      "example_ko": "어떻게 하면 돼요?",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Phải làm như thế nào ạ?",
+      "th": "V-แล้วได้",
+      "example_th": "ทำยังไงแล้วได้?",
+      "id": "Bagaimana V-nya?",
+      "example_id": "Bagaimana cara mengerjakannya?"
+    },
+    {
+      "pattern": "V-아도 괜찮아요",
+      "explanation": "허용 표현",
+      "example_ko": "천천히 해도 괜찮아요",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Làm chậm cũng được",
+      "th": "V-ช้าๆ ก็ได้",
+      "example_th": "ทำช้าๆ ก็ได้",
+      "id": "Tidak apa-apa kalau V",
+      "example_id": "Tidak apa-apa kalau pelan-pelan"
+    },
+    {
+      "pattern": "V-기 전에",
+      "explanation": "~하기 전에",
+      "example_ko": "시작하기 전에 확인하세요",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Hãy kiểm tra trước khi bắt đầu",
+      "th": "ก่อนที่จะ V",
+      "example_th": "ก่อนเริ่มให้ตรวจสอบก่อน",
+      "id": "Sebelum V",
+      "example_id": "Sebelum mulai, cek dulu"
+    },
+    {
+      "pattern": "V-고 나서",
+      "explanation": "~한 후에",
+      "example_ko": "조립하고 나서 보고하세요",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Hãy báo cáo sau khi lắp ráp xong",
+      "th": "V-เสร็จแล้ว",
+      "example_th": "ประกอบเสร็จแล้วมารายงาน",
+      "id": "Setelah V",
+      "example_id": "Setelah merakit, laporkan"
+    },
+    {
+      "pattern": "N이/가 있으면",
+      "explanation": "조건 표현",
+      "example_ko": "문제가 있으면 말하세요",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Nếu có vấn đề thì hãy nói",
+      "th": "ถ้ามี N",
+      "example_th": "ถ้ามีปัญหาให้บอก",
+      "id": "Kalau ada N",
+      "example_id": "Kalau ada masalah, bilang"
+    },
+    {
+      "pattern": "V-지 마세요",
+      "explanation": "금지 표현",
+      "example_ko": "혼자 결정하지 마세요",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Đừng tự quyết định một mình",
+      "th": "อย่า V",
+      "example_th": "อย่าตัดสินใจเอง",
+      "id": "Jangan V",
+      "example_id": "Jangan memutuskan sendiri"
+    },
+    {
+      "pattern": "얼마나 걸려요?",
+      "explanation": "소요 시간 질문",
+      "example_ko": "이 작업 얼마나 걸려요?",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Công việc này mất bao lâu ạ?",
+      "th": "ใช้เวลานานเท่าไหร่?",
+      "example_th": "งานนี้ใช้เวลานานเท่าไหร่?",
+      "id": "Berapa lama?",
+      "example_id": "Pekerjaan ini berapa lama?"
+    },
+    {
+      "pattern": "V-는 방법",
+      "explanation": "방법 설명 요청",
+      "example_ko": "조립하는 방법을 알려주세요",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Hãy chỉ cho tôi cách lắp ráp",
+      "th": "วิธี V",
+      "example_th": "บอกวิธีประกอบหน่อย",
+      "id": "Cara V",
+      "example_id": "Tolong ajari cara merakitnya"
+    },
+    {
+      "pattern": "N마다",
+      "explanation": "주기·반복 표현",
+      "example_ko": "한 시간마다 확인하세요",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Hãy kiểm tra mỗi một tiếng",
+      "th": "ทุก N",
+      "example_th": "ทุกชั่วโมงให้ตรวจสอบ",
+      "id": "Setiap N",
+      "example_id": "Cek setiap satu jam"
+    },
+    {
+      "pattern": "다시 한번",
+      "explanation": "재요청 표현",
+      "example_ko": "다시 한번 설명해 주세요",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Hãy giải thích lại một lần nữa",
+      "th": "อีกครั้ง",
+      "example_th": "อธิบายอีกครั้งหน่อย",
+      "id": "Sekali lagi",
+      "example_id": "Tolong jelaskan sekali lagi"
+    },
+    {
+      "pattern": "V-아/어도 돼요?",
+      "explanation": "허락 요청",
+      "example_ko": "지금 시작해도 돼요?",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Bây giờ tôi có thể bắt đầu không ạ?",
+      "th": "V-ตอนนี้ได้ไหม?",
+      "example_th": "เริ่มตอนนี้ได้ไหม?",
+      "id": "Boleh V sekarang?",
+      "example_id": "Boleh mulai sekarang?"
+    },
+    {
+      "pattern": "N을/를 맡다",
+      "explanation": "담당 배정 표현",
+      "example_ko": "오늘 2번 라인을 맡으세요",
+      "example_romanization": "",
+      "vi": "",
+      "example_vi": "Hôm nay hãy phụ trách dây chuyền số 2",
+      "th": "รับผิดชอบ N",
+      "example_th": "วันนี้รับผิดชอบสายการผลิต 2",
+      "id": "Menangani N",
+      "example_id": "Hari ini tangani lini nomor 2"
+    }
+  ]
+}

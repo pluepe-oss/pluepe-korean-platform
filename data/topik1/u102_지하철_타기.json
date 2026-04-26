@@ -1,0 +1,230 @@
+{
+  "unit": "u102",
+  "topic": "지하철 타기",
+  "level": "TOPIK1",
+  "category": "교통",
+  "languages": [
+    "vi",
+    "en",
+    "zh"
+  ],
+  "topic_titles": {
+    "ko": "지하철 타기",
+    "zh": "乘坐地铁",
+    "vi": "Đi tàu điện ngầm",
+    "en": "taking the subway"
+  },
+  "source": {
+    "content_json": "output/TOPIK1_초급/02_지하철_타기/content.json",
+    "content_generated_at": "2026-04-23T00:37:09",
+    "lang_generated_at": {
+      "vi": "2026-04-23T00:37:11",
+      "en": "2026-04-23T02:23:22",
+      "zh": "2026-04-23T11:21:24"
+    }
+  },
+  "dialogue_mode": "unified",
+  "dialogue": [
+    {
+      "line": 1,
+      "role": "손님",
+      "ko": "실례합니다. 명동역에 가려면 어떻게 해야 해요?",
+      "romanization": "",
+      "vi": "Xin lỗi. Để đến ga Myeong-dong thì phải làm sao ạ?",
+      "en": "Excuse me. How do I get to Myeong-dong Station?",
+      "zh": "不好意思，请问去明洞站怎么走？"
+    },
+    {
+      "line": 2,
+      "role": "직원",
+      "ko": "4호선을 타세요. 여기서 두 정거장이에요.",
+      "romanization": "",
+      "vi": "Anh/chị lên tàu tuyến số 4. Từ đây đi hai ga thôi.",
+      "en": "Take Line 4. It's two stops from here.",
+      "zh": "坐4号线，从这里两站就到了。"
+    },
+    {
+      "line": 3,
+      "role": "손님",
+      "ko": "환승해야 해요?",
+      "romanization": "",
+      "vi": "Có phải chuyển tàu không ạ?",
+      "en": "Do I need to transfer?",
+      "zh": "需要换乘吗？"
+    },
+    {
+      "line": 4,
+      "role": "직원",
+      "ko": "아니요, 환승 안 해도 돼요. 바로 가요.",
+      "romanization": "",
+      "vi": "Không, không cần chuyển tàu đâu. Đi thẳng luôn.",
+      "en": "No, you don't need to transfer. Go straight.",
+      "zh": "不用，不用换乘，直接就到了。"
+    },
+    {
+      "line": 5,
+      "role": "손님",
+      "ko": "교통카드가 없어요. 어디서 살 수 있어요?",
+      "romanization": "",
+      "vi": "Tôi không có thẻ giao thông. Có thể mua ở đâu ạ?",
+      "en": "I don't have a transportation card. Where can I buy one?",
+      "zh": "我没有交通卡，在哪里可以买？"
+    },
+    {
+      "line": 6,
+      "role": "직원",
+      "ko": "저기 자동판매기에서 사세요.",
+      "romanization": "",
+      "vi": "Mua ở máy bán tự động kia đi.",
+      "en": "Buy one at the vending machine over there.",
+      "zh": "在那边的自动售票机买。"
+    },
+    {
+      "line": 7,
+      "role": "손님",
+      "ko": "감사합니다. 출구는 어디예요?",
+      "romanization": "",
+      "vi": "Cảm ơn anh/chị. Lối ra ở đâu ạ?",
+      "en": "Thank you. Where's the exit?",
+      "zh": "谢谢。出口在哪里？"
+    },
+    {
+      "line": 8,
+      "role": "직원",
+      "ko": "4번 출구로 나가세요.",
+      "romanization": "",
+      "vi": "Ra lối số 4 nhé.",
+      "en": "Go out through Exit 4.",
+      "zh": "从4号出口出去。"
+    }
+  ],
+  "vocabulary": [
+    {
+      "ko": "호선",
+      "romanization": "hoseon",
+      "vi": "tuyến tàu",
+      "en": "line",
+      "zh": "号线"
+    },
+    {
+      "ko": "정거장",
+      "romanization": "jeonggeojang",
+      "vi": "ga",
+      "en": "stop",
+      "zh": "站"
+    },
+    {
+      "ko": "환승",
+      "romanization": "hwanseung",
+      "vi": "chuyển tàu",
+      "en": "transfer",
+      "zh": "换乘"
+    },
+    {
+      "ko": "교통카드",
+      "romanization": "gyotong-kadeu",
+      "vi": "thẻ giao thông",
+      "en": "transportation card",
+      "zh": "交通卡"
+    },
+    {
+      "ko": "자동판매기",
+      "romanization": "jadong-panmaegi",
+      "vi": "máy bán tự động",
+      "en": "vending machine",
+      "zh": "自动售票机"
+    },
+    {
+      "ko": "출구",
+      "romanization": "chulgu",
+      "vi": "lối ra",
+      "en": "exit",
+      "zh": "出口"
+    }
+  ],
+  "key_expressions": [
+    {
+      "ko": "실례합니다. ~에 가려면 어떻게 해야 해요?",
+      "romanization": "sillyehamnida. ~e garyeomyeon eotteoke haeya haeyo?",
+      "situation": "낯선 사람에게 길을 물을 때",
+      "vi": "Xin lỗi. Để đến ~ thì phải làm sao ạ?",
+      "en": "Excuse me. How do I get to ~?",
+      "zh": "不好意思，请问去~怎么走？"
+    },
+    {
+      "ko": "~호선을 타세요.",
+      "romanization": "~hoseoneul taseyo.",
+      "situation": "상대방에게 탈 지하철 노선을 안내할 때",
+      "vi": "Lên tàu tuyến số ~.",
+      "en": "Take Line ~.",
+      "zh": "坐~号线。"
+    },
+    {
+      "ko": "환승해야 해요?",
+      "romanization": "hwanseunghaeya haeyo?",
+      "situation": "지하철 환승 필요 여부를 확인할 때",
+      "vi": "Có phải chuyển tàu không ạ?",
+      "en": "Do I need to transfer?",
+      "zh": "需要换乘吗？"
+    },
+    {
+      "ko": "환승 안 해도 돼요.",
+      "romanization": "hwanseung an haedo dwaeyo.",
+      "situation": "환승이 필요 없음을 알려줄 때",
+      "vi": "Không cần chuyển tàu.",
+      "en": "You don't need to transfer.",
+      "zh": "不用换乘。"
+    },
+    {
+      "ko": "~번 출구로 나가세요.",
+      "romanization": "~beon chulguro nagaseyo.",
+      "situation": "몇 번 출구로 나갈지 안내할 때",
+      "vi": "Ra lối số ~ nhé.",
+      "en": "Go out through Exit ~.",
+      "zh": "从~号出口出去。"
+    }
+  ],
+  "bunny_guids": {
+    "vi": {
+      "step1": "0367c47a-07c8-4675-a139-2fdb6987bf0a",
+      "step2": "eb2b0271-620f-4b83-b5fc-187375032def",
+      "step3": "062dc9f9-d582-42a2-b483-5430f2a7996a"
+    },
+    "en": {
+      "step1": "28432cd8-5be4-40cf-8b43-1196b6e00311",
+      "step2": "8b8e9b38-92ff-42bc-9136-92da57e47a2d",
+      "step3": "2cc7aef2-fd26-4575-95ed-05239f644c05"
+    },
+    "zh": {
+      "step1": "ddd3e4aa-755e-49f8-80b5-b27bdadb36a8",
+      "step2": "e3b1b7ca-4255-49dd-9bda-df28de48f882",
+      "step3": "33e8f570-7f4c-47c6-8822-b592482ed394"
+    }
+  },
+  "grammar_points": [
+    {
+      "pattern": "V+(으)려면",
+      "explanation": "어떤 목적이나 결과를 이루기 위한 조건을 말할 때 사용하는 연결어미. '~하기 위해서는'의 뜻.",
+      "example_ko": "명동역에 가려면 4호선을 타세요.",
+      "example_romanization": "myeongdong-yeoge garyeomyeon sa-hoseoneul taseyo.",
+      "vi": "Để V thì",
+      "example_vi": "Để đến ga Myeong-dong thì lên tàu tuyến số 4.",
+      "en": "To V / In order to V",
+      "example_en": "To get to Myeong-dong Station, take Line 4.",
+      "zh": "V+的话",
+      "example_zh": "去明洞站的话坐4号线。"
+    },
+    {
+      "pattern": "V+지 않아도 돼요 (= 안 V+아/어도 돼요)",
+      "explanation": "어떤 행동을 할 필요가 없음을 나타내는 표현. 의무나 필요의 부재를 말할 때 사용.",
+      "example_ko": "환승 안 해도 돼요.",
+      "example_romanization": "hwanseung an haedo dwaeyo.",
+      "vi": "Không cần V",
+      "example_vi": "Không cần chuyển tàu.",
+      "en": "don't have to V / don't need to V",
+      "example_en": "You don't need to transfer.",
+      "zh": "不用V",
+      "example_zh": "不用换乘。"
+    }
+  ]
+}

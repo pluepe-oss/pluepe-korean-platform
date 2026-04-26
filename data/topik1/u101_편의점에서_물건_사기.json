@@ -1,0 +1,233 @@
+{
+  "unit": "u101",
+  "topic": "편의점에서 물건 사기",
+  "level": "TOPIK1",
+  "category": "생활",
+  "languages": [
+    "vi",
+    "en",
+    "zh"
+  ],
+  "topic_titles": {
+    "ko": "편의점에서 물건 사기",
+    "vi": "mua đồ ở cửa hàng tiện lợi",
+    "en": "buying things at a convenience store",
+    "zh": "在便利店购物"
+  },
+  "source": {
+    "content_json": "output/TOPIK1_초급/01_편의점에서_물건_사기/content.json",
+    "content_generated_at": "2026-04-22T22:15:23",
+    "lang_generated_at": {
+      "en": "2026-04-22T22:15:25",
+      "vi": "2026-04-22T22:15:23",
+      "zh": "2026-04-22T23:08:40"
+    }
+  },
+  "dialogue_mode": "unified",
+  "dialogue": [
+    {
+      "line": 1,
+      "role": "점원",
+      "ko": "어서 오세요!",
+      "romanization": "eoseo oseyo!",
+      "vi": "Xin chào, chào mừng bạn!",
+      "en": "Welcome!",
+      "zh": "欢迎光临！"
+    },
+    {
+      "line": 2,
+      "role": "손님",
+      "ko": "안녕하세요. 이 라면하고 우유 주세요.",
+      "romanization": "annyeonghaseyo. i ramyeonhago uyu juseyo.",
+      "vi": "Xin chào. Cho tôi mì gói này và sữa.",
+      "en": "Hello. I'll take this ramen and milk, please.",
+      "zh": "您好。请给我这个泡面和牛奶。"
+    },
+    {
+      "line": 3,
+      "role": "점원",
+      "ko": "네. 포인트카드 있으세요?",
+      "romanization": "ne. pointeukadeu isseuseyo?",
+      "vi": "Vâng. Bạn có thẻ tích điểm không?",
+      "en": "Sure. Do you have a point card?",
+      "zh": "好的。您有积分卡吗？"
+    },
+    {
+      "line": 4,
+      "role": "손님",
+      "ko": "아니요, 없어요.",
+      "romanization": "aniyo, eopseoyo.",
+      "vi": "Không, tôi không có.",
+      "en": "No, I don't.",
+      "zh": "没有。"
+    },
+    {
+      "line": 5,
+      "role": "점원",
+      "ko": "총 3,500원입니다. 봉지 필요하세요?",
+      "romanization": "chong samcheon obaegwonipnida. bongji piryohaseyo?",
+      "vi": "Tổng cộng 3,500 won. Bạn có cần túi không?",
+      "en": "That's 3,500 won total. Do you need a bag?",
+      "zh": "总共3500韩元。需要袋子吗？"
+    },
+    {
+      "line": 6,
+      "role": "손님",
+      "ko": "네, 주세요. 카드로 계산할게요.",
+      "romanization": "ne, juseyo. kadeuro gyesanhalgeyo.",
+      "vi": "Vâng, cho tôi túi. Tôi sẽ thanh toán bằng thẻ.",
+      "en": "Yes, please. I'll pay by card.",
+      "zh": "好的，请给我一个。我用卡支付。"
+    },
+    {
+      "line": 7,
+      "role": "점원",
+      "ko": "감사합니다. 영수증 여기 있어요.",
+      "romanization": "gamsahapnida. yeongsujeung yeogi isseoyo.",
+      "vi": "Cảm ơn bạn. Hóa đơn ở đây.",
+      "en": "Thank you. Here's your receipt.",
+      "zh": "谢谢。收据在这里。"
+    }
+  ],
+  "vocabulary": [
+    {
+      "ko": "편의점",
+      "romanization": "pyeonyijeom",
+      "vi": "cửa hàng tiện lợi",
+      "en": "convenience store",
+      "zh": "便利店"
+    },
+    {
+      "ko": "라면",
+      "romanization": "ramyeon",
+      "vi": "mì gói",
+      "en": "ramen",
+      "zh": "泡面"
+    },
+    {
+      "ko": "우유",
+      "romanization": "uyu",
+      "vi": "sữa",
+      "en": "milk",
+      "zh": "牛奶"
+    },
+    {
+      "ko": "계산",
+      "romanization": "gyesan",
+      "vi": "tính tiền, thanh toán",
+      "en": "payment",
+      "zh": "结账"
+    },
+    {
+      "ko": "봉지",
+      "romanization": "bongji",
+      "vi": "túi",
+      "en": "bag",
+      "zh": "袋子"
+    },
+    {
+      "ko": "영수증",
+      "romanization": "yeongsujeung",
+      "vi": "hóa đơn",
+      "en": "receipt",
+      "zh": "收据"
+    },
+    {
+      "ko": "카드",
+      "romanization": "kadeu",
+      "vi": "thẻ",
+      "en": "card",
+      "zh": "卡"
+    },
+    {
+      "ko": "현금",
+      "romanization": "hyeongeum",
+      "vi": "tiền mặt",
+      "en": "cash",
+      "zh": "现金"
+    },
+    {
+      "ko": "가격",
+      "romanization": "gagyeok",
+      "vi": "giá",
+      "en": "price",
+      "zh": "价格"
+    },
+    {
+      "ko": "점원",
+      "romanization": "jeomwon",
+      "vi": "nhân viên",
+      "en": "clerk",
+      "zh": "店员"
+    }
+  ],
+  "key_expressions": [
+    {
+      "ko": "이거 얼마예요?",
+      "romanization": "igeo eolmayeyo?",
+      "situation": "물건 가격을 물어볼 때",
+      "vi": "Cái này giá bao nhiêu?",
+      "en": "How much is this?",
+      "zh": "这个多少钱？"
+    },
+    {
+      "ko": "포인트카드 있어요?",
+      "romanization": "pointeukadeu isseoyo?",
+      "situation": "직원이 포인트카드를 확인할 때",
+      "vi": "Bạn có thẻ tích điểm không?",
+      "en": "Do you have a point card?",
+      "zh": "您有积分卡吗？"
+    },
+    {
+      "ko": "봉지 필요해요?",
+      "romanization": "bongji piryohaeyo?",
+      "situation": "봉지 필요성을 물어볼 때",
+      "vi": "Bạn có cần túi không?",
+      "en": "Do you need a bag?",
+      "zh": "需要袋子吗？"
+    },
+    {
+      "ko": "카드로 계산할게요",
+      "romanization": "kadeuro gyesanhalgeyo",
+      "situation": "카드 결제를 원할 때",
+      "vi": "Tôi sẽ thanh toán bằng thẻ",
+      "en": "I'll pay by card",
+      "zh": "我用卡支付"
+    },
+    {
+      "ko": "영수증 주세요",
+      "romanization": "yeongsujeung juseyo",
+      "situation": "영수증을 요청할 때",
+      "vi": "Cho tôi hóa đơn",
+      "en": "Can I have a receipt, please?",
+      "zh": "请给我收据"
+    }
+  ],
+  "bunny_guids": {},
+  "grammar_points": [
+    {
+      "pattern": "N+하고",
+      "explanation": "두 개 이상의 명사를 나열할 때 사용하는 연결어미",
+      "example_ko": "라면하고 우유 주세요.",
+      "example_romanization": "ramyeonhago uyu juseyo.",
+      "vi": "Cho tôi mì gói và sữa.",
+      "example_vi": "",
+      "en": "N + and (listing items)",
+      "example_en": "I'll take this ramen and milk, please.",
+      "zh": "名词+하고（和）",
+      "example_zh": "请给我泡面和牛奶。"
+    },
+    {
+      "pattern": "V+ㄹ게요/을게요",
+      "explanation": "화자의 의지나 결심을 나타내는 종결어미",
+      "example_ko": "카드로 계산할게요.",
+      "example_romanization": "kadeuro gyesanhalgeyo.",
+      "vi": "Tôi sẽ thanh toán bằng thẻ.",
+      "example_vi": "",
+      "en": "I'll + V (expressing intention)",
+      "example_en": "I'll pay by card.",
+      "zh": "动词+ㄹ게요/을게요（表意志）",
+      "example_zh": "我用卡支付。"
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "unit": "u104",
+  "topic": "쇼핑몰에서 옷 사기",
+  "level": "TOPIK1",
+  "category": "쇼핑",
+  "languages": [
+    "vi",
+    "en",
+    "zh"
+  ],
+  "topic_titles": {
+    "ko": "쇼핑몰에서 옷 사기",
+    "vi": "Mua quần áo ở trung tâm mua sắm",
+    "en": "buying clothes at the mall",
+    "zh": "在商场买衣服"
+  },
+  "source": {
+    "content_json": "output/TOPIK1_초급/04_쇼핑몰에서_옷_사기/content.json",
+    "content_generated_at": "2026-04-20T00:04:04",
+    "lang_generated_at": {
+      "vi": "2026-04-24T00:41:30",
+      "zh": "2026-04-20T22:18:28",
+      "en": "2026-04-20T21:11:11"
+    }
+  },
+  "dialogue_mode": "unified",
+  "dialogue": [
+    {
+      "line": 1,
+      "role": "점원",
+      "ko": "어서 오세요. 뭘 찾으세요?",
+      "romanization": "eoseo oseyo. mwol chajeuseyo?",
+      "vi": "Xin chào! Quý khách đang tìm gì ạ?",
+      "en": "Welcome! How can I help you?",
+      "zh": "欢迎光临！您想找什么样的衣服？"
+    },
+    {
+      "line": 2,
+      "role": "손님",
+      "ko": "티셔츠를 찾고 있어요.",
+      "romanization": "tisyeocheureul chatgo isseoyo.",
+      "vi": "Tôi đang tìm áo thun.",
+      "en": "I'm looking for a T-shirt.",
+      "zh": "我在找T恤。"
+    },
+    {
+      "line": 3,
+      "role": "점원",
+      "ko": "어떤 색깔을 원하세요?",
+      "romanization": "eotteon saekkkareul wonhaseyo?",
+      "vi": "Anh/Chị muốn tìm màu gì ạ?",
+      "en": "What color would you like?",
+      "zh": "您想要什么颜色的?"
+    },
+    {
+      "line": 4,
+      "role": "손님",
+      "ko": "흰색이나 파란색이요. 이거 얼마예요?",
+      "romanization": "huinsaegina paransaegieyo. igeo eolmayeyo?",
+      "vi": "Màu trắng hoặc màu xanh dương. Cái này bao nhiêu tiền ạ?",
+      "en": "White or blue. How much is this?",
+      "zh": "白色或者蓝色的。这个多少钱?"
+    },
+    {
+      "line": 5,
+      "role": "점원",
+      "ko": "이만 원이에요. 입어보세요.",
+      "romanization": "iman wonieoyo. ibeobaseyo.",
+      "vi": "Giá là 20.000 won. Anh/Chị mặc thử đi ạ.",
+      "en": "It's 20,000 won. You can try it on.",
+      "zh": "两万韩元。您可以试穿一下。"
+    },
+    {
+      "line": 6,
+      "role": "손님",
+      "ko": "좀 커요. 더 작은 사이즈 있어요?",
+      "romanization": "jom keoyo. deo jageun saijeu isseoyo?",
+      "vi": "Hơi rộng một chút. Có size nhỏ hơn không?",
+      "en": "It's a bit big. Do you have a smaller size?",
+      "zh": "有点儿大。有小一点儿的吗?"
+    },
+    {
+      "line": 7,
+      "role": "점원",
+      "ko": "네, 여기 있어요.",
+      "romanization": "ne, yeogi isseoyo.",
+      "vi": "Vâng, của Anh/Chị đây ạ.",
+      "en": "Yes, here you go.",
+      "zh": "有的,给您。"
+    },
+    {
+      "line": 8,
+      "role": "손님",
+      "ko": "좋아요. 이걸로 할게요.",
+      "romanization": "johayo. igeollo halgeyo.",
+      "vi": "Được rồi. Tôi sẽ lấy cái này.",
+      "en": "Great. I'll take this one.",
+      "zh": "好的,那我就买这件。"
+    }
+  ],
+  "vocabulary": [
+    {
+      "ko": "옷",
+      "romanization": "ot",
+      "vi": "quần áo",
+      "en": "clothes",
+      "zh": "衣服"
+    },
+    {
+      "ko": "티셔츠",
+      "romanization": "tisyeocheu",
+      "vi": "áo thun",
+      "en": "T-shirt",
+      "zh": "T恤"
+    },
+    {
+      "ko": "색깔",
+      "romanization": "saekkal",
+      "vi": "màu sắc",
+      "en": "color",
+      "zh": "颜色"
+    },
+    {
+      "ko": "사이즈",
+      "romanization": "saijeu",
+      "vi": "size",
+      "en": "size",
+      "zh": "尺码"
+    },
+    {
+      "ko": "가격",
+      "romanization": "gagyeok",
+      "vi": "giá",
+      "en": "price",
+      "zh": "价格"
+    },
+    {
+      "ko": "흰색",
+      "romanization": "huinsaek",
+      "vi": "màu trắng",
+      "en": "white",
+      "zh": "白色"
+    },
+    {
+      "ko": "파란색",
+      "romanization": "paransaek",
+      "vi": "màu xanh dương",
+      "en": "blue",
+      "zh": "蓝色"
+    },
+    {
+      "ko": "크다",
+      "romanization": "keuda",
+      "vi": "to/rộng",
+      "en": "big",
+      "zh": "大"
+    },
+    {
+      "ko": "작다",
+      "romanization": "jakda",
+      "vi": "nhỏ",
+      "en": "small",
+      "zh": "小"
+    },
+    {
+      "ko": "입어보다",
+      "romanization": "ibeoboda",
+      "vi": "thử (quần áo)",
+      "en": "try on",
+      "zh": "试穿"
+    }
+  ],
+  "key_expressions": [
+    {
+      "ko": "이거 얼마예요?",
+      "romanization": "igeo eolmayeyo?",
+      "situation": "가격을 물어볼 때",
+      "vi": "Cái này giá bao nhiêu?",
+      "en": "How much is this?",
+      "zh": "这个多少钱？"
+    },
+    {
+      "ko": "다른 색깔 있어요?",
+      "romanization": "dareun saekkal isseoyo?",
+      "situation": "다른 색상이 있는지 문의할 때",
+      "vi": "Có màu khác không?",
+      "en": "Do you have other colors?",
+      "zh": "有别的颜色吗？"
+    },
+    {
+      "ko": "입어봐도 돼요?",
+      "romanization": "ibeobwado dwaeyo?",
+      "situation": "옷을 입어보고 싶을 때",
+      "vi": "Tôi có thể thử được không?",
+      "en": "Can I try it on?",
+      "zh": "可以试穿吗？"
+    },
+    {
+      "ko": "좀 작아요",
+      "romanization": "jom jagayo",
+      "situation": "옷 사이즈가 작을 때",
+      "vi": "Hơi nhỏ",
+      "en": "It's a bit small",
+      "zh": "有点小"
+    },
+    {
+      "ko": "이걸로 할게요",
+      "romanization": "igeollo halgeyo",
+      "situation": "구매를 결정할 때",
+      "vi": "Tôi lấy cái này",
+      "en": "I'll take this one",
+      "zh": "就要这个"
+    }
+  ],
+  "bunny_guids": {
+    "vi": {
+      "step1": "2c5ca133-8e71-47c7-9829-c8efb132a016",
+      "step2": "d343afba-ea29-414b-bd1a-dc57e9cd89a9",
+      "step3": "237e326f-f9ea-472f-a1b7-4002a55eb937"
+    },
+    "en": {
+      "step1": "afaf2cf0-d93e-4568-a86b-5509eb6994e6",
+      "step2": "be9a4e09-f1dc-4c63-9ce5-98a1866e9215",
+      "step3": "eca927a0-782c-40d2-b4fc-1899957a33c0"
+    },
+    "zh": {
+      "step1": "e8d4d4c6-ea8e-4ee6-be65-fcb6d1a05668",
+      "step2": "72ff32ca-ee92-4a03-92db-719e7e57ba66",
+      "step3": "f6e79161-ce38-49c2-90c5-e99a79a3d894"
+    }
+  },
+  "grammar_points": [
+    {
+      "pattern": "N+을/를 찾고 있어요",
+      "explanation": "무엇을 찾는다는 의미로 쇼핑할 때 자주 사용하는 표현",
+      "example_ko": "바지를 찾고 있어요.",
+      "example_romanization": "bajireul chatgo isseoyo.",
+      "vi": "đang tìm + N",
+      "example_vi": "Tôi đang tìm quần.",
+      "en": "I'm looking for + N",
+      "example_en": "I'm looking for pants.",
+      "zh": "我在找裤子。",
+      "example_zh": ""
+    },
+    {
+      "pattern": "어떤 + N",
+      "explanation": "선택을 묻거나 구체적인 종류를 물어볼 때 사용",
+      "example_ko": "어떤 음식을 좋아해요?",
+      "example_romanization": "eotteon eumsigeul johahaeyo?",
+      "vi": "N + gì",
+      "example_vi": "Anh/chị thích món ăn gì?",
+      "en": "What + N",
+      "example_en": "What food do you like?",
+      "zh": "喜欢什么食物？",
+      "example_zh": ""
+    }
+  ]
+}
