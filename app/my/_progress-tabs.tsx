@@ -19,10 +19,14 @@ type TabKey = 'topik1' | 'topik2' | 'eps';
 
 type Props = {
   units: Unit[];
+  /** EPS-TOPIK 카탈로그. 비어있거나 미전달이면 "콘텐츠 준비 중" placeholder 로 폴백. */
+  epsUnits?: Unit[];
   progressMap: Record<string, number>;
   tabAccess: { topik1: boolean; topik2: boolean; eps: boolean };
   isTrial: boolean;
   isExpired: boolean;
+  /** 초기 활성 탭. 미지정이면 'topik1'. 사용자의 planType 을 그대로 매핑한다. */
+  initialTab?: TabKey;
 };
 
 const EXPIRED_COPY = {
@@ -107,20 +111,22 @@ function LockOpenIcon({ size = 24, color = 'currentColor' }: { size?: number; co
 
 export function ProgressTabs({
   units,
+  epsUnits,
   progressMap,
   tabAccess,
   isTrial,
   isExpired,
+  initialTab,
 }: Props) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<TabKey>('topik1');
+  const [activeTab, setActiveTab] = useState<TabKey>(initialTab ?? 'topik1');
 
   const activeUnits: Unit[] =
     activeTab === 'topik1'
       ? units
       : activeTab === 'topik2'
         ? TOPIK2_PLACEHOLDER
-        : EPS_PLACEHOLDER;
+        : (epsUnits && epsUnits.length > 0 ? epsUnits : EPS_PLACEHOLDER);
 
   const activeLocked = !tabAccess[activeTab];
   const activeCopy = isExpired ? EXPIRED_COPY : LOCKED_COPY[activeTab];
@@ -259,10 +265,16 @@ function UnitList({
         const isInProgress = unit.implemented && progress > 0 && progress < 5;
 
         // 이전 주제 5섹션 완료 여부
+        // unit.id 예: "topik1_u03" → prefix "topik1_u" 추출 → "topik1_u02"
+        // EPS ("eps_u01") 도 동일 방식으로 prefix 분리
         const prevUnitDone =
           unit.unitNum === 1
             ? true
-            : (progressMap[`topik1_u${String(unit.unitNum - 1).padStart(2, '0')}`] ?? 0) >= 5;
+            : (() => {
+                const prefix = unit.id.replace(/\d+$/, '');
+                const prevId = `${prefix}${String(unit.unitNum - 1).padStart(2, '0')}`;
+                return (progressMap[prevId] ?? 0) >= 5;
+              })();
 
         // 작업 1·7: 기획상 영구 잠금 (13~15) — "준비 중"
         const isComingSoon = unit.locked === true;

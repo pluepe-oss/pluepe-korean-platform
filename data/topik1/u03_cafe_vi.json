@@ -16,7 +16,7 @@
   "key_expressions": [
     {
       "ko": "~한 잔 주세요",
-      "translation": "Cho tôi một ly ~"
+      "translation": "Cho tôi một ly ~ (Dùng khi gọi đồ uống)"
     },
     {
       "ko": "사이즈는 어떻게 해 드릴까요?",
@@ -24,63 +24,63 @@
     },
     {
       "ko": "따뜻하게 드릴까요, 차갑게 드릴까요?",
-      "translation": "Anh/chị uống nóng hay lạnh ạ?"
+      "translation": "Anh/chị dùng nóng hay lạnh ạ?"
     },
     {
       "ko": "여기서 드실 건가요, 포장해 드릴까요?",
-      "translation": "Anh/chị uống tại chỗ hay mang về ạ?"
+      "translation": "Anh/chị dùng tại đây hay mang về ạ?"
     },
     {
       "ko": "잠시만 기다려 주세요",
-      "translation": "Xin anh/chị đợi một chút"
+      "translation": "Xin vui lòng đợi một chút"
     }
   ],
   "session": {
     "step1_quiz": {
-      "question": "이 상황은 어디인가요?",
+      "question": "이 대화는 어디에서 이루어지고 있나요?",
       "options": [
+        "식당",
         "카페",
-        "은행",
-        "병원"
+        "편의점"
       ],
-      "answer": 0
+      "answer": 1
     },
     "step2_blanks": [
       {
         "sentence": "아메리카노 한 ____ 주세요.",
-        "hint": "Đơn vị đếm đồ uống trong tiếng Hàn",
+        "hint": "đơn vị đồ uống",
         "options": [
           "잔",
           "개",
-          "병"
+          "번"
+        ],
+        "answer": 1
+      },
+      {
+        "sentence": "사이즈는 어떻게 해 ____ 까요?",
+        "hint": "phục vụ khách",
+        "options": [
+          "드리",
+          "주리",
+          "받으리"
         ],
         "answer": 0
       },
       {
-        "sentence": "____ 어떻게 해 드릴까요?",
-        "hint": "Kích cỡ của đồ uống",
+        "sentence": "따뜻하게 드릴까요, ____게 드릴까요?",
+        "hint": "nhiệt độ thấp",
         "options": [
-          "사이즈는",
-          "맛은",
-          "색깔은"
+          "시원하",
+          "차갑",
+          "뜨겁"
         ],
-        "answer": 0
-      },
-      {
-        "sentence": "____ 드릴까요, 차갑게 드릴까요?",
-        "hint": "Trạng thái nhiệt độ cao",
-        "options": [
-          "따뜻하게",
-          "빠르게",
-          "천천히"
-        ],
-        "answer": 0
+        "answer": 2
       }
     ],
     "step3_sentences": [
       {
         "ko": "~한 잔 주세요",
-        "translation": "Cho tôi một ly ~"
+        "translation": "Cho tôi một ly ~ (Dùng khi gọi đồ uống)"
       },
       {
         "ko": "사이즈는 어떻게 해 드릴까요?",
@@ -88,23 +88,23 @@
       },
       {
         "ko": "따뜻하게 드릴까요, 차갑게 드릴까요?",
-        "translation": "Anh/chị uống nóng hay lạnh ạ?"
+        "translation": "Anh/chị dùng nóng hay lạnh ạ?"
       }
     ],
     "step4_words": [
       {
         "korean": "아메리카노",
-        "translation": "Americano",
+        "translation": "Americano (cà phê đen)",
         "example": "안녕하세요. 아메리카노 한 잔 주세요."
       },
       {
         "korean": "사이즈",
-        "translation": "Kích thước",
+        "translation": "Size (cỡ)",
         "example": "사이즈는 어떻게 해 드릴까요?"
       },
       {
         "korean": "미디엄",
-        "translation": "Vừa",
+        "translation": "Vừa (size trung bình)",
         "example": "미디엄으로 주세요."
       },
       {
@@ -119,24 +119,24 @@
       },
       {
         "korean": "포장",
-        "translation": "Đóng gói",
+        "translation": "Mang về (đóng gói)",
         "example": "여기서 드실 건가요, 포장해 드릴까요?"
       }
     ],
     "step5_review": [
       {
         "ko": "~한 잔 주세요",
-        "translation": "Cho tôi một ly ~",
+        "translation": "Cho tôi một ly ~ (Dùng khi gọi đồ uống)",
         "context": "Khi gọi đồ uống"
       },
       {
         "ko": "사이즈는 어떻게 해 드릴까요?",
         "translation": "Anh/chị muốn size nào ạ?",
-        "context": "Khi hỏi về kích thước"
+        "context": "Khi hỏi về kích cỡ"
       },
       {
         "ko": "따뜻하게 드릴까요, 차갑게 드릴까요?",
-        "translation": "Anh/chị uống nóng hay lạnh ạ?",
+        "translation": "Anh/chị dùng nóng hay lạnh ạ?",
         "context": "Khi hỏi về nhiệt độ"
       }
     ]
@@ -144,19 +144,19 @@
   "words": [
     {
       "korean": "아메리카노",
-      "translation": "Americano",
+      "translation": "Americano (cà phê đen)",
       "example_ko": "안녕하세요. 아메리카노 한 잔 주세요.",
       "example": ""
     },
     {
       "korean": "사이즈",
-      "translation": "Kích thước",
+      "translation": "Size (cỡ)",
       "example_ko": "사이즈는 어떻게 해 드릴까요?",
       "example": ""
     },
     {
       "korean": "미디엄",
-      "translation": "Vừa",
+      "translation": "Vừa (size trung bình)",
       "example_ko": "미디엄으로 주세요.",
       "example": ""
     },
@@ -174,83 +174,83 @@
     },
     {
       "korean": "포장",
-      "translation": "Đóng gói",
+      "translation": "Mang về (đóng gói)",
       "example_ko": "여기서 드실 건가요, 포장해 드릴까요?",
       "example": ""
     }
   ],
   "words_quiz": [
     {
-      "type": "situation",
-      "question": "커피숍에서 음료의 크기를 물어볼 때 사용하는 단어는?",
+      "type": "fill",
+      "question": "커피를 여기서 마시지 않고 집에 가져가려면 ____으로 해 주세요.",
       "options": [
-        "사이즈",
+        "배달",
         "포장",
-        "미디엄",
-        "아메리카노"
+        "주문",
+        "계산"
       ],
-      "answer": 0,
-      "hint": "Kích thước của đồ uống"
+      "answer": 1,
+      "hint": "Mang về"
     },
     {
-      "type": "situation",
-      "question": "음료를 가져가서 다른 곳에서 마시고 싶을 때 요청하는 것은?",
+      "type": "meaning",
+      "question": "커피나 음료의 크기가 보통 정도일 때, 이 크기를 무엇이라고 합니까?",
       "options": [
-        "따뜻하다",
-        "차갑다",
-        "포장",
+        "라지",
+        "스몰",
+        "톨",
         "미디엄"
       ],
-      "answer": 2,
-      "hint": "Mang về để uống ở nơi khác"
+      "answer": 3,
+      "hint": "Cỡ trung bình"
     },
     {
       "type": "fill",
-      "question": "저는 ____을 한 잔 주세요.",
+      "question": "오늘 날씨가 많이 추우니까 ____한 커피로 주문했어요.",
       "options": [
-        "사이즈",
-        "포장",
-        "미디엄",
-        "아메리카노"
+        "차가운",
+        "시원한",
+        "따뜻한",
+        "뜨거운"
       ],
-      "answer": 3,
-      "hint": "Loại cà phê đen phổ biến nhất"
+      "answer": 2,
+      "hint": "Nóng ấm"
     }
   ],
   "patterns": [
     {
       "pattern": "~해 드릴까요?",
-      "meaning": "Khi hỏi ý kiến một cách lịch sự",
+      "meaning": "Dùng khi hỏi ý kiến người đối diện một cách lịch sự (câu hỏi đề nghị lựa chọn)",
       "examples": [
         "따뜻하게 해 드릴까요?",
-        "Anh/chị uống nóng nhé?"
+        "Anh/chị dùng nóng nhé?"
       ],
       "blank_quiz": {
-        "sentence": "음식이 차가우니까 다시 ____ 드릴까요?",
-        "answer": "따뜻하게 해",
+        "sentence": "사이즈는 따뜻하게 ____?",
+        "answer": "해 드릴까요",
         "options": [
-          "따뜻하게 해",
-          "맛있게 해",
-          "예쁘게 해",
-          "깨끗하게 해"
+          "해 드리니까",
+          "해 드릴까요",
+          "해 드렸어요",
+          "해 드리고"
         ]
       }
     },
     {
       "pattern": "~으로 주세요",
-      "meaning": "Khi yêu cầu sau khi chọn",
+      "meaning": "Dùng khi yêu cầu sau khi đã chọn xong",
       "examples": [
         "미디엄으로 주세요.",
-        "Cho tôi size vừa."
+        "Cho tôi size vừa ạ."
       ],
       "blank_quiz": {
-        "sentence": "스테이크를 ____으로 주세요.",
-        "answer": "미디엄",
+        "sentence": "아메리카노 미디엄____ 주세요.",
+        "answer": "으로",
         "options": [
-          "미디엄",
-          "레어",
-          "웰던",
-          "소금"
+          "에서",
+          "이고",
+          "으로",
+          "한테"
         ]
       }
     }
@@ -258,47 +258,47 @@
   "mini_test": [
     {
       "type": "listening",
-      "script": "직원: 사이즈는 어떻게 해 드릴까요?\n손님: 미디엄으로 주세요.",
-      "question": "손님이 원하는 사이즈는 무엇입니까?",
+      "script": "손님: 안녕하세요. 아메리카노 한 잔 주세요.\n직원: 사이즈는 어떻게 해 드릴까요?\n손님: 미디엄으로 주세요.\n직원: 따뜻하게 드릴까요, 차갑게 드릴까요?\n손님: 차갑게 주세요.\n직원: 여기서 드실 건가요, 포장해 드릴까요?\n손님: 포장해 주세요.",
+      "question": "손님이 주문한 음료로 올바른 것은 무엇입니까?",
       "options": [
-        "스몰",
-        "미디엄",
-        "라지",
-        "엑스라지"
+        "따뜻한 미디엄 아메리카노, 매장에서 마심",
+        "차가운 라지 아메리카노, 포장",
+        "차가운 미디엄 아메리카노, 포장",
+        "따뜻한 스몰 아메리카노, 포장"
       ],
-      "answer": 1,
-      "explanation": "손님이 '미디엄으로 주세요'라고 대답했으므로 미디엄 사이즈를 원합니다."
+      "answer": 2,
+      "explanation": "'차갑게 주세요'는 아이스 음료를 원할 때 사용하는 표현이고, '포장해 주세요'는 음료를 가지고 나갈 때 사용하는 표현입니다."
     },
     {
       "type": "reading",
-      "text": "★ 카페 메뉴 ★\n아메리카노 - 3,000원\n카페라떼 - 4,000원\n카푸치노 - 4,500원\n※ 사이즈 업 시 500원 추가",
-      "question": "카페라떼를 라지 사이즈로 주문하면 얼마입니까?",
+      "text": "☕ 음료 메뉴\n──────────────\n아메리카노   Small 3,000원 / Medium 3,500원 / Large 4,000원\n카페라떼     Small 4,000원 / Medium 4,500원 / Large 5,000원\n녹차라떼     Small 4,500원 / Medium 5,000원 / Large 5,500원\n──────────────\n※ 아이스 음료는 +500원 추가됩니다.\n※ 포장 시 컵 보증금 300원이 부과됩니다.",
+      "question": "이 메뉴판을 보고 알 수 있는 내용으로 올바른 것은 무엇입니까?",
       "options": [
-        "4,000원",
-        "4,500원",
-        "5,000원",
-        "5,500원"
+        "모든 음료는 사이즈에 상관없이 가격이 같다.",
+        "아이스 음료를 주문하면 500원이 추가된다.",
+        "포장 시 음료 가격에서 300원이 할인된다.",
+        "녹차라떼는 아메리카노보다 저렴하다."
       ],
       "answer": 1,
-      "explanation": "카페라떼 기본 가격 4,000원에 사이즈 업 시 500원 추가되어 4,500원입니다."
+      "explanation": "'아이스 음료는 +500원 추가됩니다'는 차가운 음료를 주문할 때 기본 가격에 500원이 더해진다는 의미입니다."
     },
     {
       "type": "situation",
-      "sentence": "카페에서 아이스 아메리카노를 포장으로 주문하고 싶습니다.",
-      "question": "직원에게 어떻게 말해야 합니까?",
+      "sentence": "민수 씨는 카페에서 음료를 다 마신 후 자리에서 일어나 카운터로 가서 '영수증 주세요'라고 말했습니다.",
+      "question": "민수 씨의 행동은 어떤 상황에 해당합니까?",
       "options": [
-        "아메리카노 따뜻하게 포장해 주세요.",
-        "아이스 아메리카노 포장해 주세요.",
-        "아메리카노 여기서 마실게요.",
-        "라떼 차갑게 주세요."
+        "음료를 추가로 주문하고 있다.",
+        "음료의 온도를 바꿔 달라고 요청하고 있다.",
+        "포장 여부를 확인하고 있다.",
+        "결제 후 영수증을 요청하고 있다."
       ],
-      "answer": 1,
-      "explanation": "아이스 아메리카노를 포장으로 주문할 때는 '아이스 아메리카노 포장해 주세요'라고 말하는 것이 정확합니다."
+      "answer": 3,
+      "explanation": "'영수증 주세요'는 계산을 마친 뒤 결제 내역이 적힌 종이를 달라고 요청할 때 사용하는 표현입니다."
     }
   ],
   "ai_extension": [
-    "카페에서 음료 크기를 물어볼 때 사용하는 한국어 표현들을 알려줘",
-    "음료 주문할 때 '덜 달게' '더 진하게' 같은 맛 조절 요청하는 방법 가르쳐줘",
-    "카페 직원이 '잠시만 기다려 주세요'라고 할 때 적절한 대답 방법 알려줘"
+    "카페에서 음료를 주문할 때 쓸 수 있는 공손한 표현 5가지를 베트남어 번역과 함께 알려줘",
+    "뜨거운 음료와 차가운 음료를 선택할 때 한국어로 어떻게 말하는지 예문으로 설명해줘",
+    "카페에서 직원이 자주 묻는 질문과 그 대답을 한국어와 베트남어로 대화 형식으로 보여줘"
   ]
 }

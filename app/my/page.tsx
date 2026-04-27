@@ -38,8 +38,8 @@ type UnitCatalogEntry = {
 const UNIT_CATALOG: UnitCatalogEntry[] = [
   { unitId: "topik1_u01", slug: "1", number: 1, title: "편의점에서 물건 사기", implemented: true, theme: "구매와 결제" },
   { unitId: "topik1_u02", slug: "2", number: 2, title: "지하철 타기", implemented: true, theme: "이동과 교통" },
-  { unitId: "topik1_u03", slug: "3", number: 3, title: "카페에서 주문하기", implemented: false, theme: "음식과 주문" },
-  { unitId: "topik1_u04", slug: "4", number: 4, title: "식당에서 음식 주문하기", implemented: false, theme: "음식과 주문" },
+  { unitId: "topik1_u03", slug: "3", number: 3, title: "카페에서 주문하기", implemented: true, theme: "음식과 주문" },
+  { unitId: "topik1_u04", slug: "4", number: 4, title: "쇼핑몰에서 옷 사기", implemented: true, theme: "구매와 결제" },
   { unitId: "topik1_u05", slug: "5", number: 5, title: "길 묻기", implemented: false, theme: "장소와 위치" },
   { unitId: "topik1_u06", slug: "6", number: 6, title: "병원에서 진료받기", implemented: false, theme: "서비스 이용" },
   { unitId: "topik1_u07", slug: "7", number: 7, title: "약국에서 약 사기", implemented: false, theme: "서비스 이용" },
@@ -51,6 +51,11 @@ const UNIT_CATALOG: UnitCatalogEntry[] = [
   { unitId: "topik1_u13", slug: "13", number: 13, title: "가족/지인 소개", implemented: false, locked: true, theme: "관계 형성" },
   { unitId: "topik1_u14", slug: "14", number: 14, title: "취미/여가 말하기", implemented: false, locked: true, theme: "일상 생활" },
   { unitId: "topik1_u15", slug: "15", number: 15, title: "날씨/계절 표현", implemented: false, locked: true, theme: "일상 생활" },
+];
+
+/* EPS-TOPIK 카탈로그. URL 패턴은 /unit/eps/${slug} (TOPIK1 의 /unit/${slug} 와 분리). */
+const EPS_UNIT_CATALOG: UnitCatalogEntry[] = [
+  { unitId: "eps_u01", slug: "1", number: 1, title: "작업 지시 이해하기", implemented: true, theme: "작업 현장" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -327,6 +332,15 @@ export default async function MyPage({
     locked: u.locked === true,
   }));
 
+  const epsUnitsForTabs = EPS_UNIT_CATALOG.map((u) => ({
+    id: u.unitId,
+    unitNum: u.number,
+    title: u.title,
+    path: `/unit/eps/${u.slug}`,
+    implemented: u.implemented,
+    locked: u.locked === true,
+  }));
+
   /* ---------------- 체험/결제 지표 ---------------- */
 
   const trialDaysLeft =
@@ -427,10 +441,12 @@ export default async function MyPage({
         </h2>
         <ProgressTabs
           units={unitsForTabs}
+          epsUnits={epsUnitsForTabs}
           progressMap={progressMap}
           tabAccess={tabAccess}
           isTrial={ctx.kind === "trialing"}
           isExpired={isExpired}
+          initialTab={ctx.planType ?? undefined}
         />
       </section>
 

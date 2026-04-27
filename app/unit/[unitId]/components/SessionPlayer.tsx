@@ -85,8 +85,8 @@ export default function SessionPlayer({
     unit.session.step_videos?.[String(step)] ??
     unit.bunny_video_id;
   // PLACEHOLDER_EN 등 아직 영상이 준비되지 않은 언어 버전 대응
-  const isPlaceholder = currentVideoId.startsWith("PLACEHOLDER");
-  const bunnyEmbed = `https://iframe.mediadelivery.net/embed/${unit.bunny_library_id}/${currentVideoId}?autoplay=false&preload=false&t=0&loop=false`;
+  const isPlaceholder = currentVideoId?.startsWith("PLACEHOLDER") ?? true;
+  const bunnyEmbed = `https://iframe.mediadelivery.net/embed/${unit.bunny_library_id}/${currentVideoId ?? ""}?autoplay=false&preload=false&t=0&loop=false`;
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [playerSdkReady, setPlayerSdkReady] = useState(false);

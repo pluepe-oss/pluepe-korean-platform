@@ -1,0 +1,304 @@
+{
+  "unit_id": "topik1_u02",
+  "language": "zh",
+  "exam_type": "TOPIK1",
+  "topic": "지하철 타기",
+  "topic_translation": "乘坐地铁",
+  "level": 1,
+  "duration_min": 25,
+  "bunny_library_id": "640837",
+  "bunny_video_ids": {
+    "step1": "ddd3e4aa-755e-49f8-80b5-b27bdadb36a8",
+    "step2": "e3b1b7ca-4255-49dd-9bda-df28de48f882",
+    "step3": "33e8f570-7f4c-47c6-8822-b592482ed394"
+  },
+  "is_free": false,
+  "key_expressions": [
+    {
+      "ko": "실례합니다. ~에 가려면 어떻게 해야 해요?",
+      "translation": "不好意思，请问去~怎么走？"
+    },
+    {
+      "ko": "~호선을 타세요.",
+      "translation": "坐~号线。"
+    },
+    {
+      "ko": "환승해야 해요?",
+      "translation": "需要换乘吗？"
+    },
+    {
+      "ko": "환승 안 해도 돼요.",
+      "translation": "不用换乘。"
+    },
+    {
+      "ko": "~번 출구로 나가세요.",
+      "translation": "从~号出口出去。"
+    }
+  ],
+  "session": {
+    "step1_quiz": {
+      "question": "이 대화가 일어나는 곳은 어디인가요?",
+      "options": [
+        "지하철역",
+        "버스정류장",
+        "공항"
+      ],
+      "answer": 0
+    },
+    "step2_blanks": [
+      {
+        "sentence": "실례합니다. 명동에 가려면 어떻게 ____ 해요?",
+        "hint": "询问去某地的方式时使用的动词",
+        "options": [
+          "해야",
+          "가야",
+          "와야"
+        ],
+        "answer": 0
+      },
+      {
+        "sentence": "지하철 4____을 타세요.",
+        "hint": "地铁线路的计量单位",
+        "options": [
+          "호선",
+          "번선",
+          "구간"
+        ],
+        "answer": 0
+      },
+      {
+        "sentence": "____해야 해요?",
+        "hint": "询问是否需要换乘时使用的词",
+        "options": [
+          "환승",
+          "탑승",
+          "하차"
+        ],
+        "answer": 0
+      }
+    ],
+    "step3_sentences": [
+      {
+        "ko": "실례합니다. ~에 가려면 어떻게 해야 해요?",
+        "translation": "不好意思，请问去~怎么走？"
+      },
+      {
+        "ko": "~호선을 타세요.",
+        "translation": "坐~号线。"
+      },
+      {
+        "ko": "환승해야 해요?",
+        "translation": "需要换乘吗？"
+      }
+    ],
+    "step4_words": [
+      {
+        "korean": "호선",
+        "translation": "号线",
+        "example": "4호선을 타세요. 여기서 두 정거장이에요."
+      },
+      {
+        "korean": "정거장",
+        "translation": "站",
+        "example": "4호선을 타세요. 여기서 두 정거장이에요."
+      },
+      {
+        "korean": "환승",
+        "translation": "换乘",
+        "example": "환승해야 해요?"
+      },
+      {
+        "korean": "교통카드",
+        "translation": "交通卡",
+        "example": "교통카드가 없어요. 어디서 살 수 있어요?"
+      },
+      {
+        "korean": "자동판매기",
+        "translation": "自动售票机",
+        "example": "저기 자동판매기에서 사세요."
+      },
+      {
+        "korean": "출구",
+        "translation": "出口",
+        "example": "감사합니다. 출구는 어디예요?"
+      }
+    ],
+    "step5_review": [
+      {
+        "ko": "실례합니다. ~에 가려면 어떻게 해야 해요?",
+        "translation": "不好意思，请问去~怎么走？",
+        "context": "向陌生人问路时使用"
+      },
+      {
+        "ko": "~호선을 타세요.",
+        "translation": "坐~号线。",
+        "context": "给对方指导应该乘坐的地铁线路时使用"
+      },
+      {
+        "ko": "환승해야 해요?",
+        "translation": "需要换乘吗？",
+        "context": "确认是否需要换乘地铁时使用"
+      }
+    ]
+  },
+  "words": [
+    {
+      "korean": "호선",
+      "translation": "号线",
+      "example_ko": "4호선을 타세요. 여기서 두 정거장이에요.",
+      "example": ""
+    },
+    {
+      "korean": "정거장",
+      "translation": "站",
+      "example_ko": "4호선을 타세요. 여기서 두 정거장이에요.",
+      "example": ""
+    },
+    {
+      "korean": "환승",
+      "translation": "换乘",
+      "example_ko": "환승해야 해요?",
+      "example": ""
+    },
+    {
+      "korean": "교통카드",
+      "translation": "交通卡",
+      "example_ko": "교통카드가 없어요. 어디서 살 수 있어요?",
+      "example": ""
+    },
+    {
+      "korean": "자동판매기",
+      "translation": "自动售票机",
+      "example_ko": "저기 자동판매기에서 사세요.",
+      "example": ""
+    },
+    {
+      "korean": "출구",
+      "translation": "出口",
+      "example_ko": "감사합니다. 출구는 어디예요?",
+      "example": ""
+    }
+  ],
+  "words_quiz": [
+    {
+      "type": "situation",
+      "question": "지하철에서 다른 노선으로 갈아탈 때 무엇을 해야 하나요?",
+      "options": [
+        "환승",
+        "정거장",
+        "출구",
+        "호선"
+      ],
+      "answer": 0,
+      "hint": "从一条线路转到另一条线路"
+    },
+    {
+      "type": "situation",
+      "question": "지하철역에서 밖으로 나가고 싶을 때 어디로 가야 하나요?",
+      "options": [
+        "정거장",
+        "호선",
+        "출구",
+        "환승"
+      ],
+      "answer": 2,
+      "hint": "离开地铁站的地方"
+    },
+    {
+      "type": "fill",
+      "question": "지하철 표를 사려면 ____를 이용하면 편리합니다.",
+      "options": [
+        "자동판매기",
+        "정거장",
+        "호선",
+        "환승"
+      ],
+      "answer": 0,
+      "hint": "自动卖票的机器"
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "V+(으)려면",
+      "meaning": "V+的话",
+      "examples": [
+        "명동역에 가려면 4호선을 타세요.",
+        "去明洞站的话坐4号线。"
+      ],
+      "blank_quiz": {
+        "sentence": "한국어를 잘하려면 매일 ____해야 해요.",
+        "answer": "연습",
+        "options": [
+          "연습",
+          "휴식",
+          "여행",
+          "쇼핑"
+        ]
+      }
+    },
+    {
+      "pattern": "V+지 않아도 돼요 (= 안 V+아/어도 돼요)",
+      "meaning": "不用V",
+      "examples": [
+        "환승 안 해도 돼요.",
+        "不用换乘。"
+      ],
+      "blank_quiz": {
+        "sentence": "내일은 일요일이니까 일찍 ____지 않아도 돼요.",
+        "answer": "일어나",
+        "options": [
+          "일어나",
+          "만나",
+          "공부하",
+          "운동하"
+        ]
+      }
+    }
+  ],
+  "mini_test": [
+    {
+      "type": "listening",
+      "script": "A: 홍대입구역에 가려면 어떻게 해요? B: 2호선을 타고 세 정거장 가세요.",
+      "question": "홍대입구역까지 몇 정거장이에요?",
+      "options": [
+        "한 정거장",
+        "두 정거장",
+        "세 정거장",
+        "네 정거장"
+      ],
+      "answer": 2,
+      "explanation": "대화에서 '세 정거장 가세요'라고 했으므로 세 정거장입니다."
+    },
+    {
+      "type": "reading",
+      "text": "← 1번 출구 롯데백화점\n← 2번 출구 명동성당\n→ 3번 출구 남대문시장\n→ 4번 출구 명동거리",
+      "question": "명동성당에 가려면 몇 번 출구로 나가야 해요?",
+      "options": [
+        "1번 출구",
+        "2번 출구",
+        "3번 출구",
+        "4번 출구"
+      ],
+      "answer": 1,
+      "explanation": "안내판에서 '← 2번 출구 명동성당'이라고 표시되어 있습니다."
+    },
+    {
+      "type": "situation",
+      "sentence": "교통카드가 없어서 지하철표를 사야 합니다.",
+      "question": "이때 뭐라고 말해요?",
+      "options": [
+        "교통카드 어디서 사요?",
+        "지하철표 한 장 주세요.",
+        "환승해야 해요?",
+        "몇 번 출구예요?"
+      ],
+      "answer": 1,
+      "explanation": "지하철표를 사야 하는 상황에서는 '지하철표 한 장 주세요'라고 말합니다."
+    }
+  ],
+  "ai_extension": [
+    "지하철 노선도 보는 방법과 환승 표현 알려줘",
+    "지하철 타면서 다른 승객에게 양보할 때 쓰는 정중한 표현 가르쳐줘",
+    "지하철역에서 길 묻고 대답할 때 쓰는 실용적인 대화 예시 보여줘"
+  ]
+}

@@ -36,7 +36,7 @@ const TOPIK1_UNITS: Record<number, string> = {
   1: "편의점에서 물건 사기",
   2: "지하철 타기",
   3: "카페에서 주문하기",
-  4: "식당에서 음식 주문하기",
+  4: "쇼핑몰에서 옷 사기",
   5: "길 묻기",
   6: "병원에서 진료받기",
   7: "약국에서 약 사기",
@@ -48,6 +48,11 @@ const TOPIK1_UNITS: Record<number, string> = {
   13: "가족/지인 소개",
   14: "취미/여가 말하기",
   15: "날씨/계절 표현",
+};
+
+// EPS-TOPIK 가용 주제. 현재는 1번만 implemented.
+const EPS_UNITS: Record<number, string> = {
+  1: "작업 지시 이해하기",
 };
 
 function parseUnitNumber(unitId: string, prefix: string): number | null {
@@ -129,20 +134,55 @@ export default function TodaySection({
     );
   }
 
-  // ─── 분기: topik2/eps + 콘텐츠 미준비 → 비활성 ───
-  if (planType === "topik2" || planType === "eps") {
-    const courseLabel = planType === "topik2" ? "TOPIK 2" : "EPS-TOPIK";
+  // ─── 분기: topik2 — 콘텐츠 미준비 → 비활성 ───
+  if (planType === "topik2") {
     return (
       <div className={CARD_DISABLED} aria-disabled="true">
         <CardLayout
           label="오늘 학습"
           labelTone="muted"
-          title={`🔒 ${courseLabel} 콘텐츠 준비 중`}
+          title={`🔒 TOPIK 2 콘텐츠 준비 중`}
           meta="곧 오픈 예정이에요"
           buttonLabel="준비 중"
           buttonClass={DISABLED_BTN}
         />
       </div>
+    );
+  }
+
+  // ─── 분기: EPS-TOPIK — 가용 유닛 1개 (작업 지시 이해하기) ───
+  // 현재 카탈로그가 1유닛만 implemented 라 "다음 주제" 추천은 생략하고,
+  // 진도(eps_u01) 에 따라 fresh / in_progress / done 표시.
+  if (planType === "eps") {
+    const epsMap = buildProgressMap(userProgress, "eps");
+    const done = epsMap.get(1) ?? 0;
+    const isInProgress = done > 0 && done < SECTIONS_PER_UNIT;
+    const isAllDone = done >= SECTIONS_PER_UNIT;
+    const percent = Math.round((done / SECTIONS_PER_UNIT) * 100);
+
+    const titleText = `주제 1. ${EPS_UNITS[1]}`;
+    const metaText = isAllDone
+      ? "완료한 주제예요. 다시 학습할 수 있어요."
+      : isInProgress
+        ? `${SECTIONS_PER_UNIT}단계 중 ${done}단계 · ${percent}%`
+        : `주제 1 · ${SECTIONS_PER_UNIT}단계 학습`;
+    const buttonLabel = isAllDone
+      ? "다시 학습 →"
+      : isInProgress
+        ? "이어하기 →"
+        : "학습 시작 →";
+
+    return (
+      <Link href="/unit/eps/1" className={CARD_BASE}>
+        <CardLayout
+          label="오늘 학습"
+          labelTone="mint"
+          title={titleText}
+          meta={metaText}
+          buttonLabel={buttonLabel}
+          buttonClass={NAVY_BTN}
+        />
+      </Link>
     );
   }
 

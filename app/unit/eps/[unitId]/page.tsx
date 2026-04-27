@@ -1,22 +1,19 @@
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getAccountContext } from "@/lib/account-kind";
-import type { UnitData, UnitLanguage } from "./types";
-import UnitClient from "./UnitClient";
+import type { UnitData, UnitLanguage } from "../../[unitId]/types";
+import UnitClient from "../../[unitId]/UnitClient";
 
 const unitFileMap: Record<string, { file: string; unitNumber: number }> = {
-  "1": { file: "u01_convenience", unitNumber: 1 },
-  "2": { file: "u02_subway", unitNumber: 2 },
-  "3": { file: "u03_cafe", unitNumber: 3 },
-  "4": { file: "u04_shopping", unitNumber: 4 },
+  "1": { file: "u01_work_instruction", unitNumber: 1 },
 };
 
-const SUPPORTED_LANGS: UnitLanguage[] = ["vi", "en", "zh", "id"];
+const SUPPORTED_LANGS: UnitLanguage[] = ["vi", "th", "id"];
 const FALLBACK_LANG: UnitLanguage = "vi";
 
-// 현재 /unit/[unitId] 는 TOPIK 1 전용 (PROGRESS.md 참조).
-// TOPIK 2 / EPS 는 /unit/topik2/[unitId], /unit/eps/[unitId] 로 분리될 예정.
-const THIS_ROUTE_COURSE = "topik1" as const;
+// 이 라우트는 EPS-TOPIK 전용. TOPIK 1 은 /unit/[unitId], TOPIK 2 는 /unit/topik2/[unitId].
+// account-kind.ts 의 planType 은 "eps" (NOT "eps-topik") 이므로 그 값과 비교한다.
+const THIS_ROUTE_COURSE = "eps" as const;
 
 function normalizeLanguage(raw: string | null | undefined): UnitLanguage {
   if (!raw) return FALLBACK_LANG;
@@ -44,10 +41,6 @@ async function resolvePreferredLanguage(): Promise<UnitLanguage> {
   }
 }
 
-/**
- * user_progress 에서 해당 유저 × 해당 주제의 섹션별 완료 상태를 조회한다.
- * 비로그인이거나 오류 시 빈 객체를 반환 (클라이언트는 전부 미완료로 시작).
- */
 async function loadUnitProgress(
   unitTableId: string,
 ): Promise<Record<string, boolean>> {
@@ -76,15 +69,14 @@ async function loadUnitJson(
   baseFile: string,
   lang: UnitLanguage,
 ): Promise<{ data: unknown; loadedLang: UnitLanguage } | null> {
-  // JSON 런타임 import — 지원 언어 파일이 없으면 VI 로 fallback
   try {
-    const mod = await import(`@/data/topik1/${baseFile}_${lang}.json`);
+    const mod = await import(`@/data/eps_topik/${baseFile}_${lang}.json`);
     return { data: mod.default, loadedLang: lang };
   } catch {
     if (lang === FALLBACK_LANG) return null;
     try {
       const mod = await import(
-        `@/data/topik1/${baseFile}_${FALLBACK_LANG}.json`
+        `@/data/eps_topik/${baseFile}_${FALLBACK_LANG}.json`
       );
       return { data: mod.default, loadedLang: FALLBACK_LANG };
     } catch {
@@ -93,16 +85,6 @@ async function loadUnitJson(
   }
 }
 
-/**
- * u02 신규 포맷(`session.step1/step2/step3` nested) 을 공통 포맷으로 정규화한다.
- * - `session.step1.quiz` → `session.step1_quiz`
- * - `session.step2.blanks` → `session.step2_blanks`
- * - `session.step3.sentences` → `session.step3_sentences`
- * - 최상위 `bunny_video_ids.stepN` → `session.step_videos[{"1","2","3"}]` 로도 복사 (SessionPlayer 양쪽 체인 모두 대응)
- * - 최상위 `bunny_video_id` 미정의 시 `bunny_video_ids.step1` 을 기본값으로 채운다
- *
- * u01 처럼 이미 공통 포맷인 경우 변환하지 않는다.
- */
 function normalizeUnitShape(raw: unknown): UnitData {
   const src = raw as Record<string, unknown>;
   const session = (src.session ?? {}) as Record<string, unknown>;
@@ -147,7 +129,6 @@ function normalizeUnitShape(raw: unknown): UnitData {
     step2_blanks: step2.blanks,
     step3_sentences: step3.sentences,
   };
-  // nested 버전 키는 제거 — 공통 포맷으로만 노출
   delete (normalizedSession as Record<string, unknown>).step1;
   delete (normalizedSession as Record<string, unknown>).step2;
   delete (normalizedSession as Record<string, unknown>).step3;
@@ -170,7 +151,6 @@ async function loadUnit(unitId: string): Promise<UnitData | null> {
   if (!loaded) return null;
   const unit = normalizeUnitShape(loaded.data);
 
-  // PLACEHOLDER 로 표시된 주제는 실제 Bunny 라이브러리 환경변수 주입을 건너뛴다
   const isPlaceholder = unit.bunny_video_id?.startsWith("PLACEHOLDER");
   const bunnyLibraryId = isPlaceholder
     ? unit.bunny_library_id
@@ -183,10 +163,6 @@ async function loadUnit(unitId: string): Promise<UnitData | null> {
   };
 }
 
-/**
- * 접근 제어: 로그인 / 구독 상태 / 플랜 타입 / 이전 주제 완료 여부를 검증.
- * 부적합 시 적절한 경로로 redirect 하며, 통과 시 planTier 를 UnitClient 에 전달한다.
- */
 async function enforceUnitAccess(unitId: string): Promise<{
   planTier: "basic" | "premium" | null;
   accountKind: "b2b" | "b2c_active" | "trialing" | "expired" | "none";
@@ -205,10 +181,10 @@ async function enforceUnitAccess(unitId: string): Promise<{
   const unitNum = Number.parseInt(unitId, 10);
   const isValidUnitNum = Number.isFinite(unitNum) && unitNum >= 1;
 
-  // 이전 주제(N-1) 5섹션 완료 여부 헬퍼
+  // 이전 주제(N-1) 5섹션 완료 여부 헬퍼 — EPS prefix 사용
   async function isPrevUnitDone(num: number): Promise<boolean> {
     if (num <= 1) return true;
-    const prevUnitTableId = `topik1_u${String(num - 1).padStart(2, "0")}`;
+    const prevUnitTableId = `eps_u${String(num - 1).padStart(2, "0")}`;
     const { data: prevRows } = await supabase
       .from("user_progress")
       .select("section")
@@ -220,23 +196,19 @@ async function enforceUnitAccess(unitId: string): Promise<{
   }
 
   if (ctx.kind === "trialing") {
-    // Trial 정책: 주제 1, 2 만 진입 가능. 주제 3 이상 → trial-limit-reached
     if (!isValidUnitNum) {
       redirect("/my?reason=trial-locked");
     }
     if (unitNum >= 3) {
       redirect("/my?reason=trial-limit-reached");
     }
-    // 주제 2 진입 시 주제 1 5섹션 완료 검증
     if (unitNum === 2 && !(await isPrevUnitDone(2))) {
       redirect("/my?reason=previous-unit-required");
     }
   } else if (ctx.kind === "b2c_active" || ctx.kind === "b2b") {
-    // 이 라우트(/unit/[unitId]) 는 TOPIK 1 전용 — 플랜이 다르면 차단
     if (ctx.planType !== THIS_ROUTE_COURSE) {
       redirect("/my?reason=plan-mismatch");
     }
-    // 이전 주제(N-1) 5섹션 완료 여부 확인
     if (isValidUnitNum && unitNum > 1 && !(await isPrevUnitDone(unitNum))) {
       redirect("/my?reason=previous-unit-required");
     }
@@ -245,21 +217,18 @@ async function enforceUnitAccess(unitId: string): Promise<{
   return { planTier: ctx.planTier, accountKind: ctx.kind };
 }
 
-export default async function UnitPage({
+export default async function EpsUnitPage({
   params,
 }: {
   params: Promise<{ unitId: string }>;
 }) {
   const { unitId } = await params;
 
-  // 1) 접근 제어 (비로그인/구독/플랜/이전 주제 검증)
   const { planTier, accountKind } = await enforceUnitAccess(unitId);
 
-  // 2) 주제 콘텐츠 로드
   const unit = await loadUnit(unitId);
   if (!unit) notFound();
 
-  // 3) 사용자 진도 복원
   const initialCompleted = await loadUnitProgress(unit.unit_id);
 
   return (

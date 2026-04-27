@@ -1,0 +1,548 @@
+{
+  "unit_id": "eps_u01",
+  "language": "th",
+  "exam_type": "EPS-TOPIK",
+  "topic": "작업 지시 이해하기",
+  "topic_translation": "การเข้าใจคำสั่งงาน",
+  "level": 1,
+  "duration_min": 25,
+  "bunny_library_id": "640837",
+  "bunny_video_ids": {
+    "step1": "fc83f0d1-a5d1-4d44-a9fe-43a9bf99712b",
+    "step2": "cceedc11-5a62-4440-ad4d-d45893d523e1",
+    "step3": "d5582cdf-4529-491f-ba54-b2a834e6b50b"
+  },
+  "is_free": true,
+  "key_expressions": [
+    {
+      "ko": "순서대로 하세요",
+      "translation": "ทำตามลำดับ"
+    },
+    {
+      "ko": "모르면 바로 물어보세요",
+      "translation": "ไม่เข้าใจถามทันที"
+    },
+    {
+      "ko": "천천히 해도 괜찮아요",
+      "translation": "ทำช้าๆ ก็ได้"
+    }
+  ],
+  "session": {
+    "step1_quiz": {
+      "question": "이 대화는 어디에서 일어나고 있나요?",
+      "options": [
+        "공장",
+        "병원",
+        "학교"
+      ],
+      "answer": 0
+    },
+    "step2_blanks": [
+      {
+        "sentence": "____대로 하세요. 먼저 1번, 그다음 2번이에요.",
+        "hint": "ทำตามลำดับ — คำที่หายไปหมายถึงลำดับขั้นตอน",
+        "options": [
+          "순서",
+          "방법",
+          "이유"
+        ],
+        "answer": 0
+      },
+      {
+        "sentence": "모르면 바로 ____보세요. 언제든지 질문해도 돼요.",
+        "hint": "ไม่เข้าใจถามทันที — คำที่หายไปหมายถึงการถาม",
+        "options": [
+          "찾아",
+          "물어",
+          "읽어"
+        ],
+        "answer": 1
+      },
+      {
+        "sentence": "천천히 해도 ____아요. 서두르지 않아도 돼요.",
+        "hint": "ทำช้าๆ ก็ได้ — คำที่หายไปแสดงว่า 'ไม่เป็นไร / โอเค'",
+        "options": [
+          "어렵",
+          "괜찮",
+          "힘들"
+        ],
+        "answer": 1
+      }
+    ],
+    "step3_sentences": [
+      {
+        "ko": "순서대로 하세요",
+        "translation": "ทำตามลำดับ"
+      },
+      {
+        "ko": "모르면 바로 물어보세요",
+        "translation": "ไม่เข้าใจถามทันที"
+      },
+      {
+        "ko": "천천히 해도 괜찮아요",
+        "translation": "ทำช้าๆ ก็ได้"
+      }
+    ],
+    "step4_words": [
+      {
+        "korean": "부품",
+        "translation": "ชิ้นส่วน",
+        "example": "부품을 조립하세요. 이 설명서를 보세요."
+      },
+      {
+        "korean": "조립하다",
+        "translation": "ประกอบ",
+        "example": "조립하다을(를) 사용해요."
+      },
+      {
+        "korean": "설명서",
+        "translation": "คู่มือ",
+        "example": "부품을 조립하세요. 이 설명서를 보세요."
+      },
+      {
+        "korean": "순서",
+        "translation": "ลำดับ",
+        "example": "순서대로 하면 돼요?"
+      },
+      {
+        "korean": "라인",
+        "translation": "สายการผลิต",
+        "example": "오늘은 A라인에서 일하세요."
+      },
+      {
+        "korean": "작업 지시서",
+        "translation": "ใบสั่งงาน",
+        "example": "작업 지시서을(를) 사용해요."
+      }
+    ],
+    "step5_review": [
+      {
+        "ko": "순서대로 하세요",
+        "translation": "ทำตามลำดับ",
+        "context": "ใช้เมื่อบอกให้ทำตามขั้นตอนที่กำหนดไว้"
+      },
+      {
+        "ko": "모르면 바로 물어보세요",
+        "translation": "ไม่เข้าใจถามทันที",
+        "context": "ใช้เมื่อแนะนำให้ถามทันทีหากไม่เข้าใจ"
+      },
+      {
+        "ko": "천천히 해도 괜찮아요",
+        "translation": "ทำช้าๆ ก็ได้",
+        "context": "ใช้เมื่อต้องการให้กำลังใจว่าไม่ต้องรีบร้อน"
+      }
+    ]
+  },
+  "words": [
+    {
+      "korean": "부품",
+      "translation": "ชิ้นส่วน",
+      "example_ko": "부품을 조립하세요. 이 설명서를 보세요.",
+      "example": ""
+    },
+    {
+      "korean": "조립하다",
+      "translation": "ประกอบ",
+      "example_ko": "조립하다을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "설명서",
+      "translation": "คู่มือ",
+      "example_ko": "부품을 조립하세요. 이 설명서를 보세요.",
+      "example": ""
+    },
+    {
+      "korean": "순서",
+      "translation": "ลำดับ",
+      "example_ko": "순서대로 하면 돼요?",
+      "example": ""
+    },
+    {
+      "korean": "라인",
+      "translation": "สายการผลิต",
+      "example_ko": "오늘은 A라인에서 일하세요.",
+      "example": ""
+    },
+    {
+      "korean": "작업 지시서",
+      "translation": "ใบสั่งงาน",
+      "example_ko": "작업 지시서을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "불량품",
+      "translation": "ของเสีย",
+      "example_ko": "불량품을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "마감 시간",
+      "translation": "เวลาส่งงาน",
+      "example_ko": "마감 시간을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "교대",
+      "translation": "กะ",
+      "example_ko": "교대을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "공구",
+      "translation": "เครื่องมือ",
+      "example_ko": "공구을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "확인하다",
+      "translation": "ตรวจสอบ",
+      "example_ko": "확인하다을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "보고하다",
+      "translation": "รายงาน",
+      "example_ko": "보고하다을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "수량",
+      "translation": "จำนวน",
+      "example_ko": "수량을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "작업복",
+      "translation": "ชุดทำงาน",
+      "example_ko": "작업복을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "이상 없음",
+      "translation": "ไม่มีปัญหา",
+      "example_ko": "이상 없음을(를) 사용해요.",
+      "example": ""
+    }
+  ],
+  "words_quiz": [
+    {
+      "type": "situation",
+      "question": "공장에서 제품을 만들 때 각 단계를 정해진 차례대로 따라야 합니다. 이때 어떤 단어를 사용하나요?",
+      "options": [
+        "순서",
+        "불량품",
+        "마감 시간",
+        "라인"
+      ],
+      "answer": 0,
+      "hint": "ลำดับขั้นตอนที่ต้องทำตามในการผลิตสินค้า"
+    },
+    {
+      "type": "situation",
+      "question": "제품을 만들다가 기준에 맞지 않아 사용할 수 없는 제품이 나왔습니다. 이 제품을 무엇이라고 하나요?",
+      "options": [
+        "설명서",
+        "부품",
+        "작업 지시서",
+        "불량품"
+      ],
+      "answer": 3,
+      "hint": "สินค้าที่ผลิตออกมาแล้วไม่ได้มาตรฐาน ใช้งานไม่ได้ เรียกว่า ของเสีย"
+    },
+    {
+      "type": "fill",
+      "question": "새 가구를 샀는데, ____에 적힌 대로 따라 하면 혼자서도 쉽게 ____ 수 있습니다.",
+      "options": [
+        "설명서 / 조립할",
+        "순서 / 마감할",
+        "라인 / 분리할",
+        "부품 / 작업할"
+      ],
+      "answer": 0,
+      "hint": "คู่มือ คือเอกสารที่บอกวิธีใช้งาน และ ประกอบ คือการนำชิ้นส่วนมาประกอบเข้าด้วยกัน"
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "V-세요",
+      "meaning": "V-ครับ (สั่ง)",
+      "examples": [
+        "조립하세요 / 하세요 / 물어보세요",
+        "ประกอบครับ / ทำครับ / ถามครับ"
+      ],
+      "blank_quiz": {
+        "sentence": "부품을 순서대로 ____. (Put it together in order.)",
+        "answer": "조립하세요",
+        "options": [
+          "조립하세요",
+          "조립했어요",
+          "조립할게요",
+          "조립해요"
+        ]
+      }
+    },
+    {
+      "pattern": "V-면 돼요",
+      "meaning": "V-แล้วได้",
+      "examples": [
+        "어떻게 하면 돼요?",
+        "ทำยังไงแล้วได้?"
+      ],
+      "blank_quiz": {
+        "sentence": "이 버튼을 누르면 ____? (What should I do if I press this button?)",
+        "answer": "돼요",
+        "options": [
+          "돼요",
+          "안 돼요",
+          "됐어요",
+          "되세요"
+        ]
+      }
+    },
+    {
+      "pattern": "V-아도 괜찮아요",
+      "meaning": "V-ช้าๆ ก็ได้",
+      "examples": [
+        "천천히 해도 괜찮아요",
+        "ทำช้าๆ ก็ได้"
+      ],
+      "blank_quiz": {
+        "sentence": "천천히 ____. (It's okay to do it slowly.)",
+        "answer": "해도 괜찮아요",
+        "options": [
+          "해도 괜찮아요",
+          "하면 안 돼요",
+          "해야 해요",
+          "하지 마세요"
+        ]
+      }
+    },
+    {
+      "pattern": "V-기 전에",
+      "meaning": "ก่อนที่จะ V",
+      "examples": [
+        "시작하기 전에 확인하세요",
+        "ก่อนเริ่มให้ตรวจสอบก่อน"
+      ],
+      "blank_quiz": {
+        "sentence": "시작하기 ____ 확인하세요. (Please check before starting.)",
+        "answer": "전에",
+        "options": [
+          "전에",
+          "후에",
+          "때문에",
+          "위해서"
+        ]
+      }
+    },
+    {
+      "pattern": "V-고 나서",
+      "meaning": "V-เสร็จแล้ว",
+      "examples": [
+        "조립하고 나서 보고하세요",
+        "ประกอบเสร็จแล้วมารายงาน"
+      ],
+      "blank_quiz": {
+        "sentence": "조립하고 ____ 보고하세요. (Please report after assembling.)",
+        "answer": "나서",
+        "options": [
+          "나서",
+          "싶어서",
+          "보니까",
+          "있어서"
+        ]
+      }
+    },
+    {
+      "pattern": "N이/가 있으면",
+      "meaning": "ถ้ามี N",
+      "examples": [
+        "문제가 있으면 말하세요",
+        "ถ้ามีปัญหาให้บอก"
+      ],
+      "blank_quiz": {
+        "sentence": "문제가 ____ 말하세요. (Please speak up if there is a problem.)",
+        "answer": "있으면",
+        "options": [
+          "있으면",
+          "없으면",
+          "있어서",
+          "있지만"
+        ]
+      }
+    },
+    {
+      "pattern": "V-지 마세요",
+      "meaning": "อย่า V",
+      "examples": [
+        "혼자 결정하지 마세요",
+        "อย่าตัดสินใจเอง"
+      ],
+      "blank_quiz": {
+        "sentence": "혼자 결정하지 ____. (Please don't decide alone.)",
+        "answer": "마세요",
+        "options": [
+          "마세요",
+          "주세요",
+          "할게요",
+          "됩니다"
+        ]
+      }
+    },
+    {
+      "pattern": "얼마나 걸려요?",
+      "meaning": "ใช้เวลานานเท่าไหร่?",
+      "examples": [
+        "이 작업 얼마나 걸려요?",
+        "งานนี้ใช้เวลานานเท่าไหร่?"
+      ],
+      "blank_quiz": {
+        "sentence": "이 작업 얼마나 ____? (How long does this task take?)",
+        "answer": "걸려요",
+        "options": [
+          "걸려요",
+          "끝나요",
+          "시작해요",
+          "해요"
+        ]
+      }
+    },
+    {
+      "pattern": "V-는 방법",
+      "meaning": "วิธี V",
+      "examples": [
+        "조립하는 방법을 알려주세요",
+        "บอกวิธีประกอบหน่อย"
+      ],
+      "blank_quiz": {
+        "sentence": "조립하는 ____을 알려주세요. (Please tell me how to assemble it.)",
+        "answer": "방법",
+        "options": [
+          "방법",
+          "이유",
+          "순서",
+          "시간"
+        ]
+      }
+    },
+    {
+      "pattern": "N마다",
+      "meaning": "ทุก N",
+      "examples": [
+        "한 시간마다 확인하세요",
+        "ทุกชั่วโมงให้ตรวจสอบ"
+      ],
+      "blank_quiz": {
+        "sentence": "한 시간____ 확인하세요. (Please check every hour.)",
+        "answer": "마다",
+        "options": [
+          "마다",
+          "부터",
+          "까지",
+          "에서"
+        ]
+      }
+    },
+    {
+      "pattern": "다시 한번",
+      "meaning": "อีกครั้ง",
+      "examples": [
+        "다시 한번 설명해 주세요",
+        "อธิบายอีกครั้งหน่อย"
+      ],
+      "blank_quiz": {
+        "sentence": "____ 한번 설명해 주세요. (Please explain one more time.)",
+        "answer": "다시",
+        "options": [
+          "다시",
+          "빨리",
+          "먼저",
+          "혼자"
+        ]
+      }
+    },
+    {
+      "pattern": "V-아/어도 돼요?",
+      "meaning": "V-ตอนนี้ได้ไหม?",
+      "examples": [
+        "지금 시작해도 돼요?",
+        "เริ่มตอนนี้ได้ไหม?"
+      ],
+      "blank_quiz": {
+        "sentence": "지금 시작해도 ____? (Is it okay to start now?)",
+        "answer": "돼요",
+        "options": [
+          "돼요",
+          "해요",
+          "될게요",
+          "됐어요"
+        ]
+      }
+    },
+    {
+      "pattern": "N을/를 맡다",
+      "meaning": "รับผิดชอบ N",
+      "examples": [
+        "오늘 2번 라인을 맡으세요",
+        "วันนี้รับผิดชอบสายการผลิต 2"
+      ],
+      "blank_quiz": {
+        "sentence": "오늘 2번 라인을 ____. (Please take charge of Line 2 today.)",
+        "answer": "맡으세요",
+        "options": [
+          "맡으세요",
+          "맡았어요",
+          "맡을게요",
+          "맡아요"
+        ]
+      }
+    }
+  ],
+  "mini_test": [
+    {
+      "type": "listening",
+      "script": "감독: 부품을 조립하세요. 이 설명서를 보세요.\n근로자: 네, 알겠습니다.",
+      "question": "감독이 근로자에게 무엇을 하라고 했습니까?",
+      "options": [
+        "청소를 하라고 했습니다.",
+        "부품을 조립하라고 했습니다.",
+        "상자를 옮기라고 했습니다.",
+        "기계를 고치라고 했습니다."
+      ],
+      "answer": 1,
+      "explanation": "감독은 '부품을 조립하세요'라고 말했습니다. 그리고 설명서를 보라고 했습니다. 정답은 2번입니다."
+    },
+    {
+      "type": "reading",
+      "text": "[작업 안내]\n- 작업 순서대로 하세요.\n- 모르면 언제든지 질문하세요.\n- 천천히 해도 괜찮습니다.\n- 끝나면 감독에게 알려 주세요.",
+      "question": "이 안내문의 내용과 다른 것은 무엇입니까?",
+      "options": [
+        "순서대로 작업해야 합니다.",
+        "모르면 질문할 수 있습니다.",
+        "빨리 끝내야 합니다.",
+        "끝나면 감독에게 알려야 합니다."
+      ],
+      "answer": 2,
+      "explanation": "안내문에는 '천천히 해도 괜찮습니다'라고 쓰여 있습니다. '빨리 끝내야 한다'는 내용은 없습니다. 정답은 3번입니다."
+    },
+    {
+      "type": "situation",
+      "sentence": "작업 중에 방법을 모를 때 감독에게 말하고 싶습니다.",
+      "question": "이 상황에서 가장 알맞은 말은 무엇입니까?",
+      "options": [
+        "저 먼저 퇴근할게요.",
+        "모르면 물어봐도 돼요?",
+        "오늘은 A라인에서 일해요.",
+        "부품을 조립하면 돼요?"
+      ],
+      "answer": 1,
+      "explanation": "모르는 것이 있을 때 질문해도 되는지 확인하는 상황입니다. '모르면 물어봐도 돼요?'가 가장 알맞은 표현입니다. 정답은 2번입니다."
+    }
+  ],
+  "ai_extension": [
+    "작업 지시에서 자주 쓰는 '~하세요', '~해 주세요', '~하도록 하세요'의 차이점과 사용 상황을 태국어로 설명해줘",
+    "상사가 업무를 지시할 때 쓰는 표현 5가지를 예문과 함께 알려주고, 각 표현을 더 공손하게 말하는 방법도 가르쳐줘",
+    "작업 지시를 받았을 때 이해했다고 대답하는 한국어 표현들을 알려주고, 상황별로 어떤 표현을 쓰면 좋은지 태국어로 설명해줘"
+  ]
+}

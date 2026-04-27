@@ -1,6 +1,6 @@
 export type SectionKey = "session" | "words" | "patterns" | "test" | "ai";
 
-export type UnitLanguage = "vi" | "en" | "zh" | "id";
+export type UnitLanguage = "vi" | "en" | "zh" | "id" | "th";
 
 export interface UnitData {
   unit_id: string;

@@ -29,44 +29,44 @@
   ],
   "session": {
     "step1_quiz": {
-      "question": "이 상황은 어디인가요?",
+      "question": "이 대화는 어디에서 일어나고 있나요?",
       "options": [
-        "공장",
-        "사무실",
+        "공장(작업장)",
+        "병원",
         "식당"
       ],
       "answer": 0
     },
     "step2_blanks": [
       {
-        "sentence": "일을 할 때는 ____대로 하세요.",
-        "hint": "Thứ tự, tuần tự",
+        "sentence": "작업 지시서에 적힌 ____대로 부품을 조립하세요.",
+        "hint": "thứ tự",
         "options": [
           "순서",
-          "마음",
-          "생각"
+          "불량품",
+          "마감 시간"
         ],
         "answer": 0
       },
       {
-        "sentence": "____면 바로 물어보세요.",
-        "hint": "Không biết, không hiểu",
+        "sentence": "안전 수칙을 모르면 바로 감독관에게 ____보세요.",
+        "hint": "hỏi ngay",
         "options": [
-          "기억나",
-          "모르",
-          "생각나"
+          "물어",
+          "점검해",
+          "운반해"
         ],
-        "answer": 1
+        "answer": 0
       },
       {
-        "sentence": "____히 해도 괜찮아요.",
-        "hint": "Chậm, từ từ",
+        "sentence": "처음 생산 라인에 투입된 근로자는 천천히 ____도 괜찮아요.",
+        "hint": "làm chậm",
         "options": [
-          "빨리",
-          "천천",
-          "조용"
+          "해",
+          "보고해",
+          "포장해"
         ],
-        "answer": 1
+        "answer": 0
       }
     ],
     "step3_sentences": [
@@ -119,17 +119,17 @@
       {
         "ko": "순서대로 하세요",
         "translation": "Hãy làm theo thứ tự",
-        "context": "Khi muốn yêu cầu ai đó làm việc theo thứ tự đã định"
+        "context": "Dùng khi hướng dẫn ai đó thực hiện công việc theo đúng trình tự nhất định."
       },
       {
         "ko": "모르면 바로 물어보세요",
         "translation": "Không biết thì hỏi ngay",
-        "context": "Khi khuyến khích ai đó hỏi ngay lập tức nếu không hiểu"
+        "context": "Dùng khi khuyến khích người mới không ngần ngại hỏi ngay khi chưa hiểu."
       },
       {
         "ko": "천천히 해도 괜찮아요",
         "translation": "Làm chậm cũng được",
-        "context": "Khi muốn động viên ai đó không cần vội vàng khi làm việc"
+        "context": "Dùng khi muốn trấn an người đang lo lắng, nói rằng không cần vội vàng."
       }
     ]
   },
@@ -227,274 +227,274 @@
   ],
   "words_quiz": [
     {
-      "type": "situation",
-      "question": "공장에서 제품을 만들 때 각각의 작은 구성 요소들을 부르는 상황에서 어떤 단어를 쓰나요?",
+      "type": "fill",
+      "question": "생산 라인에서 일하기 전에 ____를 읽고 작업 순서를 확인해야 합니다.",
       "options": [
-        "부품",
-        "라인",
-        "순서",
-        "마감 시간"
+        "작업 지시서",
+        "불량품",
+        "마감 시간",
+        "완성품"
       ],
       "answer": 0,
-      "hint": "Những thành phần nhỏ cấu thành nên sản phẩm"
-    },
-    {
-      "type": "situation",
-      "question": "공장에서 여러 공정이 연결되어 제품을 생산하는 시스템을 가리키는 상황에서 어떤 단어를 쓰나요?",
-      "options": [
-        "설명서",
-        "불량품",
-        "라인",
-        "작업 지시서"
-      ],
-      "answer": 2,
-      "hint": "Hệ thống sản xuất có nhiều công đoạn liên kết"
+      "hint": "phiếu hướng dẫn công việc"
     },
     {
       "type": "fill",
-      "question": "제품을 만들기 위해 각 부분을 차례대로 ____해야 합니다.",
+      "question": "이 제품은 기준에 맞지 않아 ____으로 분류되었습니다.",
       "options": [
-        "조립하다",
-        "마감 시간",
+        "완성품",
+        "부품",
         "불량품",
-        "순서"
+        "설명서"
       ],
-      "answer": 0,
-      "hint": "Ghép các bộ phận lại với nhau"
+      "answer": 2,
+      "hint": "hàng bị lỗi, không đạt tiêu chuẩn"
+    },
+    {
+      "type": "meaning",
+      "question": "제품을 만들 때 각 단계를 진행해야 하는 차례를 무엇이라고 합니까?",
+      "options": [
+        "라인",
+        "순서",
+        "설명서",
+        "작업 지시서"
+      ],
+      "answer": 1,
+      "hint": "thứ tự các bước thực hiện"
     }
   ],
   "patterns": [
     {
       "pattern": "V-세요",
-      "meaning": "Biểu hiện mệnh lệnh lịch sự",
+      "meaning": "Diễn đạt mệnh lệnh lịch sự",
       "examples": [
         "조립하세요 / 하세요 / 물어보세요",
         "Hãy lắp ráp / Hãy làm / Hãy hỏi"
       ],
       "blank_quiz": {
-        "sentence": "기계를 다 만들었으면 전원을 ____.",
-        "answer": "켜세요",
+        "sentence": "작업 지시서를 받으면 바로 조립____",
+        "answer": "하세요",
         "options": [
-          "켜세요",
-          "켜면",
-          "켜도",
-          "켜기"
+          "하세요",
+          "하면",
+          "해도",
+          "하기"
         ]
       }
     },
     {
       "pattern": "V-면 돼요",
-      "meaning": "Biểu hiện phương pháp·cho phép",
+      "meaning": "Diễn đạt cách thức và sự cho phép",
       "examples": [
         "어떻게 하면 돼요?",
         "Phải làm như thế nào ạ?"
       ],
       "blank_quiz": {
-        "sentence": "이 문제를 어떻게 ____ 돼요?",
-        "answer": "해결하면",
+        "sentence": "부품을 포장할 때는 이 순서대로 하____",
+        "answer": "면 돼요",
         "options": [
-          "해결하면",
-          "해결하고",
-          "해결해도",
-          "해결하기"
+          "면 돼요",
+          "고 나서",
+          "기 전에",
+          "아도"
         ]
       }
     },
     {
       "pattern": "V-아도 괜찮아요",
-      "meaning": "Biểu hiện cho phép",
+      "meaning": "Diễn đạt sự cho phép",
       "examples": [
         "천천히 해도 괜찮아요",
         "Làm chậm cũng được"
       ],
       "blank_quiz": {
-        "sentence": "실수를 ____ 괜찮아요. 다시 하세요.",
-        "answer": "해도",
+        "sentence": "처음이라서 속도가 느리면 천천히 운반해____",
+        "answer": "도 괜찮아요",
         "options": [
-          "해도",
-          "하면",
-          "하고",
-          "하기"
+          "도 괜찮아요",
+          "아서요",
+          "으면요",
+          "기요"
         ]
       }
     },
     {
       "pattern": "V-기 전에",
-      "meaning": "Trước khi ~",
+      "meaning": "Trước khi ~ (trước khi làm gì)",
       "examples": [
         "시작하기 전에 확인하세요",
         "Hãy kiểm tra trước khi bắt đầu"
       ],
       "blank_quiz": {
-        "sentence": "작업을 ____ 전에 안전 장비를 착용하세요.",
-        "answer": "시작하기",
+        "sentence": "생산 라인을 가동하____안전 수칙을 반드시 확인하세요",
+        "answer": "기 전에",
         "options": [
-          "시작하기",
-          "시작하고",
-          "시작해도",
-          "시작하면"
+          "기 전에",
+          "ㄴ 후에",
+          "기 때문에",
+          "고 나서"
         ]
       }
     },
     {
       "pattern": "V-고 나서",
-      "meaning": "Sau khi ~",
+      "meaning": "Sau khi ~ (sau khi làm gì)",
       "examples": [
         "조립하고 나서 보고하세요",
         "Hãy báo cáo sau khi lắp ráp xong"
       ],
       "blank_quiz": {
-        "sentence": "검사를 ____ 나서 결과를 알려주세요.",
-        "answer": "하고",
+        "sentence": "완성품을 포장하____ 감독관에게 보고하세요",
+        "answer": "고 나서",
         "options": [
-          "하고",
-          "하기",
-          "해도",
-          "하면"
+          "고 나서",
+          "기 전에",
+          "고 싶어서",
+          "아도"
         ]
       }
     },
     {
       "pattern": "N이/가 있으면",
-      "meaning": "Biểu hiện điều kiện",
+      "meaning": "Diễn đạt điều kiện",
       "examples": [
         "문제가 있으면 말하세요",
         "Nếu có vấn đề thì hãy nói"
       ],
       "blank_quiz": {
-        "sentence": "질문이 ____으면 언제든지 물어보세요.",
-        "answer": "있",
+        "sentence": "불량품____말하세요",
+        "answer": "이 있으면",
         "options": [
-          "있",
-          "없",
-          "많",
-          "좋"
+          "이 있으면",
+          "이 없어서",
+          "이 있어도",
+          "이 있고"
         ]
       }
     },
     {
       "pattern": "V-지 마세요",
-      "meaning": "Biểu hiện cấm đoán",
+      "meaning": "Diễn đạt sự cấm đoán",
       "examples": [
         "혼자 결정하지 마세요",
         "Đừng tự quyết định một mình"
       ],
       "blank_quiz": {
-        "sentence": "위험한 작업은 혼자 ____ 마세요.",
-        "answer": "하지",
+        "sentence": "작업 중에 혼자 결정하____",
+        "answer": "지 마세요",
         "options": [
-          "하지",
-          "해도",
-          "하고",
-          "하면"
+          "지 마세요",
+          "면 돼요",
+          "아도 돼요",
+          "기 전에"
         ]
       }
     },
     {
       "pattern": "얼마나 걸려요?",
-      "meaning": "Hỏi thời gian cần thiết",
+      "meaning": "Câu hỏi về thời gian cần thiết",
       "examples": [
         "이 작업 얼마나 걸려요?",
         "Công việc này mất bao lâu ạ?"
       ],
       "blank_quiz": {
-        "sentence": "이 부품 조립이 ____나 걸려요?",
-        "answer": "얼마",
+        "sentence": "이 부품 조립 작업____",
+        "answer": "얼마나 걸려요",
         "options": [
-          "얼마",
-          "언제",
-          "어디서",
-          "누가"
+          "얼마나 걸려요",
+          "어떻게 해요",
+          "왜 해요",
+          "무엇이에요"
         ]
       }
     },
     {
       "pattern": "V-는 방법",
-      "meaning": "Yêu cầu giải thích phương pháp",
+      "meaning": "Yêu cầu giải thích cách thực hiện",
       "examples": [
         "조립하는 방법을 알려주세요",
         "Hãy chỉ cho tôi cách lắp ráp"
       ],
       "blank_quiz": {
-        "sentence": "기계를 수리하는 ____을 가르쳐 주세요.",
-        "answer": "방법",
+        "sentence": "보호구를 착용____을 감독관이 직접 알려줄 거예요",
+        "answer": "하는 방법",
         "options": [
-          "방법",
-          "시간",
-          "장소",
-          "사람"
+          "하는 방법",
+          "하는 이유",
+          "한 결과",
+          "하기 위해"
         ]
       }
     },
     {
       "pattern": "N마다",
-      "meaning": "Biểu hiện chu kỳ·lặp lại",
+      "meaning": "Diễn đạt chu kỳ và sự lặp lại",
       "examples": [
         "한 시간마다 확인하세요",
         "Hãy kiểm tra mỗi một tiếng"
       ],
       "blank_quiz": {
-        "sentence": "30분____마다 온도를 확인해 주세요.",
-        "answer": "",
+        "sentence": "완성품은 두 시간____점검하세요",
+        "answer": "마다",
         "options": [
-          "",
-          "에",
-          "로",
-          "을"
+          "마다",
+          "부터",
+          "까지",
+          "에서"
         ]
       }
     },
     {
       "pattern": "다시 한번",
-      "meaning": "Biểu hiện yêu cầu lại",
+      "meaning": "Diễn đạt yêu cầu lại",
       "examples": [
         "다시 한번 설명해 주세요",
         "Hãy giải thích lại một lần nữa"
       ],
       "blank_quiz": {
-        "sentence": "____ 한번 천천히 말해 주세요.",
-        "answer": "다시",
+        "sentence": "마감 시간을 잘 못 들었으면____설명해 주세요",
+        "answer": "다시 한번",
         "options": [
-          "다시",
-          "처음",
-          "마지막",
-          "계속"
+          "다시 한번",
+          "벌써",
+          "아직",
+          "이미"
         ]
       }
     },
     {
       "pattern": "V-아/어도 돼요?",
-      "meaning": "Xin phép",
+      "meaning": "Diễn đạt xin phép",
       "examples": [
         "지금 시작해도 돼요?",
         "Bây giờ tôi có thể bắt đầu không ạ?"
       ],
       "blank_quiz": {
-        "sentence": "지금 휴식을 ____도 돼요?",
-        "answer": "해",
+        "sentence": "지금 포장 작업을 시작해____",
+        "answer": "도 돼요",
         "options": [
-          "해",
-          "하고",
-          "하면",
-          "하기"
+          "도 돼요",
+          "기 전에",
+          "고 나서",
+          "지 마세요"
         ]
       }
     },
     {
       "pattern": "N을/를 맡다",
-      "meaning": "Biểu hiện phân công phụ trách",
+      "meaning": "Diễn đạt phân công phụ trách",
       "examples": [
         "오늘 2번 라인을 맡으세요",
         "Hôm nay hãy phụ trách dây chuyền số 2"
       ],
       "blank_quiz": {
-        "sentence": "내일부터 3번 라인을 ____세요.",
-        "answer": "맡으",
+        "sentence": "오늘 오전은 3번 라인____",
+        "answer": "을 맡으세요",
         "options": [
-          "맡으",
-          "만들",
-          "보",
-          "가져"
+          "을 맡으세요",
+          "을 넣으세요",
+          "을 올리세요",
+          "을 바꾸세요"
         ]
       }
     }
@@ -502,47 +502,47 @@
   "mini_test": [
     {
       "type": "listening",
-      "script": "감독: 이 기계로 포장하세요.\n근로자: 네, 알겠습니다.",
-      "question": "근로자가 무엇을 해야 합니까?",
+      "script": "감독: 오늘은 A라인에서 일하세요. 부품을 조립하세요. 이 설명서를 보세요. 천천히 해도 괜찮아요. 모르면 언제든지 물어보세요.",
+      "question": "감독이 근로자에게 오늘 하라고 한 일은 무엇입니까?",
       "options": [
-        "기계를 수리해야 합니다",
-        "포장 작업을 해야 합니다",
-        "기계를 청소해야 합니다",
-        "부품을 조립해야 합니다"
+        "부품을 조립한다",
+        "완성품을 포장한다",
+        "불량품을 점검한다",
+        "생산 라인을 청소한다"
       ],
-      "answer": 1,
-      "explanation": "감독이 '이 기계로 포장하세요'라고 지시했으므로 근로자는 포장 작업을 해야 합니다."
+      "answer": 0,
+      "explanation": "'조립하다'는 여러 부품을 순서에 맞게 합쳐서 하나의 물건을 만드는 작업을 의미합니다. 공장 현장에서 자주 사용하는 핵심 작업 지시 동사입니다."
     },
     {
       "type": "reading",
-      "text": "작업장 안전수칙\n1. 안전모를 착용하세요\n2. 작업 전 기계를 점검하세요\n3. 문제 발생 시 즉시 신고하세요",
-      "question": "작업 전에 무엇을 해야 합니까?",
+      "text": "[작업 지시서]\n날짜: 오늘\n작업 위치: A라인\n작업 내용: 부품 조립\n참고 자료: 설명서 참조\n주의 사항: 순서대로 작업할 것. 모르는 부분은 즉시 감독관에게 문의할 것.",
+      "question": "이 작업 지시서의 내용과 다른 것은 무엇입니까?",
       "options": [
-        "안전모를 벗어야 합니다",
-        "기계를 점검해야 합니다",
-        "문제를 신고해야 합니다",
-        "작업을 시작해야 합니다"
+        "작업 위치는 A라인이다",
+        "부품을 조립하는 일을 한다",
+        "마감 시간 안에 빨리 끝내야 한다",
+        "모르면 감독관에게 물어봐야 한다"
       ],
-      "answer": 1,
-      "explanation": "안전수칙 2번에 '작업 전 기계를 점검하세요'라고 명시되어 있습니다."
+      "answer": 2,
+      "explanation": "작업 지시서에는 '마감 시간 안에 빨리 끝내야 한다'는 내용이 없습니다. 오히려 천천히 순서대로 작업하도록 안내하고 있습니다."
     },
     {
       "type": "situation",
-      "sentence": "작업 중에 기계가 고장났습니다.",
-      "question": "이런 상황에서 가장 적절한 행동은 무엇입니까?",
+      "sentence": "근로자가 작업 중에 조립 순서를 잘 모르겠습니다. 감독관이 '모르면 언제든지 물어보세요'라고 말했습니다.",
+      "question": "이 근로자는 지금 어떻게 해야 합니까?",
       "options": [
-        "혼자서 고치려고 합니다",
-        "계속 작업을 합니다",
-        "감독에게 즉시 알립니다",
-        "다른 기계로 옮깁니다"
+        "감독관에게 가서 물어본다",
+        "작업을 멈추고 집에 간다",
+        "설명서를 버리고 혼자 계속한다",
+        "다른 근로자의 작업을 대신 한다"
       ],
-      "answer": 2,
-      "explanation": "작업 중 기계 고장과 같은 문제가 발생하면 안전을 위해 감독에게 즉시 알려야 합니다."
+      "answer": 0,
+      "explanation": "'언제든지 물어보세요'는 모르는 것이 있을 때 언제라도 질문해도 된다는 허락의 표현입니다. 작업 중 모르는 부분이 생기면 감독관에게 바로 물어보는 것이 올바른 행동입니다."
     }
   ],
   "ai_extension": [
-    "직장에서 상사가 주는 업무 지시를 정중하게 받는 표현 알려줘",
-    "작업 지시를 받을 때 확인하고 질문하는 한국어 표현 가르쳐줘",
-    "업무 완료 보고할 때 사용하는 공손한 한국어 문장 알려줘"
+    "작업 지시에서 자주 쓰이는 '~하세요', '~하십시오', '~해 주세요'의 차이점과 각각 어떤 상황에서 써야 하는지 예문과 함께 설명해 줘.",
+    "공장이나 작업 현장에서 상사가 지시할 때 쓰는 말 중에 내가 못 알아들었을 때 정중하게 다시 물어보는 표현 5가지를 베트남어 번역과 함께 알려줘.",
+    "작업 지시를 받은 후 '알겠습니다'라고 대답하는 것 말고, 내용을 확인하거나 이해했다는 것을 표현하는 다양한 한국어 대답 방법을 작업 현장 상황에 맞게 알려줘."
   ]
 }

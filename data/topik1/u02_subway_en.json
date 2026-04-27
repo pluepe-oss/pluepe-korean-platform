@@ -1,0 +1,304 @@
+{
+  "unit_id": "topik1_u02",
+  "language": "en",
+  "exam_type": "TOPIK1",
+  "topic": "지하철 타기",
+  "topic_translation": "taking the subway",
+  "level": 1,
+  "duration_min": 25,
+  "bunny_library_id": "640837",
+  "bunny_video_ids": {
+    "step1": "28432cd8-5be4-40cf-8b43-1196b6e00311",
+    "step2": "8b8e9b38-92ff-42bc-9136-92da57e47a2d",
+    "step3": "2cc7aef2-fd26-4575-95ed-05239f644c05"
+  },
+  "is_free": false,
+  "key_expressions": [
+    {
+      "ko": "실례합니다. ~에 가려면 어떻게 해야 해요?",
+      "translation": "Excuse me. How do I get to ~?"
+    },
+    {
+      "ko": "~호선을 타세요.",
+      "translation": "Take Line ~."
+    },
+    {
+      "ko": "환승해야 해요?",
+      "translation": "Do I need to transfer?"
+    },
+    {
+      "ko": "환승 안 해도 돼요.",
+      "translation": "You don't need to transfer."
+    },
+    {
+      "ko": "~번 출구로 나가세요.",
+      "translation": "Go out through Exit ~."
+    }
+  ],
+  "session": {
+    "step1_quiz": {
+      "question": "이 상황은 어디인가요?",
+      "options": [
+        "지하철역",
+        "버스 정류장",
+        "공항"
+      ],
+      "answer": 0
+    },
+    "step2_blanks": [
+      {
+        "sentence": "____합니다. 명동에 가려면 어떻게 해야 해요?",
+        "hint": "Polite way to start asking for directions",
+        "options": [
+          "실례",
+          "안녕",
+          "감사"
+        ],
+        "answer": 0
+      },
+      {
+        "sentence": "2____을 타세요.",
+        "hint": "What you take to travel on the subway",
+        "options": [
+          "호선",
+          "버스",
+          "택시"
+        ],
+        "answer": 0
+      },
+      {
+        "sentence": "____해야 해요?",
+        "hint": "What you do when changing from one subway line to another",
+        "options": [
+          "환승",
+          "승차",
+          "하차"
+        ],
+        "answer": 0
+      }
+    ],
+    "step3_sentences": [
+      {
+        "ko": "실례합니다. ~에 가려면 어떻게 해야 해요?",
+        "translation": "Excuse me. How do I get to ~?"
+      },
+      {
+        "ko": "~호선을 타세요.",
+        "translation": "Take Line ~."
+      },
+      {
+        "ko": "환승해야 해요?",
+        "translation": "Do I need to transfer?"
+      }
+    ],
+    "step4_words": [
+      {
+        "korean": "호선",
+        "translation": "line",
+        "example": "4호선을 타세요. 여기서 두 정거장이에요."
+      },
+      {
+        "korean": "정거장",
+        "translation": "stop",
+        "example": "4호선을 타세요. 여기서 두 정거장이에요."
+      },
+      {
+        "korean": "환승",
+        "translation": "transfer",
+        "example": "환승해야 해요?"
+      },
+      {
+        "korean": "교통카드",
+        "translation": "transportation card",
+        "example": "교통카드가 없어요. 어디서 살 수 있어요?"
+      },
+      {
+        "korean": "자동판매기",
+        "translation": "vending machine",
+        "example": "저기 자동판매기에서 사세요."
+      },
+      {
+        "korean": "출구",
+        "translation": "exit",
+        "example": "감사합니다. 출구는 어디예요?"
+      }
+    ],
+    "step5_review": [
+      {
+        "ko": "실례합니다. ~에 가려면 어떻게 해야 해요?",
+        "translation": "Excuse me. How do I get to ~?",
+        "context": "When asking a stranger for directions"
+      },
+      {
+        "ko": "~호선을 타세요.",
+        "translation": "Take Line ~.",
+        "context": "When giving subway line directions to someone"
+      },
+      {
+        "ko": "환승해야 해요?",
+        "translation": "Do I need to transfer?",
+        "context": "When checking if a subway transfer is needed"
+      }
+    ]
+  },
+  "words": [
+    {
+      "korean": "호선",
+      "translation": "line",
+      "example_ko": "4호선을 타세요. 여기서 두 정거장이에요.",
+      "example": ""
+    },
+    {
+      "korean": "정거장",
+      "translation": "stop",
+      "example_ko": "4호선을 타세요. 여기서 두 정거장이에요.",
+      "example": ""
+    },
+    {
+      "korean": "환승",
+      "translation": "transfer",
+      "example_ko": "환승해야 해요?",
+      "example": ""
+    },
+    {
+      "korean": "교통카드",
+      "translation": "transportation card",
+      "example_ko": "교통카드가 없어요. 어디서 살 수 있어요?",
+      "example": ""
+    },
+    {
+      "korean": "자동판매기",
+      "translation": "vending machine",
+      "example_ko": "저기 자동판매기에서 사세요.",
+      "example": ""
+    },
+    {
+      "korean": "출구",
+      "translation": "exit",
+      "example_ko": "감사합니다. 출구는 어디예요?",
+      "example": ""
+    }
+  ],
+  "words_quiz": [
+    {
+      "type": "situation",
+      "question": "지하철을 탈 때 다른 노선으로 갈아타야 하는 상황에서 무엇을 하나요?",
+      "options": [
+        "환승",
+        "정거장",
+        "호선",
+        "출구"
+      ],
+      "answer": 0,
+      "hint": "You change from one train line to another"
+    },
+    {
+      "type": "situation",
+      "question": "지하철역에서 밖으로 나가고 싶을 때 어디를 찾아야 하나요?",
+      "options": [
+        "자동판매기",
+        "정거장",
+        "출구",
+        "호선"
+      ],
+      "answer": 2,
+      "hint": "The way out of a building or station"
+    },
+    {
+      "type": "fill",
+      "question": "지하철 요금을 내려면 ____를 사용해야 합니다.",
+      "options": [
+        "교통카드",
+        "자동판매기",
+        "정거장",
+        "환승"
+      ],
+      "answer": 0,
+      "hint": "A card used to pay for public transportation"
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "V+(으)려면",
+      "meaning": "To V / In order to V",
+      "examples": [
+        "명동역에 가려면 4호선을 타세요.",
+        "To get to Myeong-dong Station, take Line 4."
+      ],
+      "blank_quiz": {
+        "sentence": "부산에 ______ KTX를 타세요.",
+        "answer": "가려면",
+        "options": [
+          "가려면",
+          "가면서",
+          "갔으니까",
+          "갔다가"
+        ]
+      }
+    },
+    {
+      "pattern": "V+지 않아도 돼요 (= 안 V+아/어도 돼요)",
+      "meaning": "don't have to V / don't need to V",
+      "examples": [
+        "환승 안 해도 돼요.",
+        "You don't need to transfer."
+      ],
+      "blank_quiz": {
+        "sentence": "내일 회의에 ______ 돼요.",
+        "answer": "안 와도",
+        "options": [
+          "안 와도",
+          "와야",
+          "왔으니까",
+          "와서"
+        ]
+      }
+    }
+  ],
+  "mini_test": [
+    {
+      "type": "listening",
+      "script": "A: 홍대입구역에 가려면 어떻게 해야 해요?\nB: 2호선을 타고 세 정거장 가세요.",
+      "question": "홍대입구역까지 몇 정거장인가요?",
+      "options": [
+        "두 정거장",
+        "세 정거장",
+        "네 정거장",
+        "다섯 정거장"
+      ],
+      "answer": 1,
+      "explanation": "대화에서 'B: 2호선을 타고 세 정거장 가세요'라고 했으므로 정답은 '세 정거장'입니다."
+    },
+    {
+      "type": "reading",
+      "text": "← 1-4번 출구\n↑ 대합실, 화장실\n5-8번 출구 →",
+      "question": "화장실에 가려면 어느 방향으로 가야 해요?",
+      "options": [
+        "왼쪽으로",
+        "오른쪽으로",
+        "위쪽으로",
+        "아래쪽으로"
+      ],
+      "answer": 2,
+      "explanation": "표지판에서 '↑ 대합실, 화장실'이라고 되어 있으므로 위쪽으로 가야 합니다."
+    },
+    {
+      "type": "situation",
+      "sentence": "지하철에서 교통카드가 없어서 표를 사야 합니다.",
+      "question": "이때 뭐라고 말해야 해요?",
+      "options": [
+        "교통카드 어디서 사요?",
+        "일회용 교통카드 주세요.",
+        "환승 어떻게 해요?",
+        "몇 번 출구로 나가요?"
+      ],
+      "answer": 1,
+      "explanation": "교통카드가 없어서 표를 사야 하는 상황이므로 '일회용 교통카드 주세요'라고 말하는 것이 적절합니다."
+    }
+  ],
+  "ai_extension": [
+    "지하철에서 길을 물어볼 때 사용하는 정중한 표현들을 더 알려줘",
+    "지하철 환승할 때 필요한 한국어 표현과 문장들을 가르쳐줘",
+    "지하철역에서 일어날 수 있는 다양한 상황별 대화 예문을 보여줘"
+  ]
+}
