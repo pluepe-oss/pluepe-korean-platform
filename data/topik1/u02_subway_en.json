@@ -37,44 +37,44 @@
   ],
   "session": {
     "step1_quiz": {
-      "question": "이 상황은 어디인가요?",
+      "question": "이 대화는 어디에서 일어나고 있나요?",
       "options": [
+        "백화점",
         "지하철역",
-        "버스 정류장",
-        "공항"
+        "버스 터미널"
       ],
-      "answer": 0
+      "answer": 1
     },
     "step2_blanks": [
       {
-        "sentence": "____합니다. 명동에 가려면 어떻게 해야 해요?",
-        "hint": "Polite way to start asking for directions",
+        "sentence": "실례합니다. 경복궁____가려면 어떻게 해야 해요?",
+        "hint": "destination marker",
         "options": [
-          "실례",
-          "안녕",
-          "감사"
+          "에서",
+          "에",
+          "으로"
         ],
-        "answer": 0
+        "answer": 1
       },
       {
-        "sentence": "2____을 타세요.",
-        "hint": "What you take to travel on the subway",
+        "sentence": "3____을 타세요. 여기서 바로 갈 수 있어요.",
+        "hint": "subway line number",
         "options": [
           "호선",
-          "버스",
-          "택시"
+          "번선",
+          "노선"
         ],
         "answer": 0
       },
       {
-        "sentence": "____해야 해요?",
-        "hint": "What you do when changing from one subway line to another",
+        "sentence": "여기서 ____해야 해요? 아니면 직접 가요?",
+        "hint": "change trains",
         "options": [
-          "환승",
-          "승차",
-          "하차"
+          "출발",
+          "도착",
+          "환승"
         ],
-        "answer": 0
+        "answer": 2
       }
     ],
     "step3_sentences": [
@@ -127,17 +127,17 @@
       {
         "ko": "실례합니다. ~에 가려면 어떻게 해야 해요?",
         "translation": "Excuse me. How do I get to ~?",
-        "context": "When asking a stranger for directions"
+        "context": "When asking a stranger for directions to a specific place"
       },
       {
         "ko": "~호선을 타세요.",
         "translation": "Take Line ~.",
-        "context": "When giving subway line directions to someone"
+        "context": "When telling someone which subway line to take"
       },
       {
         "ko": "환승해야 해요?",
         "translation": "Do I need to transfer?",
-        "context": "When checking if a subway transfer is needed"
+        "context": "When checking whether a subway transfer is needed"
       }
     ]
   },
@@ -181,40 +181,40 @@
   ],
   "words_quiz": [
     {
-      "type": "situation",
-      "question": "지하철을 탈 때 다른 노선으로 갈아타야 하는 상황에서 무엇을 하나요?",
+      "type": "fill",
+      "question": "지하철역을 나가려면 ____를 찾아야 해요.",
       "options": [
-        "환승",
-        "정거장",
-        "호선",
-        "출구"
+        "입구",
+        "출구",
+        "창구",
+        "매표소"
       ],
-      "answer": 0,
-      "hint": "You change from one train line to another"
+      "answer": 1,
+      "hint": "exit"
     },
     {
-      "type": "situation",
-      "question": "지하철역에서 밖으로 나가고 싶을 때 어디를 찾아야 하나요?",
+      "type": "meaning",
+      "question": "동전이나 지폐를 넣으면 음료나 물건을 살 수 있는 기계를 무엇이라고 합니까?",
       "options": [
+        "교통카드",
+        "무인단말기",
         "자동판매기",
-        "정거장",
-        "출구",
-        "호선"
+        "현금영수증기"
       ],
       "answer": 2,
-      "hint": "The way out of a building or station"
+      "hint": "vending machine"
     },
     {
       "type": "fill",
-      "question": "지하철 요금을 내려면 ____를 사용해야 합니다.",
+      "question": "지하철에서 버스로 ____하면 요금을 아낄 수 있어요.",
       "options": [
-        "교통카드",
-        "자동판매기",
-        "정거장",
+        "정차",
+        "도착",
+        "출발",
         "환승"
       ],
-      "answer": 0,
-      "hint": "A card used to pay for public transportation"
+      "answer": 3,
+      "hint": "transfer"
     }
   ],
   "patterns": [
@@ -226,13 +226,13 @@
         "To get to Myeong-dong Station, take Line 4."
       ],
       "blank_quiz": {
-        "sentence": "부산에 ______ KTX를 타세요.",
-        "answer": "가려면",
+        "sentence": "시청역에 가____ 1호선을 타세요.",
+        "answer": "려면",
         "options": [
-          "가려면",
-          "가면서",
-          "갔으니까",
-          "갔다가"
+          "려고",
+          "려면",
+          "려서",
+          "러"
         ]
       }
     },
@@ -244,13 +244,13 @@
         "You don't need to transfer."
       ],
       "blank_quiz": {
-        "sentence": "내일 회의에 ______ 돼요.",
-        "answer": "안 와도",
+        "sentence": "여기서 환승 안 해____ 돼요.",
+        "answer": "도",
         "options": [
-          "안 와도",
-          "와야",
-          "왔으니까",
-          "와서"
+          "도",
+          "서",
+          "야",
+          "면"
         ]
       }
     }
@@ -258,47 +258,47 @@
   "mini_test": [
     {
       "type": "listening",
-      "script": "A: 홍대입구역에 가려면 어떻게 해야 해요?\nB: 2호선을 타고 세 정거장 가세요.",
-      "question": "홍대입구역까지 몇 정거장인가요?",
+      "script": "손님: 실례합니다. 명동역에 가려면 어떻게 해야 해요?\n직원: 4호선을 타세요. 여기서 두 정거장이에요.\n손님: 환승해야 해요?\n직원: 아니요, 환승 안 해도 돼요. 바로 가요.",
+      "question": "손님은 명동역에 가기 위해 무엇을 타야 합니까?",
       "options": [
-        "두 정거장",
-        "세 정거장",
-        "네 정거장",
-        "다섯 정거장"
+        "2호선",
+        "4호선",
+        "3호선",
+        "1호선"
       ],
       "answer": 1,
-      "explanation": "대화에서 'B: 2호선을 타고 세 정거장 가세요'라고 했으므로 정답은 '세 정거장'입니다."
+      "explanation": "직원이 '4호선을 타세요'라고 안내하였습니다. 숫자와 호선을 함께 기억하는 것이 중요합니다."
     },
     {
       "type": "reading",
-      "text": "← 1-4번 출구\n↑ 대합실, 화장실\n5-8번 출구 →",
-      "question": "화장실에 가려면 어느 방향으로 가야 해요?",
+      "text": "【지하철 안내】\n\n명동역 하차 후\n4번 출구로 나오세요.\n\n※ 교통카드 구입은\n   역 내 자동판매기를 이용하세요.",
+      "question": "이 안내문의 내용과 다른 것은 무엇입니까?",
       "options": [
-        "왼쪽으로",
-        "오른쪽으로",
-        "위쪽으로",
-        "아래쪽으로"
+        "명동역에서 내린다",
+        "4번 출구로 나간다",
+        "교통카드는 자동판매기에서 살 수 있다",
+        "환승이 필요하다"
       ],
-      "answer": 2,
-      "explanation": "표지판에서 '↑ 대합실, 화장실'이라고 되어 있으므로 위쪽으로 가야 합니다."
+      "answer": 3,
+      "explanation": "안내문에는 환승에 대한 내용이 없습니다. 환승 불필요는 대화에서 직원이 말한 내용이며, 이 안내문과는 관계가 없습니다."
     },
     {
       "type": "situation",
-      "sentence": "지하철에서 교통카드가 없어서 표를 사야 합니다.",
-      "question": "이때 뭐라고 말해야 해요?",
+      "sentence": "지하철역에서 교통카드가 없는 외국인이 카드를 사고 싶어 합니다.",
+      "question": "이 상황에서 가장 알맞은 말은 무엇입니까?",
       "options": [
-        "교통카드 어디서 사요?",
-        "일회용 교통카드 주세요.",
-        "환승 어떻게 해요?",
-        "몇 번 출구로 나가요?"
+        "4번 출구로 나가세요.",
+        "환승해도 돼요.",
+        "저기 자동판매기에서 사세요.",
+        "두 정거장만 가면 돼요."
       ],
-      "answer": 1,
-      "explanation": "교통카드가 없어서 표를 사야 하는 상황이므로 '일회용 교통카드 주세요'라고 말하는 것이 적절합니다."
+      "answer": 2,
+      "explanation": "'저기 자동판매기에서 사세요'는 교통카드를 구입하는 장소를 안내할 때 사용하는 표현입니다."
     }
   ],
   "ai_extension": [
-    "지하철에서 길을 물어볼 때 사용하는 정중한 표현들을 더 알려줘",
-    "지하철 환승할 때 필요한 한국어 표현과 문장들을 가르쳐줘",
-    "지하철역에서 일어날 수 있는 다양한 상황별 대화 예문을 보여줘"
+    "지하철에서 자주 쓰는 안내 방송 문장을 알려주고, 각 문장의 뜻과 중요한 단어를 영어로 설명해줘.",
+    "지하철 노선도를 보면서 환승역을 찾을 때 역무원에게 도움을 요청하는 대화를 영어 번역과 함께 보여줘.",
+    "지하철 티켓을 구매하거나 교통카드를 충전할 때 사용하는 표현들을 초보자도 쉽게 쓸 수 있도록 영어 설명과 함께 정리해줘."
   ]
 }

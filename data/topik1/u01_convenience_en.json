@@ -3,129 +3,326 @@
   "language": "en",
   "exam_type": "TOPIK1",
   "topic": "편의점에서 물건 사기",
-  "topic_translation": "Buying things at a convenience store",
+  "topic_translation": "buying things at a convenience store",
   "level": 1,
   "duration_min": 25,
-  "bunny_library_id": "PLACEHOLDER_EN",
-  "bunny_video_id": "PLACEHOLDER_EN",
+  "bunny_library_id": "640837",
+  "bunny_video_ids": {
+    "step1": "12e88377-75dc-4832-8f65-b3a71639dc04",
+    "step2": "addbcb6c-b3cd-4507-9c23-4bd63de04c8e",
+    "step3": "87b94283-5d04-4a6f-ab30-abb1e9c914f4"
+  },
   "is_free": true,
   "key_expressions": [
-    { "ko": "물 하나 주세요.", "translation": "Please give me one bottle of water." },
-    { "ko": "이거 얼마예요?", "translation": "How much is this?" },
-    { "ko": "카드로 계산할게요.", "translation": "I'll pay by card." }
+    {
+      "ko": "이거 얼마예요?",
+      "translation": "How much is this?"
+    },
+    {
+      "ko": "포인트카드 있어요?",
+      "translation": "Do you have a point card?"
+    },
+    {
+      "ko": "봉지 필요해요?",
+      "translation": "Do you need a bag?"
+    },
+    {
+      "ko": "카드로 계산할게요",
+      "translation": "I'll pay by card"
+    },
+    {
+      "ko": "영수증 주세요",
+      "translation": "Can I have a receipt, please?"
+    }
   ],
   "session": {
     "step1_quiz": {
-      "question": "Where does this situation take place?",
-      "options": ["Convenience store", "Hospital", "Bank"],
-      "answer": 0
+      "question": "이 대화는 어디에서 일어나고 있나요?",
+      "options": [
+        "식당",
+        "편의점",
+        "병원"
+      ],
+      "answer": 1
     },
     "step2_blanks": [
-      { "sentence": "물 ____ 주세요.", "hint": "one (quantity)", "options": ["하나","둘","많이"], "answer": 0 },
-      { "sentence": "이거 ____예요?", "hint": "how much", "options": ["어디","얼마","언제"], "answer": 1 },
-      { "sentence": "____로 계산할게요.", "hint": "by card", "options": ["현금","포인트","카드"], "answer": 2 }
+      {
+        "sentence": "이거 ____예요?",
+        "hint": "price",
+        "options": [
+          "얼마",
+          "어디",
+          "언제"
+        ],
+        "answer": 0
+      },
+      {
+        "sentence": "포인트카드 ____?",
+        "hint": "possession check",
+        "options": [
+          "드릴까요",
+          "필요해요",
+          "있어요"
+        ],
+        "answer": 2
+      },
+      {
+        "sentence": "____ 필요해요?",
+        "hint": "shopping bag",
+        "options": [
+          "메뉴",
+          "봉지",
+          "영수증"
+        ],
+        "answer": 1
+      }
     ],
     "step3_sentences": [
-      { "ko": "물 하나 주세요.", "translation": "Please give me one bottle of water." },
-      { "ko": "이거 얼마예요?", "translation": "How much is this?" },
-      { "ko": "카드로 계산할게요.", "translation": "I'll pay by card." }
+      {
+        "ko": "이거 얼마예요?",
+        "translation": "How much is this?"
+      },
+      {
+        "ko": "포인트카드 있어요?",
+        "translation": "Do you have a point card?"
+      },
+      {
+        "ko": "봉지 필요해요?",
+        "translation": "Do you need a bag?"
+      }
     ],
     "step4_words": [
-      { "korean": "물", "translation": "water", "example": "물 하나 주세요." },
-      { "korean": "하나", "translation": "one (item)", "example": "하나 주세요." },
-      { "korean": "얼마", "translation": "how much", "example": "이거 얼마예요?" },
-      { "korean": "계산", "translation": "payment / checkout", "example": "카드로 계산할게요." },
-      { "korean": "카드", "translation": "card", "example": "카드로 할게요." },
-      { "korean": "주세요", "translation": "please give me", "example": "물 주세요." }
+      {
+        "korean": "편의점",
+        "translation": "convenience store",
+        "example": "편의점을(를) 사용해요."
+      },
+      {
+        "korean": "라면",
+        "translation": "ramen",
+        "example": "안녕하세요. 이 라면하고 우유 주세요."
+      },
+      {
+        "korean": "우유",
+        "translation": "milk",
+        "example": "안녕하세요. 이 라면하고 우유 주세요."
+      },
+      {
+        "korean": "계산",
+        "translation": "payment",
+        "example": "네, 주세요. 카드로 계산할게요."
+      },
+      {
+        "korean": "봉지",
+        "translation": "bag",
+        "example": "총 3,500원입니다. 봉지 필요하세요?"
+      },
+      {
+        "korean": "영수증",
+        "translation": "receipt",
+        "example": "감사합니다. 영수증 여기 있어요."
+      }
     ],
     "step5_review": [
-      { "ko": "물 하나 주세요.", "translation": "Please give me one bottle of water.", "context": "When buying a drink at a convenience store" },
-      { "ko": "이거 얼마예요?", "translation": "How much is this?", "context": "When asking the price of an item" },
-      { "ko": "카드로 계산할게요.", "translation": "I'll pay by card.", "context": "When paying at the counter" }
+      {
+        "ko": "이거 얼마예요?",
+        "translation": "How much is this?",
+        "context": "When asking the price of an item"
+      },
+      {
+        "ko": "포인트카드 있어요?",
+        "translation": "Do you have a point card?",
+        "context": "When a staff member checks if a customer has a points card"
+      },
+      {
+        "ko": "봉지 필요해요?",
+        "translation": "Do you need a bag?",
+        "context": "When asking if a bag is needed"
+      }
     ]
   },
   "words": [
-    { "korean": "물", "translation": "water", "example_ko": "물 하나 주세요.", "example": "Please give me one bottle of water." },
-    { "korean": "김밥", "translation": "gimbap (Korean rice roll)", "example_ko": "김밥 하나 주세요.", "example": "Please give me one gimbap." },
-    { "korean": "과자", "translation": "snack / chips", "example_ko": "과자 주세요.", "example": "Please give me some snacks." },
-    { "korean": "얼마", "translation": "how much", "example_ko": "이거 얼마예요?", "example": "How much is this?" },
-    { "korean": "카드", "translation": "card", "example_ko": "카드로 계산할게요.", "example": "I'll pay by card." },
-    { "korean": "현금", "translation": "cash", "example_ko": "현금 있어요.", "example": "I have cash." },
-    { "korean": "계산", "translation": "payment / checkout", "example_ko": "계산할게요.", "example": "I'll pay now." },
-    { "korean": "봉투", "translation": "bag", "example_ko": "봉투 주세요.", "example": "Please give me a bag." }
+    {
+      "korean": "편의점",
+      "translation": "convenience store",
+      "example_ko": "편의점을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "라면",
+      "translation": "ramen",
+      "example_ko": "안녕하세요. 이 라면하고 우유 주세요.",
+      "example": ""
+    },
+    {
+      "korean": "우유",
+      "translation": "milk",
+      "example_ko": "안녕하세요. 이 라면하고 우유 주세요.",
+      "example": ""
+    },
+    {
+      "korean": "계산",
+      "translation": "payment",
+      "example_ko": "네, 주세요. 카드로 계산할게요.",
+      "example": ""
+    },
+    {
+      "korean": "봉지",
+      "translation": "bag",
+      "example_ko": "총 3,500원입니다. 봉지 필요하세요?",
+      "example": ""
+    },
+    {
+      "korean": "영수증",
+      "translation": "receipt",
+      "example_ko": "감사합니다. 영수증 여기 있어요.",
+      "example": ""
+    },
+    {
+      "korean": "카드",
+      "translation": "card",
+      "example_ko": "네. 포인트카드 있으세요?",
+      "example": ""
+    },
+    {
+      "korean": "현금",
+      "translation": "cash",
+      "example_ko": "현금을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "가격",
+      "translation": "price",
+      "example_ko": "가격을(를) 사용해요.",
+      "example": ""
+    },
+    {
+      "korean": "점원",
+      "translation": "clerk",
+      "example_ko": "점원을(를) 사용해요.",
+      "example": ""
+    }
   ],
   "words_quiz": [
     {
-      "type": "situation",
-      "question": "편의점에서 물건 값을 물어볼 때 쓰는 말은?",
-      "options": ["얼마", "어디", "언제", "누구"],
+      "type": "fill",
+      "question": "커피를 샀는데 ____ 을 받아서 가방에 넣었어요.",
+      "options": [
+        "영수증",
+        "봉지",
+        "우유",
+        "라면"
+      ],
       "answer": 0,
-      "hint": "이거 ____예요?"
+      "hint": "receipt"
     },
     {
-      "type": "situation",
-      "question": "돈을 내는 것을 뭐라고 해요?",
-      "options": ["계산", "주문", "예약", "취소"],
-      "answer": 0,
-      "hint": "카드로 ____할게요."
+      "type": "meaning",
+      "question": "물건을 살 때 지폐나 동전으로 내는 돈을 무엇이라고 합니까?",
+      "options": [
+        "카드",
+        "계산",
+        "영수증",
+        "현금"
+      ],
+      "answer": 3,
+      "hint": "cash"
     },
     {
       "type": "fill",
-      "question": "편의점에서 물 한 개를 달라고 할 때?",
-      "options": ["물 하나 주세요", "물 어디 있어요", "물 얼마예요", "물 없어요"],
-      "answer": 0,
-      "hint": "____."
+      "question": "편의점에서 라면과 우유를 샀어요. 점원이 '____에 넣어 드릴까요?' 라고 물었어요.",
+      "options": [
+        "카드",
+        "계산",
+        "봉지",
+        "영수증"
+      ],
+      "answer": 2,
+      "hint": "bag"
     }
   ],
   "patterns": [
     {
-      "pattern": "[명사] 하나 주세요",
-      "meaning": "Please give me one [noun]",
-      "examples": ["물 하나 주세요.", "커피 하나 주세요.", "김밥 하나 주세요."],
-      "blank_quiz": { "sentence": "____ 하나 주세요. (영수증)", "answer": "영수증", "options": ["영수증","포인트","비밀번호","할인"] }
+      "pattern": "N+하고",
+      "meaning": "N + and (listing items)",
+      "examples": [
+        "라면하고 우유 주세요.",
+        "I'll take this ramen and milk, please."
+      ],
+      "blank_quiz": {
+        "sentence": "라면____ 우유 주세요.",
+        "answer": "하고",
+        "options": [
+          "이랑",
+          "하고",
+          "한테",
+          "에서"
+        ]
+      }
     },
     {
-      "pattern": "이거 얼마예요?",
-      "meaning": "How much is this?",
-      "examples": ["이거 얼마예요?", "김밥 얼마예요?", "커피 얼마예요?"],
-      "blank_quiz": { "sentence": "커피 ____예요?", "answer": "얼마", "options": ["얼마","어디","언제","누구"] }
-    },
-    {
-      "pattern": "[수단]로 계산할게요",
-      "meaning": "I'll pay by [method]",
-      "examples": ["카드로 계산할게요.", "현금으로 계산할게요.", "포인트로 계산할게요."],
-      "blank_quiz": { "sentence": "현금____로 계산할게요.", "answer": "으", "options": ["으","이","가","을"] }
+      "pattern": "V+ㄹ게요/을게요",
+      "meaning": "I'll + V (expressing intention)",
+      "examples": [
+        "카드로 계산할게요.",
+        "I'll pay by card."
+      ],
+      "blank_quiz": {
+        "sentence": "카드로 계산____",
+        "answer": "할게요",
+        "options": [
+          "하니까",
+          "하면서",
+          "하거나",
+          "할게요"
+        ]
+      }
     }
   ],
   "mini_test": [
     {
       "type": "listening",
-      "script": "A: 물 하나 주세요. B: 네, 여기 있습니다.",
-      "question": "What did the person order?",
-      "options": ["Water", "Bread", "Milk", "Snack"],
+      "script": "점원: 어서 오세요!\n손님: 안녕하세요. 이 라면하고 우유 주세요.\n점원: 네. 포인트카드 있으세요?\n손님: 아니요, 없어요.\n점원: 총 3,500원입니다. 봉지 필요하세요?\n손님: 네, 주세요. 카드로 계산할게요.\n점원: 감사합니다. 영수증 여기 있어요.",
+      "question": "손님이 편의점에서 구입한 물건은 무엇입니까?",
+      "options": [
+        "라면과 우유",
+        "빵과 음료수",
+        "과자와 주스",
+        "커피와 샌드위치"
+      ],
       "answer": 0,
-      "explanation": "'물 하나 주세요' means 'please give me one bottle of water.' '물' = water, '하나' = one."
+      "explanation": "대화에서 손님은 '라면하고 우유 주세요'라고 말했습니다. '하고'는 두 가지를 함께 말할 때 사용하는 조사입니다."
     },
     {
       "type": "reading",
-      "text": "물 1,000원",
-      "question": "How much does the water cost?",
-      "options": ["500 won", "1,000 won", "2,000 won", "3,000 won"],
-      "answer": 1,
-      "explanation": "'1,000원' is read as '천 원' (cheon won), which means 1,000 Korean won."
+      "text": "[ 영수증 ]\n━━━━━━━━━━━━━━━━\n상호: 미래편의점\n날짜: 2024-05-10  14:32\n━━━━━━━━━━━━━━━━\n신라면           1,200원\n서울우유(200ml)  2,300원\n봉투              100원\n━━━━━━━━━━━━━━━━\n합  계           3,600원\n결제수단: 카드\n━━━━━━━━━━━━━━━━\n감사합니다!",
+      "question": "영수증을 보고 알 수 없는 것은 무엇입니까?",
+      "options": [
+        "손님이 주문한 음식 이름",
+        "결제 수단",
+        "구매 날짜와 시간",
+        "손님의 포인트카드 번호"
+      ],
+      "answer": 3,
+      "explanation": "영수증에는 상품명, 결제 수단, 날짜와 시간이 적혀 있지만 손님의 포인트카드 번호는 나타나 있지 않습니다. 영수증은 구매 내역을 확인하는 종이입니다."
     },
     {
       "type": "situation",
-      "sentence": "카드로 계산할게요.",
-      "question": "What is this person doing?",
-      "options": ["Ordering food", "Paying", "Moving", "Making a reservation"],
+      "sentence": "편의점에서 물건을 다 고른 후 계산대 앞에 섰습니다. 점원이 '봉지 필요하세요?'라고 물어봤습니다.",
+      "question": "이 상황에서 봉지가 필요할 때 가장 알맞은 대답은 무엇입니까?",
+      "options": [
+        "괜찮아요, 필요 없어요.",
+        "네, 하나 주세요.",
+        "현금으로 낼게요.",
+        "포인트카드 있어요."
+      ],
       "answer": 1,
-      "explanation": "'계산' means payment or checkout. '카드로 계산할게요' = 'I will pay by card.'"
+      "explanation": "봉지가 필요할 때는 '네, 하나 주세요'라고 대답합니다. '네'는 긍정의 대답이고, '주세요'는 무언가를 요청할 때 사용하는 표현입니다."
     }
   ],
   "ai_extension": [
-    "Change '물 하나 주세요' to a café situation and show me a natural phrase.",
-    "How do I say '이거 얼마예요?' more politely in Korean?",
-    "Give me 3 more expressions I can use at a convenience store in Korean."
+    "편의점에서 자주 쓰는 계산 관련 표현(예: '따로따로 계산해 주세요', '봉투 필요 없어요')을 더 알려줘.",
+    "편의점 점원이 '포인트 카드 있으세요?'라고 물었을 때 다양하게 대답하는 방법을 알려줘.",
+    "편의점에서 물건을 찾지 못할 때 점원에게 위치를 묻는 자연스러운 표현을 알려줘."
   ]
 }

@@ -203,7 +203,23 @@
       "zh": "请给我收据"
     }
   ],
-  "bunny_guids": {},
+  "bunny_guids": {
+    "vi": {
+      "step1": "5520e647-7c18-42ce-9ffe-06db447ab3e4",
+      "step2": "78f89e9d-1107-41de-b33f-155f82d60e0f",
+      "step3": "93ca099e-ffdd-455e-a2a7-cfddd7e195d3"
+    },
+    "en": {
+      "step1": "12e88377-75dc-4832-8f65-b3a71639dc04",
+      "step2": "addbcb6c-b3cd-4507-9c23-4bd63de04c8e",
+      "step3": "87b94283-5d04-4a6f-ab30-abb1e9c914f4"
+    },
+    "zh": {
+      "step1": "98d4a67f-4ac3-4fbf-8043-8dd619707457",
+      "step2": "a988c870-eccb-484b-9083-89882041ddda",
+      "step3": "c265f849-4022-4d6e-8cd5-dca0e19a98ae"
+    }
+  },
   "grammar_points": [
     {
       "pattern": "N+하고",
