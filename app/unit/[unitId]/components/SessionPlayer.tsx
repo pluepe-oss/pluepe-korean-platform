@@ -30,7 +30,7 @@ const PLAYERJS_SRC =
 /* ------------------------------------------------------------------ */
 
 const STEP_META: Record<StepKey, { icon: string; label: string }> = {
-  1: { icon: "👁", label: "보기" },
+  1: { icon: "👁", label: "영상" },
   2: { icon: "✏", label: "빈칸" },
   3: { icon: "🔊", label: "말하기" },
   4: { icon: "📖", label: "단어" },

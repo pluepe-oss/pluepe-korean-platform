@@ -174,10 +174,10 @@ export const SECTION_ORDER: SectionKey[] = [
 
 export const SECTION_LABEL: Record<SectionKey, { ko: string; kicker: string }> =
   {
-    session: { ko: "세션", kicker: "SESSION" },
-    words: { ko: "단어", kicker: "WORDS" },
-    patterns: { ko: "표현", kicker: "EXPRESSIONS" },
-    test: { ko: "테스트", kicker: "TEST" },
+    session: { ko: "오늘의 학습", kicker: "SESSION" },
+    words: { ko: "단어 학습", kicker: "WORDS" },
+    patterns: { ko: "문장 연습", kicker: "EXPRESSIONS" },
+    test: { ko: "실력 테스트", kicker: "TEST" },
     ai: { ko: "AI 확장", kicker: "AI" },
   };
 

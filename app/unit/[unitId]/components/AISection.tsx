@@ -12,6 +12,9 @@ type PromptState = {
 
 const USED_KEY = (unitId: string, idx: number) =>
   `pluepe_ai_used_${unitId}_${idx}`;
+// AI 응답 텍스트도 함께 저장 — 횟수 소진 후 재진입 시 복습용으로 펼쳐 보여준다
+const RESPONSE_KEY = (unitId: string, idx: number) =>
+  `pluepe_ai_response_${unitId}_${idx}`;
 
 // Basic = 3개 / Premium = 5개 (기본 콘텐츠 최대치)
 const BASIC_AI_LIMIT = 3;
@@ -48,19 +51,48 @@ export default function AISection({
   );
   const [usedAny, setUsedAny] = useState(false);
 
-  // 마운트 시 localStorage 에서 used 상태 복구.
+  // 마운트 시 localStorage 에서 used 플래그 + 저장된 AI 응답 텍스트 복구.
   // 이전 세션에서 이미 AI 섹션을 1회 이상 사용했다면 onComplete 도 즉시 호출.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const restored = unit.ai_extension.map((_, i) => {
+
+    // 마이그레이션 가드 — used=true 이지만 response 가 없는 슬롯은 USED 도 클리어.
+    // (응답 텍스트 저장 기능 도입 이전에 used 플래그만 저장하던 시기의 잔존 키 처리:
+    //  복습 본문이 비어 있는 채로 버튼만 disabled 되는 무용 상태 방지 → 슬롯 재사용 허용)
+    unit.ai_extension.forEach((_, i) => {
+      try {
+        const usedFlag =
+          window.localStorage.getItem(USED_KEY(unit.unit_id, i)) === "1";
+        const responseText = window.localStorage.getItem(
+          RESPONSE_KEY(unit.unit_id, i),
+        );
+        if (usedFlag && !responseText) {
+          window.localStorage.removeItem(USED_KEY(unit.unit_id, i));
+        }
+      } catch {
+        /* localStorage 불가 환경은 무시 */
+      }
+    });
+
+    const restoredUsed = unit.ai_extension.map((_, i) => {
       try {
         return window.localStorage.getItem(USED_KEY(unit.unit_id, i)) === "1";
       } catch {
         return false;
       }
     });
-    setUsed(restored);
-    if (restored.some(Boolean)) {
+    const restoredStates: PromptState[] = unit.ai_extension.map((_, i) => {
+      try {
+        const text = window.localStorage.getItem(RESPONSE_KEY(unit.unit_id, i));
+        if (text) return { status: "ok", text };
+      } catch {
+        /* localStorage 불가 환경은 무시 */
+      }
+      return { status: "idle", text: "" };
+    });
+    setUsed(restoredUsed);
+    setStates(restoredStates);
+    if (restoredUsed.some(Boolean)) {
       setUsedAny(true);
       onComplete();
     }
@@ -68,7 +100,7 @@ export default function AISection({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unit.unit_id, unit.ai_extension.length]);
 
-  const markUsed = (idx: number) => {
+  const markUsed = (idx: number, responseText?: string) => {
     setUsed((prev) => {
       const copy = [...prev];
       copy[idx] = true;
@@ -76,6 +108,13 @@ export default function AISection({
     });
     try {
       window.localStorage.setItem(USED_KEY(unit.unit_id, idx), "1");
+      // 정상 응답만 복습용으로 보존 (에러/빈 응답은 저장하지 않음)
+      if (responseText && responseText.trim().length > 0) {
+        window.localStorage.setItem(
+          RESPONSE_KEY(unit.unit_id, idx),
+          responseText,
+        );
+      }
     } catch {
       /* localStorage 불가 환경은 무시 */
     }
@@ -117,7 +156,7 @@ export default function AISection({
         copy[idx] = { status: "ok", text };
         return copy;
       });
-      markUsed(idx);
+      markUsed(idx, text);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "알 수 없는 오류";
       setStates((prev) => {
@@ -128,12 +167,35 @@ export default function AISection({
         };
         return copy;
       });
+      // 에러는 복습용으로 저장하지 않음 — 횟수만 소진 처리
       markUsed(idx);
     }
   };
 
+  // 노출된 AI 확장 프롬프트가 모두 소진됐는지 — 복습 모드 안내용
+  const allUsed =
+    visibleAI.length > 0 && visibleAI.every((_, i) => used[i]);
+
   return (
     <div className={styles.aiPrompts}>
+      {allUsed && (
+        <div
+          role="note"
+          style={{
+            marginBottom: 14,
+            background: "rgba(39,211,195,0.08)",
+            border: "1px solid rgba(39,211,195,0.3)",
+            borderRadius: 14,
+            padding: "12px 16px",
+            color: "#0f172a",
+            fontSize: 13,
+            fontWeight: 600,
+            lineHeight: 1.5,
+          }}
+        >
+          AI 확장을 모두 사용했습니다. 아래에서 학습 내용을 복습할 수 있습니다.
+        </div>
+      )}
       {visibleAI.map((prompt, i) => {
         const s = states[i];
         const isUsed = used[i];

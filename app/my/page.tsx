@@ -21,7 +21,6 @@ import { ProgressTabs } from "./_progress-tabs";
 /* 베타에선 1주제만 implemented, 나머지는 잠금 placeholder.              */
 /* ------------------------------------------------------------------ */
 
-const TOTAL_UNITS_TOPIK1 = 15;
 const SECTIONS_PER_UNIT = 5;
 
 type UnitCatalogEntry = {
@@ -74,6 +73,8 @@ type ProgressRow = {
   unit_id: string;
   section: string;
   completed: boolean;
+  /** KST 기준 완료 날짜 (YYYY-MM-DD). 003_learning_streak migration 에서 추가. */
+  activity_date: string | null;
 };
 
 /* ------------------------------------------------------------------ */
@@ -227,10 +228,10 @@ export default async function MyPage({
     .maybeSingle();
   const profile = (profileData ?? {}) as ProfileRow;
 
-  // 3. user_progress 전체 (주제별 완료 섹션 수 집계)
+  // 3. user_progress 전체 (주제별 완료 섹션 수 집계 + 월간 연습 횟수 계산용)
   const { data: progressData } = await supabase
     .from("user_progress")
-    .select("unit_id, section, completed")
+    .select("unit_id, section, completed, activity_date")
     .eq("user_id", user.id);
   const progressList = (progressData ?? []) as ProgressRow[];
 
@@ -284,12 +285,27 @@ export default async function MyPage({
     sectionsByUnit.set(row.unit_id, set);
   }
 
-  const completedUnits = UNIT_CATALOG.filter((u) => {
+  // 학습 진도: 사용자의 planType 에 맞는 카탈로그로 분기 (TOPIK1 / EPS).
+  // EPS 사용자는 EPS_UNIT_CATALOG 를 사용해야 eps_uXX 완료가 분자에 잡힘.
+  const activeCatalog = ctx.planType === "eps" ? EPS_UNIT_CATALOG : UNIT_CATALOG;
+  const completedUnits = activeCatalog.filter((u) => {
     if (!u.implemented) return false;
     return (sectionsByUnit.get(u.unitId)?.size ?? 0) >= SECTIONS_PER_UNIT;
   }).length;
-  const totalUnits = TOTAL_UNITS_TOPIK1;
-  const completedSections = progressList.filter((r) => r.completed).length;
+  const totalUnits = activeCatalog.length;
+
+  // 연습 횟수 — 이번 달(KST) 의 (unit_id, activity_date) 고유 조합 카운트.
+  // 같은 유닛을 하루에 여러 섹션 완료해도 1회로 처리. 매월 1일 자동 리셋.
+  const _now = new Date();
+  const _kstNow = new Date(_now.getTime() + 9 * 60 * 60 * 1000);
+  const _currentMonth = _kstNow.toISOString().slice(0, 7); // "YYYY-MM"
+  const _monthlyPracticeKeys = new Set<string>();
+  for (const row of progressList) {
+    if (!row.completed || !row.activity_date) continue;
+    if (!row.activity_date.startsWith(_currentMonth)) continue;
+    _monthlyPracticeKeys.add(`${row.unit_id}|${row.activity_date}`);
+  }
+  const completedSections = _monthlyPracticeKeys.size;
 
   const emailLocalPart = (profile.email ?? user.email ?? "").split("@")[0] ?? "";
   const baseName = profile.name?.trim() || emailLocalPart;
@@ -352,10 +368,19 @@ export default async function MyPage({
 
   const tierLabel = isPremium ? "Premium" : "Basic";
 
+  // 복습 대상: TOPIK1/EPS 카탈로그 통합 검색. lastTest.unit_id 의 prefix 로 URL 분기.
   const reviewUnit = lastTest
-    ? UNIT_CATALOG.find((u) => u.unitId === lastTest.unit_id)
+    ? [...UNIT_CATALOG, ...EPS_UNIT_CATALOG].find(
+        (u) => u.unitId === lastTest.unit_id,
+      )
     : undefined;
   const reviewSlug = reviewUnit?.slug ?? null;
+  const reviewIsEps = reviewUnit?.unitId.startsWith("eps_") ?? false;
+  const reviewHref = reviewSlug
+    ? reviewIsEps
+      ? `/unit/eps/${reviewSlug}?section=test`
+      : `/unit/${reviewSlug}?section=test`
+    : "/unit/1?section=test";
 
   const isExpired = ctx.kind === "expired";
 
@@ -428,7 +453,7 @@ export default async function MyPage({
                 {completedSections}
                 <span className="ml-1 text-base md:text-xl">회</span>
               </p>
-              <p className="mt-1 text-xs text-white/40">완료한 단계</p>
+              <p className="mt-1 text-xs text-white/40">이번 달</p>
             </div>
           </div>
         </div>
@@ -477,7 +502,7 @@ export default async function MyPage({
                   )}
                 </div>
                 <Link
-                  href={`/unit/${reviewSlug ?? "1"}?section=test`}
+                  href={reviewHref}
                   className="rounded-xl bg-[#122c4f] px-4 py-2 text-base font-semibold text-white"
                 >
                   전체 복습

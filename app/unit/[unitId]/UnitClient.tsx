@@ -28,10 +28,10 @@ type CompletedMap = Record<SectionKey, boolean>;
 
 /** 사이드 레일 각 메뉴의 서브 텍스트 */
 const SECTION_SUB: Record<SectionKey, string> = {
-  session: "오늘의 훈련",
-  words: "어휘 복습",
-  patterns: "핵심 문장",
-  test: "실력 점검",
+  session: "5단계 영상 학습",
+  words: "어휘 익히기",
+  patterns: "패턴 익히기",
+  test: "시험처럼 풀기",
   ai: "자유 연습",
 };
 
@@ -304,7 +304,12 @@ export default function UnitClient({
             pluepe
           </Link>
           <div className={styles.railBrandSub}>
-            TOPIK {unit.level} · {unit.topic}
+            {unit.exam_type === "EPS-TOPIK"
+              ? "EPS-TOPIK"
+              : unit.exam_type === "TOPIK2"
+                ? "TOPIK 2"
+                : `TOPIK ${unit.level || 1}`}{" "}
+            · {unit.topic}
           </div>
           <div className={styles.railLabel}>학습 메뉴</div>
           <nav className={styles.railNav}>
