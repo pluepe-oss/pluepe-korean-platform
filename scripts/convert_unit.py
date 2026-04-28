@@ -334,6 +334,25 @@ def gen_step2_blanks(client, content: dict, lang: str, course: str = "") -> list
 # 오답 선택지 기준
 - 같은 도메인 ({domain_context(course)}) 안에서 의미가 다른 단어로 구성
 
+# 한국어 단위명 (의존명사) 호응 규칙 (중요!)
+빈칸이 단위명인 경우 반드시 문맥에 맞는 단위로 정답·오답을 구성한다.
+정답과 오답 모두 같은 카테고리 단위명만 사용 (서로 다른 카테고리 혼합 금지).
+- 음료/커피/차/술  → 잔  (오답 예: 컵, 병, 모금)
+- 음식/물건/상품  → 개  (오답 예: 봉지, 박스, 그릇)
+- 종이/서류/티켓  → 장  (오답 예: 부, 권, 매)
+- 번호/순서/노선  → 번  (오답 예: 호, 차, 회)
+- 사람          → 명 / 분  (오답 예: 인, 사람)
+
+# 반의어 대비 구조 인식 (중요!)
+문장에 대비되는 두 선택지(A vs ___)가 제시된 경우 반드시 "반의어"를 정답으로 둔다.
+유사어/동의어/정도 차이만 있는 단어는 대비 구조의 정답으로 불가.
+- 따뜻하게 ↔ 차갑게 (O) / 뜨겁게 (X — 유사어 · 정도 차이)
+- 크다 ↔ 작다 (O) / 거대하다 (X — 유사어)
+- 길다 ↔ 짧다 (O) / 늘어나다 (X — 행위)
+- 빠르다 ↔ 느리다 (O) / 천천히 (X — 부사형 · 의미 약함)
+- 많다 ↔ 적다 (O) / 부족하다 (X — 결과 표현)
+오답 선택지에는 유사어/정도 차이 표현을 배치해 변별력을 만든다 (예: 따뜻하게 vs ____ 정답 "차갑게", 오답 "시원하게" / "뜨겁게" / "미지근하게").
+
 # 정답 위치 분산
 - 3문제의 answer 를 0/1/2 에 고르게 분산
 - 모두 0(①)으로 고정하지 말 것
@@ -792,6 +811,387 @@ def gen_ai_extension(client, content: dict, lang: str) -> list[str]:
     ]
 
 
+# ────────────────────────── 자동 검수 + 재생성 ──────────────────────────
+
+
+_AUDIT_RULES = """\
+# 검수 기준
+1) 단위명 오류 — 빈칸이 단위명일 때 카테고리 오류
+   · 음료/커피/차/술 → 잔  (개/번/장 X)
+   · 음식/물건/상품 → 개  (잔 X)
+   · 종이/서류/티켓 → 장
+   · 번호/순서/노선 → 번
+   · 정답·오답이 서로 다른 카테고리 단위명을 섞으면 오류
+
+2) 반의어 대비 구조 오류 — "A vs ____" 같은 대비 구조에서
+   · 정답은 반드시 명확한 반의어 (따뜻하게 ↔ 차갑게 O)
+   · 유사어/동의어/정도 차이/부사형은 정답 불가 (시원하게/뜨겁게/미지근하게 X)
+
+3) 문법 호응 오류 — 빈칸 뒤 어미와 정답 형태가 안 맞음
+   · "____합니다" 뒤에는 명사형 (동사 기본형 X)
+   · "____요?" 같은 종결형 어미와 결합이 부자연스러움
+
+4) 의미 부적절 — 정답이 문장 맥락/상식과 안 맞음
+
+5) 오답 우월 — 오답 선택지가 정답보다 더 자연스러움
+
+# 출력 형식
+오류가 있는 항목만 errors 배열에 나열. 오류 없으면 빈 배열.
+field 는 "step2_blanks" / "words_quiz" / "mini_test" / "patterns_blank_quiz" 중 하나.
+suggested_correct 는 권장 정답 텍스트(가능하면), 모르면 빈 문자열.
+
+오직 JSON 한 객체만 출력:
+{"errors": [
+  {"field": "step2_blanks", "index": 2, "reason": "반의어 오류 — 정답이 유사어",
+   "suggested_correct": "차갑게"}
+]}
+"""
+
+
+def _audit_items(client, lang: str, course: str, topic: str, items: dict) -> list[dict]:
+    """문항 묶음을 Claude 로 검수. errors 배열 반환 (없으면 빈 배열)."""
+    items_json = json.dumps(items, ensure_ascii=False, indent=2)
+    prompt = f"""대상 학습자 언어: {lang_name(lang)}
+도메인: {domain_context(course)}
+주제: "{topic}"
+
+다음 한국어 학습 문항들을 교육공학 기준으로 검수해 오류만 보고해줘.
+
+{_AUDIT_RULES}
+
+# 검수 대상
+{items_json}
+"""
+    result = claude_json(client, prompt, SYSTEM_BASE, max_tokens=2500)
+    if isinstance(result, dict) and isinstance(result.get("errors"), list):
+        return [e for e in result["errors"] if isinstance(e, dict)]
+    return []
+
+
+def _is_valid_blank_index(obj: Any) -> bool:
+    return (
+        isinstance(obj, dict)
+        and isinstance(obj.get("sentence"), str)
+        and isinstance(obj.get("options"), list)
+        and len(obj.get("options", [])) >= 2
+        and isinstance(obj.get("answer"), int)
+        and 0 <= obj["answer"] < len(obj["options"])
+    )
+
+
+def _is_valid_words_quiz_item(obj: Any) -> bool:
+    return (
+        isinstance(obj, dict)
+        and isinstance(obj.get("question"), str)
+        and isinstance(obj.get("options"), list)
+        and len(obj.get("options", [])) == 4
+        and isinstance(obj.get("answer"), int)
+        and 0 <= obj["answer"] < 4
+    )
+
+
+def _is_valid_mini_test_item(obj: Any) -> bool:
+    return (
+        isinstance(obj, dict)
+        and isinstance(obj.get("question"), str)
+        and isinstance(obj.get("options"), list)
+        and len(obj.get("options", [])) == 4
+        and isinstance(obj.get("answer"), int)
+        and 0 <= obj["answer"] < 4
+        and isinstance(obj.get("explanation"), str)
+    )
+
+
+def _regen_step2_blank(
+    client, lang: str, course: str, expressions: list[dict], idx: int,
+    prev_item: dict, reason: str, max_retries: int = 2,
+) -> dict | None:
+    """단일 step2_blank 1문제 재생성. 이전 결과 + 오류 원인을 컨텍스트로 전달."""
+    if idx < 0 or idx >= len(expressions):
+        return None
+    e = expressions[idx]
+    expr_line = f'"{e.get("ko","")}" / 상황: {e.get("situation","")}'
+    prev = json.dumps(prev_item, ensure_ascii=False)
+    prompt = f"""대상 학습자 언어: {lang_name(lang)}
+도메인 컨텍스트: {domain_context(course)}
+
+다음 핵심 표현 1개로 "빈칸 채우기" 1문제를 다시 만들어줘.
+핵심 표현: {expr_line}
+
+이전 시도(검수에서 오류 판정): {prev}
+오류 원인: {reason}
+
+오류 원인을 회피한 새 문항을 출력. 단위명/반의어 대비/문법 호응 규칙 준수.
+
+# 형식
+- sentence: 한국어 문장에 ____ 빈칸 1곳
+- options: 한국어 3개 (정답 1 + 같은 카테고리 오답 2)
+- answer: 정답 인덱스 0~2
+- hint: {lang_name(lang)} 로 의미만 1~3 단어
+
+오직 JSON 한 객체만 출력:
+{{"sentence":"...","options":["...","...","..."],"answer":1,"hint":"..."}}
+"""
+    for _ in range(max_retries + 1):
+        result = claude_json(client, prompt, SYSTEM_BASE, max_tokens=500)
+        if _is_valid_blank_index(result) and len(result.get("options", [])) == 3:
+            return result
+    return None
+
+
+def _regen_words_quiz_item(
+    client, lang: str, course: str, vocab: list[dict], prev_item: dict,
+    reason: str, max_retries: int = 2,
+) -> dict | None:
+    vocab_text = "\n".join(
+        f'- ko="{v.get("ko","")}" / {lang}="{v.get(lang,"")}"' for v in vocab[:8]
+    )
+    prev = json.dumps(prev_item, ensure_ascii=False)
+    prompt = f"""대상 학습자 언어: {lang_name(lang)}
+도메인 컨텍스트: {domain_context(course)}
+
+아래 어휘로 어휘 퀴즈 1문제를 다시 만들어줘.
+이전 시도(검수에서 오류 판정): {prev}
+오류 원인: {reason}
+
+# 형식 (둘 중 자연스러운 쪽)
+- type="fill": 빈칸 채우기. question 에 ____ 포함, options 4개 (정답 1 + 같은 도메인 오답 3)
+- type="meaning": "~을 무엇이라고 합니까?" 정의형, options 4개
+
+# 절대 금지
+- 메타 질문 ("어떤 단어를 쓰나요?")
+- 기본형 동사 옵션 (-다)
+- 빈칸 어미와 안 맞는 정답
+
+# 공통
+- answer: 정답 인덱스 0~3 (0 고정 금지)
+- hint: {lang_name(lang)} 로 정답 의미 1~3 단어
+
+어휘:
+{vocab_text}
+
+오직 JSON 한 객체만 출력:
+{{"type":"fill","question":"...","options":["...","...","...","..."],"answer":2,"hint":"..."}}
+"""
+    for _ in range(max_retries + 1):
+        result = claude_json(client, prompt, SYSTEM_BASE, max_tokens=600)
+        if _is_valid_words_quiz_item(result):
+            return result
+    return None
+
+
+def _regen_mini_test_item(
+    client, lang: str, course: str, content: dict, prev_item: dict,
+    reason: str, max_retries: int = 2,
+) -> dict | None:
+    qtype = prev_item.get("type", "listening")
+    topic = content.get("topic_titles", {}).get("ko") or content.get("topic", "")
+    prev = json.dumps(prev_item, ensure_ascii=False)
+    is_eps = course == "eps"
+    type_specific = {
+        "listening": (
+            "감독관-근로자 실무 대화" if is_eps else "주제 관련 일상 대화"
+        ),
+        "reading": (
+            "작업 지시서 / 안전 표지판 / 사내 안내문"
+            if is_eps
+            else "안내문 / 표지판 / 메뉴 / 영수증"
+        ),
+        "situation": (
+            "현장 상황 판단" if is_eps else "한 문장 일상 상황 판단"
+        ),
+    }.get(qtype, "")
+    prompt = f"""대상 학습자 언어: {lang_name(lang)}
+도메인 컨텍스트: {domain_context(course)}
+주제: "{topic}"
+유형: {qtype} ({type_specific})
+
+미니 테스트 1문제 ({qtype}) 를 다시 만들어줘.
+이전 시도(검수에서 오류 판정): {prev}
+오류 원인: {reason}
+
+# 형식
+- type 은 "{qtype}" 으로 고정
+- listening 은 script, reading 은 text, situation 은 sentence 한국어 필드 포함
+- question, options(한국어 4개), answer(0~3), explanation(한국어 전용 — 외국어 단어 절대 금지)
+
+대화/지문 컨텍스트:
+{dialogue_summary(content, 8)}
+
+오직 JSON 한 객체만 출력 (type 은 "{qtype}"):
+{{"type":"{qtype}","script":"...","question":"...","options":["...","...","...","..."],"answer":2,"explanation":"..."}}
+※ reading 일 때는 script 대신 text, situation 일 때는 sentence 필드 사용.
+"""
+    for _ in range(max_retries + 1):
+        result = claude_json(client, prompt, SYSTEM_BASE, max_tokens=900)
+        # type 별 필드 키 정규화 검증
+        if not _is_valid_mini_test_item(result):
+            continue
+        if qtype == "listening" and "script" not in result:
+            continue
+        if qtype == "reading" and "text" not in result:
+            continue
+        if qtype == "situation" and "sentence" not in result:
+            continue
+        result["type"] = qtype
+        return result
+    return None
+
+
+def audit_and_repair(
+    client,
+    lang: str,
+    course: str,
+    content: dict,
+    step2_blanks: list[dict],
+    words_quiz: list[dict],
+    mini_test: list[dict],
+    patterns: list[dict],
+    max_audit_rounds: int = 2,
+) -> tuple[list[dict], list[dict], list[dict], list[dict], dict]:
+    """검수 + 재생성 사이클. 갱신된 4개 리스트 + 보고서 반환.
+
+    반환 dict 형식: {"total": N, "passed": P, "regenerated": R, "still_bad": F, "details": [...]}
+    """
+    topic = content.get("topic_titles", {}).get("ko") or content.get("topic", "")
+    expressions = content.get("key_expressions", []) or []
+    vocab = content.get("vocabulary", []) or []
+    total = len(step2_blanks) + len(words_quiz) + len(mini_test) + len(patterns)
+
+    print(f"  🔍 검수 시작 (총 {total}문항)")
+
+    regenerated_count = 0
+    still_bad: list[dict] = []
+    details: list[str] = []
+
+    for round_no in range(1, max_audit_rounds + 1):
+        # patterns 의 blank_quiz 만 검수 input 으로 추출
+        patterns_view = []
+        for p in patterns:
+            bq = p.get("blank_quiz", {}) or {}
+            patterns_view.append({
+                "pattern": p.get("pattern", ""),
+                "sentence": bq.get("sentence", ""),
+                "answer": bq.get("answer", ""),
+                "options": bq.get("options", []),
+            })
+        items = {
+            "step2_blanks": step2_blanks,
+            "words_quiz": words_quiz,
+            "mini_test": mini_test,
+            "patterns_blank_quiz": patterns_view,
+        }
+        errors = _audit_items(client, lang, course, topic, items)
+        if not errors:
+            if round_no == 1:
+                print(f"  🔍 검수 결과: 오류 0건 ✓")
+            else:
+                print(f"  🔍 재검수 ({round_no}차): 오류 0건 ✓")
+            break
+
+        round_label = f"{round_no}차"
+        print(f"  🔍 검수 ({round_label}): 오류 {len(errors)}건")
+        for e in errors:
+            field = e.get("field", "")
+            idx = e.get("index", -1)
+            reason = e.get("reason", "")
+            print(f"     · [{field} #{idx}] {reason}")
+
+        # 오류 항목 재생성
+        still_bad = []
+        for e in errors:
+            field = e.get("field", "")
+            idx = e.get("index", -1)
+            reason = e.get("reason", "")
+            if not isinstance(idx, int):
+                still_bad.append(e)
+                continue
+
+            if field == "step2_blanks" and 0 <= idx < len(step2_blanks):
+                new_item = _regen_step2_blank(
+                    client, lang, course, expressions, idx, step2_blanks[idx], reason
+                )
+                if new_item:
+                    step2_blanks[idx] = new_item
+                    regenerated_count += 1
+                    details.append(f"step2_blanks #{idx} 재생성 ({round_label})")
+                    print(f"     ↻ step2_blanks #{idx} 재생성")
+                else:
+                    still_bad.append(e)
+
+            elif field == "words_quiz" and 0 <= idx < len(words_quiz):
+                new_item = _regen_words_quiz_item(
+                    client, lang, course, vocab, words_quiz[idx], reason
+                )
+                if new_item:
+                    words_quiz[idx] = new_item
+                    regenerated_count += 1
+                    details.append(f"words_quiz #{idx} 재생성 ({round_label})")
+                    print(f"     ↻ words_quiz #{idx} 재생성")
+                else:
+                    still_bad.append(e)
+
+            elif field == "mini_test" and 0 <= idx < len(mini_test):
+                new_item = _regen_mini_test_item(
+                    client, lang, course, content, mini_test[idx], reason
+                )
+                if new_item:
+                    mini_test[idx] = new_item
+                    regenerated_count += 1
+                    details.append(f"mini_test #{idx} 재생성 ({round_label})")
+                    print(f"     ↻ mini_test #{idx} 재생성")
+                else:
+                    still_bad.append(e)
+
+            elif field == "patterns_blank_quiz" and 0 <= idx < len(patterns):
+                gp_for_regen = {
+                    "pattern": patterns[idx].get("pattern", ""),
+                    "example_ko": (patterns[idx].get("examples") or [""])[0],
+                }
+                new_quiz = _gen_single_pattern_quiz(
+                    client, gp_for_regen, lang, course, topic,
+                    _domain_words_for_unit(content),
+                )
+                if new_quiz:
+                    patterns[idx]["blank_quiz"] = new_quiz
+                    regenerated_count += 1
+                    details.append(f"patterns_blank_quiz #{idx} 재생성 ({round_label})")
+                    print(f"     ↻ patterns_blank_quiz #{idx} 재생성")
+                else:
+                    still_bad.append(e)
+            else:
+                still_bad.append(e)
+
+        # 재생성 실패한 항목이 0이면 다음 라운드에서 재검수
+        # 모두 재생성 실패면 더 이상 수정 불가 → 라운드 종료
+        if not still_bad:
+            continue
+        # still_bad 만 남았다면 더 이상 못 고치므로 break
+        if regenerated_count == 0:
+            break
+
+    passed = total - len(still_bad)
+    if still_bad:
+        for e in still_bad:
+            print(
+                f"  ⚠️  WARNING [{e.get('field','?')} #{e.get('index','?')}] "
+                f"재생성 실패: {e.get('reason','')}"
+            )
+
+    print(
+        f"  ✅ 검수 완료: 통과 {passed} / 재생성 {regenerated_count} / "
+        f"실패 {len(still_bad)}"
+    )
+
+    return step2_blanks, words_quiz, mini_test, patterns, {
+        "total": total,
+        "passed": passed,
+        "regenerated": regenerated_count,
+        "still_bad": len(still_bad),
+        "details": details,
+    }
+
+
 # ────────────────────────── 빌드 ──────────────────────────
 
 
@@ -844,6 +1244,12 @@ def build_platform_json(
     mini_test = gen_mini_test(client, content, lang, course=course)
     print(f"  → ai_extension 생성 중...")
     ai_extension = gen_ai_extension(client, content, lang)
+
+    # 모든 문항 생성 후 자동 검수 + 재생성 (최대 2 라운드)
+    step2_blanks, words_quiz, mini_test, patterns, _audit_report = audit_and_repair(
+        client, lang, course, content,
+        step2_blanks, words_quiz, mini_test, patterns,
+    )
 
     return {
         "unit_id": unit_id,
