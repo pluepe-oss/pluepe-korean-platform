@@ -16,7 +16,7 @@
   "key_expressions": [
     {
       "ko": "~한 잔 주세요",
-      "translation": "Please give me a cup of ~"
+      "translation": "Please give me one ~"
     },
     {
       "ko": "사이즈는 어떻게 해 드릴까요?",
@@ -28,7 +28,7 @@
     },
     {
       "ko": "여기서 드실 건가요, 포장해 드릴까요?",
-      "translation": "Will you have it here or would you like it to go?"
+      "translation": "Will you have it here, or would you like it to go?"
     },
     {
       "ko": "잠시만 기다려 주세요",
@@ -39,7 +39,7 @@
     "step1_quiz": {
       "question": "이 대화는 어디에서 일어나고 있나요?",
       "options": [
-        "식당",
+        "병원",
         "카페",
         "편의점"
       ],
@@ -47,40 +47,40 @@
     },
     "step2_blanks": [
       {
-        "sentence": "아메리카노 한 ____  주세요.",
-        "hint": "cup (beverage)",
+        "sentence": "아메리카노 한 ____ 주세요.",
+        "hint": "serving unit for drinks",
         "options": [
           "잔",
           "개",
-          "병"
+          "장"
         ],
         "answer": 0
       },
       {
-        "sentence": "사이즈는 어떻게 해 ____?",
-        "hint": "offer help",
+        "sentence": "사이즈는 어떻게 해 ____ 까요?",
+        "hint": "polite offering verb",
         "options": [
-          "받을까요",
-          "드릴까요",
-          "줄까요"
+          "만들",
+          "드릴",
+          "시킬"
         ],
         "answer": 1
       },
       {
         "sentence": "따뜻하게 드릴까요, ____ 드릴까요?",
-        "hint": "opposite temperature",
         "options": [
+          "뜨겁게",
           "차갑게",
-          "시원하게",
-          "뜨겁게"
+          "미지근하게"
         ],
-        "answer": 0
+        "answer": 1,
+        "hint": "cold temperature"
       }
     ],
     "step3_sentences": [
       {
         "ko": "~한 잔 주세요",
-        "translation": "Please give me a cup of ~"
+        "translation": "Please give me one ~"
       },
       {
         "ko": "사이즈는 어떻게 해 드릴까요?",
@@ -109,7 +109,7 @@
       },
       {
         "korean": "따뜻하다",
-        "translation": "Hot / warm",
+        "translation": "Hot / Warm",
         "example": "따뜻하다을(를) 사용해요."
       },
       {
@@ -119,25 +119,25 @@
       },
       {
         "korean": "포장",
-        "translation": "Takeout / to go",
+        "translation": "Takeout / To go",
         "example": "여기서 드실 건가요, 포장해 드릴까요?"
       }
     ],
     "step5_review": [
       {
         "ko": "~한 잔 주세요",
-        "translation": "Please give me a cup of ~",
+        "translation": "Please give me one ~",
         "context": "When ordering a drink"
       },
       {
         "ko": "사이즈는 어떻게 해 드릴까요?",
         "translation": "What size would you like?",
-        "context": "When asking about the size"
+        "context": "When asking about the size of a drink"
       },
       {
         "ko": "따뜻하게 드릴까요, 차갑게 드릴까요?",
         "translation": "Would you like it hot or cold?",
-        "context": "When asking about the temperature"
+        "context": "When asking whether the customer wants a hot or cold drink"
       }
     ]
   },
@@ -162,7 +162,7 @@
     },
     {
       "korean": "따뜻하다",
-      "translation": "Hot / warm",
+      "translation": "Hot / Warm",
       "example_ko": "따뜻하다을(를) 사용해요.",
       "example": ""
     },
@@ -174,7 +174,7 @@
     },
     {
       "korean": "포장",
-      "translation": "Takeout / to go",
+      "translation": "Takeout / To go",
       "example_ko": "여기서 드실 건가요, 포장해 드릴까요?",
       "example": ""
     }
@@ -182,74 +182,74 @@
   "words_quiz": [
     {
       "type": "fill",
-      "question": "커피를 여기서 마시지 않고 밖에서 먹을 거예요. ____으로 해 주세요.",
+      "question": "저는 아이스 아메리카노가 싫어요. ____ 아메리카노로 주세요.",
       "options": [
-        "포장",
-        "주문",
-        "결제",
-        "예약"
+        "차갑게",
+        "따뜻하게",
+        "크게",
+        "작게"
       ],
-      "answer": 0,
-      "hint": "takeout / to go"
+      "answer": 1,
+      "hint": "hot / warm"
     },
     {
       "type": "meaning",
-      "question": "커피가 뜨겁지 않고 냉장고에서 꺼낸 것처럼 온도가 낮은 상태를 무엇이라고 합니까?",
+      "question": "카페에서 커피를 마시지 않고 밖으로 가져갈 때 '____'(이)라고 합니다.",
       "options": [
-        "시원하다",
-        "미지근하다",
-        "차갑다",
-        "따뜻하다"
+        "배달",
+        "할인",
+        "포장",
+        "영수증"
       ],
       "answer": 2,
-      "hint": "cold (temperature)"
+      "hint": "takeout"
     },
     {
       "type": "fill",
-      "question": "직원: \"음료 ____는 스몰, ____, 라지 중에서 선택하실 수 있어요.\" 손님: \"____ 으로 주세요.\"",
+      "question": "라지 사이즈는 너무 커요. ____ 사이즈로 주세요.",
       "options": [
+        "스몰",
         "라지",
         "미디엄",
-        "스몰",
         "엑스라지"
       ],
-      "answer": 1,
+      "answer": 2,
       "hint": "medium size"
     }
   ],
   "patterns": [
     {
       "pattern": "~해 드릴까요?",
-      "meaning": "When politely asking someone their preference",
+      "meaning": "When politely asking the other person's preference",
       "examples": [
         "따뜻하게 해 드릴까요?",
-        "Would you like it hot?"
+        "Would you like it warm?"
       ],
       "blank_quiz": {
         "sentence": "사이즈는 어떻게 ____?",
         "answer": "해 드릴까요",
         "options": [
-          "해 드릴까요",
-          "해 드렸어요",
           "해 드리세요",
-          "해 드리고 싶어요"
+          "해 드릴까요",
+          "해 드려도요",
+          "해 드렸나요"
         ]
       }
     },
     {
       "pattern": "~으로 주세요",
-      "meaning": "When making a request after choosing an option",
+      "meaning": "When making a request after choosing",
       "examples": [
         "미디엄으로 주세요.",
         "Medium, please."
       ],
       "blank_quiz": {
-        "sentence": "아메리카노 미디엄 ____.",
+        "sentence": "아메리카노 미디엄 ____",
         "answer": "으로 주세요",
         "options": [
-          "이라서 주세요",
-          "으로 주세요",
+          "이라고 주세요",
           "에서 주세요",
+          "으로 주세요",
           "한테 주세요"
         ]
       }
@@ -261,44 +261,44 @@
       "script": "손님: 안녕하세요. 아메리카노 한 잔 주세요.\n직원: 사이즈는 어떻게 해 드릴까요?\n손님: 미디엄으로 주세요.\n직원: 따뜻하게 드릴까요, 차갑게 드릴까요?\n손님: 차갑게 주세요.\n직원: 여기서 드실 건가요, 포장해 드릴까요?\n손님: 포장해 주세요.",
       "question": "손님이 주문한 내용으로 맞는 것은 무엇입니까?",
       "options": [
-        "따뜻한 아메리카노 미디엄, 매장에서 마신다.",
-        "차가운 아메리카노 라지, 포장한다.",
-        "차가운 아메리카노 미디엄, 포장한다.",
-        "따뜻한 아메리카노 스몰, 포장한다."
+        "따뜻한 미디엄 아메리카노, 매장에서 마심",
+        "차가운 라지 아메리카노, 포장",
+        "차가운 미디엄 아메리카노, 포장",
+        "따뜻한 스몰 아메리카노, 매장에서 마심"
       ],
       "answer": 2,
-      "explanation": "'차갑게 주세요'는 음료를 아이스로 주문할 때 사용하는 표현이고, '포장해 주세요'는 매장에서 먹지 않고 가져갈 때 사용하는 표현입니다."
+      "explanation": "'차갑게 주세요'는 음료를 아이스로 달라는 표현이고, '포장해 주세요'는 매장 안에서 마시지 않고 가져가겠다는 뜻입니다."
     },
     {
       "type": "reading",
-      "text": "☕ 오늘의 메뉴\n─────────────────\n아메리카노   핫 / 아이스   스몰 3,500원 / 미디엄 4,000원 / 라지 4,500원\n카페라떼     핫 / 아이스   스몰 4,000원 / 미디엄 4,500원 / 라지 5,000원\n녹차라떼     핫 / 아이스   스몰 4,500원 / 미디엄 5,000원 / 라지 5,500원\n─────────────────\n포장 시 컵 보증금 300원 별도",
-      "question": "아이스 아메리카노 미디엄을 포장하면 얼마입니까?",
+      "text": "[ 카페 안내문 ]\n\n• 음료 주문 후 진동벨을 받으세요.\n• 벨이 울리면 카운터에서 음료를 가져가세요.\n• 매장 내 음식물 반입은 금지입니다.\n• 포장 주문 시 별도 용기 비용 100원이 추가됩니다.",
+      "question": "이 안내문의 내용과 다른 것은 무엇입니까?",
       "options": [
-        "3,500원",
-        "3,800원",
-        "4,300원",
-        "4,500원"
+        "음료가 준비되면 직원이 자리까지 가져다 준다.",
+        "다른 곳에서 산 음식을 매장 안에서 먹을 수 없다.",
+        "포장 주문을 하면 추가 비용이 생길 수 있다.",
+        "음료를 주문하면 진동벨을 받는다."
       ],
-      "answer": 2,
-      "explanation": "아이스 아메리카노 미디엄의 기본 가격은 4,000원입니다. 포장 시 컵 보증금 300원이 추가되므로 4,000원 + 300원 = 4,300원입니다."
+      "answer": 0,
+      "explanation": "안내문에 '벨이 울리면 카운터에서 음료를 가져가세요'라고 되어 있으므로, 직원이 자리까지 가져다 준다는 내용은 안내문과 다릅니다."
     },
     {
       "type": "situation",
-      "sentence": "카페 직원이 '따뜻하게 드릴까요, 차갑게 드릴까요?'라고 물어봤습니다.",
-      "question": "이 상황에서 가장 알맞은 대답은 무엇입니까?",
+      "sentence": "손님이 카페에서 아메리카노를 주문했습니다. 직원이 '여기서 드실 건가요, 포장해 드릴까요?'라고 물었습니다. 손님은 음료를 밖으로 가져가려고 합니다.",
+      "question": "이 상황에서 손님이 할 말로 가장 알맞은 것은 무엇입니까?",
       "options": [
-        "미디엄으로 주세요.",
-        "포장해 주세요.",
+        "네, 여기서 마실게요.",
         "차갑게 주세요.",
-        "잠시만 기다려 주세요."
+        "포장해 주세요.",
+        "미디엄으로 주세요."
       ],
       "answer": 2,
-      "explanation": "직원이 음료의 온도를 묻고 있으므로, '차갑게 주세요'처럼 원하는 온도를 말하는 것이 가장 알맞은 대답입니다. '미디엄으로 주세요'는 사이즈를 고를 때 쓰는 말이고, '포장해 주세요'는 음료를 가지고 갈 때 쓰는 말이며, '잠시만 기다려 주세요'는 직원이 손님에게 하는 말이므로 모두 이 상황에 맞지 않습니다."
+      "explanation": "음료를 매장 안에서 마시지 않고 밖으로 가져가려고 할 때는 '포장해 주세요.'라고 말합니다. '여기서 마실게요.'는 매장 안에서 마실 때 사용하는 표현이고, '차갑게 주세요.'는 온도를 고를 때, '미디엄으로 주세요.'는 사이즈를 고를 때 사용하는 표현이므로 이 상황에 알맞지 않습니다."
     }
   ],
   "ai_extension": [
-    "카페에서 음료를 주문할 때 쓸 수 있는 다양한 표현을 존댓말로 알려줘",
-    "아이스 아메리카노 한 잔 주세요 같은 문장을 더 공손하게 말하는 방법 알려줘",
-    "카페 직원이 사이즈나 온도를 물어볼 때 어떻게 대답하는지 예문으로 알려줘"
+    "카페에서 음료를 주문할 때 쓸 수 있는 정중한 표현 5가지를 예문과 함께 알려줘",
+    "'아이스로 주세요'처럼 음료 옵션(사이즈, 온도, 당도)을 요청하는 다양한 한국어 표현을 알려줘",
+    "카페 직원이 '드시고 가세요, 가져가세요?'라고 물었을 때 자연스럽게 대답하는 방법을 알려줘"
   ]
 }
