@@ -121,6 +121,11 @@ export default function UnitClient({
     SECTION_ORDER.every((k) => restoredCompleted[k]),
   );
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // session 섹션 내부 STEP 상태 (UnitClient로 lift — 하단 [다음] 버튼이 STEP 이동도 담당)
   const [sessionStep, setSessionStep] = useState<StepKey>(1);
   // STEP 완료 조건 정책: STEP 1~3 은 영상 AND 퀴즈 둘 다, STEP 4~5 는 퀴즈만.
@@ -294,6 +299,8 @@ export default function UnitClient({
     currentIdx,
     isLocked,
   ]);
+
+  if (!mounted) return null;
 
   return (
     <div className={styles.page}>

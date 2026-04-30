@@ -28,7 +28,7 @@
   /* 좌측 사이드 레일(200px) + 메인(1fr) 2열 그리드 */
   max-width: 1440px;
   margin: 0 auto;
-  padding: 20px 16px 80px;
+  padding: 8px 16px 80px;
   display: grid;
   grid-template-columns: 200px 1fr;
   gap: 16px;

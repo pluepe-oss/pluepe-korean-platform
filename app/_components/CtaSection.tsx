@@ -17,7 +17,7 @@ export default function CtaSection() {
             지금 시작하면 합격까지 이어집니다.
           </h2>
           <p className="cta-desc">지금 바로 7일 무료 체험을 시작하고, 한국어 학습을 이어가세요.</p>
-          <a href="/free-trial" className="cta-btn">7일 무료로 체험하기 →</a>
+          <a href="/auth/signup" className="cta-btn">7일 무료 체험하기 →</a>
           <div className="cta-tracks">
             <span>TOPIK 1</span>
             <span className="cta-track-divider">|</span>

@@ -1,4 +1,3 @@
-import PublicHeader from '@/components/PublicHeader'
 import HeroSection from './_components/HeroSection'
 import TargetSection from './_components/TargetSection'
 import CoursesSection from './_components/CoursesSection'
@@ -8,16 +7,13 @@ import CtaSection from './_components/CtaSection'
 
 export default async function HomePage() {
   return (
-    <>
-      <PublicHeader />
-      <main>
-        <HeroSection />
-        <TargetSection />
-        <CoursesSection />
-        <TrainingSection />
-        <TicketSection />
-        <CtaSection />
-      </main>
-    </>
+    <main>
+      <HeroSection />
+      <TargetSection />
+      <CoursesSection />
+      <TrainingSection />
+      <TicketSection />
+      <CtaSection />
+    </main>
   )
 }

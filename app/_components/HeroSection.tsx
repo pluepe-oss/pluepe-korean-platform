@@ -34,8 +34,8 @@ export default function HeroSection() {
             ))}
           </p>
           <div className="hero-buttons">
-            <a href="/free-trial" className="hero-btn-primary">
-              7일 무료로 체험하기 →
+            <a href="/auth/signup" className="hero-btn-primary">
+              7일 무료 체험하기 →
             </a>
             <a href="#goals" className="hero-btn-secondary">
               학습 목표 선택하기

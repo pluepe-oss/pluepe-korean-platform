@@ -1,55 +1,97 @@
 'use client'
 import Link from 'next/link'
+import { useState, useEffect, useMemo } from 'react'
 import { useTranslation } from '@/lib/useTranslation'
+import { createClient } from '@/lib/supabase/client'
 import LanguageSelector from './LanguageSelector'
 
 export default function PublicHeader() {
   const { t } = useTranslation()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const supabase = useMemo(() => createClient(), [])
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsLoggedIn(!!session)
+    })
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session)
+    })
+    return () => listener.subscription.unsubscribe()
+  }, [supabase])
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    window.location.href = '/'
+  }
+
+  const ctaStyle = {
+    background: '#ff7d5a',
+    color: '#ffffff',
+    borderRadius: '999px',
+    padding: '10px 20px',
+    fontSize: '14px',
+    fontWeight: '800',
+    border: 'none',
+    cursor: 'pointer',
+    textDecoration: 'none',
+    display: 'inline-flex',
+    alignItems: 'center',
+  } as const
 
   return (
     <>
       <header className="public-header">
         <div className="public-header-inner">
-          <Link href="/" className="public-logo">
-            <span className="public-logo-mark">P</span>
-            <span className="public-logo-text">PLUEPE</span>
-          </Link>
+          <a href="/" className="public-logo">
+            <span className="logo-pluepe">PLUEPE</span>
+            <span className="logo-korean">KOREAN</span>
+          </a>
 
           <nav className="public-nav">
-            <Link href="#goals" className="public-nav-link">
+            <Link href="/#goals" className="public-nav-link">
               {t('nav.goals')}
             </Link>
-            <Link href="#process" className="public-nav-link">
+            <Link href="/#process" className="public-nav-link">
               {t('nav.process')}
             </Link>
-            <Link href="#pricing" className="public-nav-link">
+            <Link href="/#pricing" className="public-nav-link">
               {t('nav.pricing')}
-            </Link>
-            <Link href="/auth" className="public-nav-link">
-              {t('nav.login')}
             </Link>
           </nav>
 
           <div className="public-right">
-            <Link
-              href="/free-trial"
-              className="public-cta"
-              style={{
-                background: '#ff7d5a',
-                color: '#ffffff',
-                borderRadius: '999px',
-                padding: '10px 20px',
-                fontSize: '14px',
-                fontWeight: '800',
-                border: 'none',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-              }}
-            >
-              {t('nav.cta')}
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <Link href="/my" className="public-nav-link">마이페이지</Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="nav-link"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    fontSize: '15px',
+                    fontWeight: 500,
+                    color: '#0f172a',
+                    fontFamily: 'inherit',
+                  }}
+                >
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/auth" className="public-nav-link">
+                  {t('nav.login')}
+                </Link>
+                <Link href="/auth/signup" className="public-cta" style={ctaStyle}>
+                  {t('nav.cta')}
+                </Link>
+              </>
+            )}
             <LanguageSelector />
           </div>
         </div>
@@ -59,7 +101,7 @@ export default function PublicHeader() {
         .public-header {
           position: sticky;
           top: 0;
-          z-index: 30;
+          z-index: 50;
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           background: rgba(255, 255, 255, 0.92);
@@ -79,28 +121,22 @@ export default function PublicHeader() {
         }
         .public-logo {
           display: flex;
-          align-items: center;
-          gap: 10px;
+          align-items: baseline;
+          gap: 6px;
           text-decoration: none;
-          color: #122c4f;
-        }
-        .public-logo-mark {
-          width: 34px;
-          height: 34px;
-          border-radius: 11px;
-          background: #27d3c3;
-          display: grid;
-          place-items: center;
-          font-weight: 900;
-          font-size: 17px;
-          color: #122c4f;
-        }
-        .public-logo-text {
-          font-weight: 900;
-          font-size: 18px;
-          letter-spacing: -0.04em;
-          color: #122c4f;
           white-space: nowrap;
+        }
+        .logo-pluepe {
+          font-size: 22px;
+          font-weight: 900;
+          color: #122c4f;
+          letter-spacing: -0.03em;
+        }
+        .logo-korean {
+          font-size: 22px;
+          font-weight: 900;
+          color: #27d3c3;
+          letter-spacing: -0.03em;
         }
         .public-nav {
           display: flex;
