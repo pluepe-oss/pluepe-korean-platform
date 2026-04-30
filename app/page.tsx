@@ -1,7 +1,23 @@
-export default function HomePage() {
+import PublicHeader from '@/components/PublicHeader'
+import HeroSection from './_components/HeroSection'
+import TargetSection from './_components/TargetSection'
+import CoursesSection from './_components/CoursesSection'
+import TrainingSection from './_components/TrainingSection'
+import TicketSection from './_components/TicketSection'
+import CtaSection from './_components/CtaSection'
+
+export default async function HomePage() {
   return (
-    <main>
-      <h1>pluepe — 준비 중</h1>
-    </main>
-  );
+    <>
+      <PublicHeader />
+      <main>
+        <HeroSection />
+        <TargetSection />
+        <CoursesSection />
+        <TrainingSection />
+        <TicketSection />
+        <CtaSection />
+      </main>
+    </>
+  )
 }

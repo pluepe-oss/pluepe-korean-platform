@@ -125,6 +125,52 @@ npm run lint     # ESLint
   (`/courses` / `/my` / `/unit` / `/pricing` / `/onboarding` 등)
 - 어드민·마스터 페이지(`/admin`, `/master`)는 예외 허용
 
+## 디자인 시스템 기준 및 예외 규칙
+
+### 전체 사이트 기준
+모든 페이지는 design_system.md 를 먼저 읽고 작업한다.
+컬러/폰트/레이아웃은 아래 기준값만 사용한다:
+- navy   : #122c4f
+- mint   : #27d3c3
+- orange : #ff7d5a
+- bg     : #edf2f7
+- card   : #ffffff
+- text   : #0f172a
+- sub    : #64748b
+- border : #e2e8f0
+- font-family: Arial, "Noto Sans KR", sans-serif
+- max-width: 1280px, padding: 0 80px (모바일: 0 20px)
+- 카드 border-radius: 22px
+- 버튼 border-radius: 12px
+
+### 페이지 유형별 적용 기준
+
+#### 내부 학습 페이지 — design_system.md 100% 준수
+해당 페이지: /unit/*, /my, /courses/*, /auth, /pricing, /free-trial
+- 버튼: border-radius 12px (pill 금지)
+- CTA: orange 1개만 (화면당)
+- 배경: #edf2f7 또는 white만 사용
+- 폰트 크기: design_system.md 체계 그대로
+
+#### 메인 랜딩 페이지(/) — 마케팅 예외 규칙 적용
+기본 컬러값은 design_system.md 준수하되 아래 예외를 허용한다:
+- 버튼 border-radius: 999px (pill형) 허용
+- Hero 영역: orange CTA + mint 보조 버튼 동시 사용 허용
+  (화면 내 1개 원칙의 예외 — Hero 섹션 한정)
+- 배경: 그라디언트 허용 (mint 글로우 등)
+- 섹션 배경: white ↔ #edf2f7 교차 허용
+- h1 폰트 크기: clamp() 사용 허용 (마케팅 임팩트)
+- 섹션별 강조 컬러 포인트 허용 (eyebrow mint 등)
+
+### 신규 페이지 작업 체크리스트
+새 페이지 작업 시작 전 반드시 확인:
+1. design_system.md 읽기
+2. 페이지 유형 확인 (내부 학습 / 메인 랜딩)
+3. 해당 유형의 기준 적용
+4. orange CTA 화면당 1개 원칙 확인 (메인 Hero 제외)
+5. 폰트: Arial, "Noto Sans KR" 만 사용
+6. 컬러: 위 기준값 외 임의 색상 추가 금지
+
 ## Supabase 스키마
 
 `supabase/schema.sql`이 DB 단일 진실원천. 테이블 10개:
